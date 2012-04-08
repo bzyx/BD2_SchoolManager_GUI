@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-win32-msvc2008-4.7.1.jar"/>
-	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-4.7.1.jar"/>
 	<classpathentry kind="src" path="Generated JUIC files"/>
+	<classpathentry kind="lib" path="libs/qtjambi-4.7.1.jar"/>
+	<classpathentry kind="lib" path="libs/qtjambi-win32-msvc2008-4.7.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
