@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="Generated JUIC files"/>
 	<classpathentry kind="lib" path="libs/qtjambi-4.7.1.jar"/>
 	<classpathentry kind="lib" path="libs/qtjambi-win32-msvc2008-4.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/All/git/BD2_SchoolManager_GUI/libs/MessageSystem-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/All/git/BD2_SchoolManager_GUI/libs/Backend-models-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
