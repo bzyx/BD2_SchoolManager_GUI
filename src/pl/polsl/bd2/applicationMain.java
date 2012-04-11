@@ -12,12 +12,12 @@ public final class applicationMain {
 	 */
 	public static void main(String[] args) {
 		QApplication.initialize(args);
-
 		QTranslator translator = new QTranslator();
-		translator.load("qt_pl.qm");
+		translator.load("classpath:/pl/polsl/bd2/qt_pl.qm" , ".");
+
 		QApplication.installTranslator(translator);
 		QTranslator appTranslator = new QTranslator();
-		appTranslator.load("out.qm");
+		appTranslator.load("classpath:/pl/polsl/bd2/out.qm",".");
 		QApplication.installTranslator(appTranslator);
 
 		MainWindow testMainWindow = new MainWindow();
