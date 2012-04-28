@@ -2,6 +2,7 @@ package pl.polsl.bd2.gui;
 
 import com.trolltech.qt.gui.*;
 
+import pl.polsl.bd2.models.TableModel;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {

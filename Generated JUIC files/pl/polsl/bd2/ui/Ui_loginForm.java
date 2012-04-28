@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'loginForm.jui'
 **
-** Created: So 28. kwi 19:51:56 2012
+** Created: niedz. kwi 29 00:20:09 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
