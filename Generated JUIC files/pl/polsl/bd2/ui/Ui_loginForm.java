@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'loginForm.jui'
 **
-** Created: Œr 25. kwi 22:26:09 2012
+** Created: So 28. kwi 19:51:56 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -119,6 +119,8 @@ public class Ui_loginForm implements com.trolltech.qt.QUiForm<QWidget>
 
         verticalLayout.addWidget(buttonBox);
 
+        QWidget.setTabOrder(lineEdit, lineEdit_2);
+        QWidget.setTabOrder(lineEdit_2, buttonBox);
         retranslateUi(loginForm);
 
         loginForm.connectSlotsByName();
