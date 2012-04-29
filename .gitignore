@@ -1,5 +1,5 @@
 #Because we don't want to recreate the other repo
-Backend/
+#Backend/
 
 *.class
 
@@ -10,7 +10,7 @@ Backend/
 
 #Eclipse
 *.pydevproject
-.project
+#.project
 .metadata
 bin/**
 tmp/**
