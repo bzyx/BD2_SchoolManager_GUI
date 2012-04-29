@@ -22,7 +22,6 @@ public class MainWindow extends QMainWindow {
 		ui.setupUi(this);
 		connectSignalsAndSlots();
 		ui.tableView.setModel(new TableModel());
-		ui.label.setText(tr("Hi! Push this -> "));
 
 	}
 
