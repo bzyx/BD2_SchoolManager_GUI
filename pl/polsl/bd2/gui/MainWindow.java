@@ -21,8 +21,9 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui.setupUi(this);
 		connectSignalsAndSlots();
-		ui.tableView.setModel(new TableModel());
-
+		ui.tableData.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection);
+		ui.tableData.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows);
+		ui.tableData.setModel(new TableModel());
 	}
 
 	public MainWindow(QWidget parent) {
@@ -32,7 +33,7 @@ public class MainWindow extends QMainWindow {
 	}
 
 	private void connectSignalsAndSlots() {
-		ui.pushButton.clicked.connect(this, "showContactForm()");
+		//ui.pushButton.clicked.connect(this, "showContactForm()");
 
 	}
 

@@ -13,10 +13,12 @@ public class TableModel extends QAbstractTableModel {
 			tr("No 4"), tr("No 3"), tr("No 2"), tr("No 1") };
 	private final List<Boolean> selected = new ArrayList<Boolean>();
 	private final List<String> name = new ArrayList<String>();
-
+	
 	{
 		selected.add(true);
 		name.add("Nick");
+		selected.add(true);
+		name.add("Bzyku uu");
 	}
 
 	public TableModel(QObject parent) {
@@ -104,7 +106,7 @@ public class TableModel extends QAbstractTableModel {
 			itemFlags.set(ItemFlag.ItemIsSelectable, ItemFlag.ItemIsEnabled,
 					ItemFlag.ItemIsUserCheckable);
 		} else {
-			itemFlags.set(ItemFlag.ItemIsEnabled);
+			itemFlags.set(ItemFlag.ItemIsEnabled, ItemFlag.ItemIsSelectable);
 		}
 
 		return itemFlags;
