@@ -26,7 +26,11 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="2" column="0" colspan="3">
-         <widget class="QTableView" name="tableDetailsData"/>
+         <widget class="QTableView" name="tableDetailsData">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QTableView" name="tableData"/>
