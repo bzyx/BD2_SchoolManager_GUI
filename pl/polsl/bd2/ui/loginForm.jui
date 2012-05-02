@@ -40,36 +40,57 @@
   <property name="windowTitle">
    <string>Login Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
        <pointsize>13</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
+     <property name="cursor">
+      <cursorShape>BlankCursor</cursorShape>
+     </property>
+     <property name="frameShape">
+      <enum>com.trolltech.qt.gui.QFrame.Shape.Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>com.trolltech.qt.gui.QFrame.Shadow.Sunken</enum>
+     </property>
      <property name="text">
-      <string>Enter login and password to login.</string>
+      <string>Enter login and password to start:</string>
      </property>
      <property name="alignment">
       <set>com.trolltech.qt.core.Qt.AlignmentFlag.AlignCenter</set>
      </property>
     </widget>
    </item>
-   <item>
-    <spacer name="verticalSpacer_2">
+   <item row="4" column="0">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
+      <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>147</width>
+       <height>21</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item>
+   <item row="4" column="1">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Cancel|com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
      <property name="sizeConstraint">
       <enum>com.trolltech.qt.gui.QLayout.SizeConstraint.SetDefaultConstraint</enum>
@@ -84,7 +105,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>8</pointsize>
         </font>
        </property>
        <property name="contextMenuPolicy">
@@ -110,17 +131,17 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="2">
       <widget class="QLineEdit" name="lineEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>8</pointsize>
         </font>
        </property>
       </widget>
@@ -129,7 +150,7 @@
       <widget class="QLabel" name="label_2">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>8</pointsize>
         </font>
        </property>
        <property name="frameShape">
@@ -143,11 +164,11 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="1" column="2">
       <widget class="QLineEdit" name="lineEdit_2">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>8</pointsize>
         </font>
        </property>
        <property name="echoMode">
@@ -157,22 +178,11 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Close|com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>lineEdit</tabstop>
   <tabstop>lineEdit_2</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>
