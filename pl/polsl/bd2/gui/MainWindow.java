@@ -34,6 +34,7 @@ public class MainWindow extends QMainWindow {
 		ui.tableMessages.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows);
 		ui.tableMessages.setModel(new MessageModel());
 		ui.tableMessages.resizeColumnsToContents();
+		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
 	}
 
 	public MainWindow(QWidget parent) {

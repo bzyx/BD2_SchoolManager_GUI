@@ -23,7 +23,7 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class MessageModel extends QAbstractTableModel {
 	public enum MessageFields {
-		FROM(0), TIMESTAMP(1), TITLE(2), UNREAD(3), TO(4);
+		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4);
 
 		private MessageFields(Integer num) {
 			this.num = num;
