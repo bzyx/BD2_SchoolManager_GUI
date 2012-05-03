@@ -10,12 +10,13 @@ import com.trolltech.qt.core.Qt.Orientation;
 
 public class TableModel extends QAbstractTableModel {
 	private final String[] COLUMNS;// = { tr("Subject"), tr("Avg."), tr("No 5"),
-			//tr("No 4"), tr("No 3"), tr("No 2"), tr("No 1"), tr("Absence"), tr("Excused absence") };
+	// tr("No 4"), tr("No 3"), tr("No 2"), tr("No 1"), tr("Absence"),
+	// tr("Excused absence") };
 	private final List<Boolean> selected = new ArrayList<Boolean>();
 	private final List<String> name = new ArrayList<String>();
 	private Integer row = 0;
 	private final List<List<String>> nameList = new ArrayList<List<String>>();
-	
+
 	{
 		selected.add(true);
 		name.add("Nick");
@@ -28,9 +29,9 @@ public class TableModel extends QAbstractTableModel {
 		nameList.add(name2);
 	}
 
-	//public TableModel(QObject parent) {
-	//	super(parent);
-	//}
+	// public TableModel(QObject parent) {
+	// super(parent);
+	// }
 
 	public void setRow(Integer row) {
 		this.row = row;
@@ -51,7 +52,7 @@ public class TableModel extends QAbstractTableModel {
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			switch (index.column()) {
 			case 0:
-				return 1 + " Klik";
+				return index.row() + " Klik";
 			case 1:
 				return nameList.get(row).get(index.row()) + index.column();
 			case 2:
