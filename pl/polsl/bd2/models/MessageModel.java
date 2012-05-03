@@ -73,7 +73,7 @@ public class MessageModel extends QAbstractTableModel {
 			if (col == MessageFields.TIMESTAMP.getNum())
 				return messageContainer.get(row).getTimeStamp();
 			if (col == MessageFields.UNREAD.getNum())
-				return messageContainer.get(row).getUnread();
+				return messageContainer.get(row).getUnread()? tr("Yes"):tr("No");
 		}
 
 		if (role == Qt.ItemDataRole.ToolTipRole) {
