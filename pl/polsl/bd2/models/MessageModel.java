@@ -49,7 +49,7 @@ public class MessageModel extends QAbstractTableModel {
 			if (section == MessageFields.TITLE.getNum())
 				return tr("Title: ");
 			if (section == MessageFields.UNREAD.getNum())
-				return tr("Read? ");
+				return tr("Unread: ");
 		}
 
 		return super.headerData(section, orientation, role);
