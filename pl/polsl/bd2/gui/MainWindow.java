@@ -23,17 +23,12 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui.setupUi(this);
 		ui.tableDetailsData.setVisible(false);
-		ui.tableData.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection);
-		ui.tableData.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows);
-		// QShortcut shortcut = new QShortcut(QKeySequence(tr("MoveToNextLine")), ui.tableData);
-		// QShortcut shortcutP = new QShortcut(QKeySequence(QKeySequence.StandardKey.MoveToPreviousLine), ui.tableData);
 		ui.tableData.setModel(new TableModel(DataColumnName.valueOf("DataTable").returnColumnName()));
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
 		connectSignalsAndSlots();
-		//ui.tableDetailsData.setVisible(false);
 	}
-
+	
 	public MainWindow(QWidget parent) {
 		super(parent);
 		ui.setupUi(this);
@@ -41,11 +36,10 @@ public class MainWindow extends QMainWindow {
 	}
 
 	private void connectSignalsAndSlots() {
-		//ui.pushButton.clicked.connect(this, "showContactForm()");
 		QSignalMapper mapperToogleTableDetailsData = new QSignalMapper();
-		mapperToogleTableDetailsData.setMapping(ui.buttoToogleDetailsData, 1);
+		mapperToogleTableDetailsData.setMapping(ui.buttonToogleDetailsData, 1);
 		mapperToogleTableDetailsData.setMapping(ui.tableData, 2);
-		ui.buttoToogleDetailsData.clicked.connect(mapperToogleTableDetailsData, "map()");
+		ui.buttonToogleDetailsData.clicked.connect(mapperToogleTableDetailsData, "map()");
 		ui.tableData.activated.connect(mapperToogleTableDetailsData, "map()");
 		mapperToogleTableDetailsData.mappedInteger.connect(this, "toogleTableDetailsData(int)");
 		ui.tableData.activated.connect(this,"changeDataDetails()");
@@ -69,11 +63,8 @@ public class MainWindow extends QMainWindow {
 	}
 	@SuppressWarnings("unused")
 	private void changeDataDetails() {
-		//ui.tableDetailsData.setR
 		this.tableDetailsDataModel.setRow(ui.tableData.currentIndex().row());
-		//ui.labelProgramInData.setText(ui.tableData.currentIndex().child(ui.tableData.currentIndex().row(),0).data().toString());
 		ui.labelProgramInData.setText(ui.tableData.model().index(ui.tableData.currentIndex().row(),0).data().toString());
-		//this.tableDetailsDataModel;
 		ui.tableDetailsData.reset();
 
 	}

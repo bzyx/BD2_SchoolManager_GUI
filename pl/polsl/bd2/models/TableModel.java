@@ -2,6 +2,7 @@ package pl.polsl.bd2.models;
 
 import java.util.*;
 
+import com.trolltech.qt.QSignalEmitter;
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.core.Qt.ItemFlag;
@@ -29,18 +30,14 @@ public class TableModel extends QAbstractTableModel {
 		nameList.add(name2);
 	}
 
-	// public TableModel(QObject parent) {
-	// super(parent);
-	// }
-
-	public void setRow(Integer row) {
-		this.row = row;
-	}
-
 	public TableModel(String[] columns) {
 		this.COLUMNS = columns;
 	}
-
+	
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+	
 	@Override
 	public int columnCount(QModelIndex arg0) {
 		return COLUMNS.length;
@@ -124,4 +121,5 @@ public class TableModel extends QAbstractTableModel {
 
 		return itemFlags;
 	}
+		
 }
