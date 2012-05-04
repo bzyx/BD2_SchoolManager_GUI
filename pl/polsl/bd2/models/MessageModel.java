@@ -18,7 +18,7 @@ import com.trolltech.qt.gui.QAbstractTableModel;
  * 3) -----Data to textBox are comming from model
  * 4) Messages are shown for current user
  * 5) On answer option the Topic and To are filled
- * 6) Delete button work on model
+ * 6) ---- Delete button work on model
  * 7) -----Each change of row changes the text of message
  */
 
