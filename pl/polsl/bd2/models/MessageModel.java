@@ -1,5 +1,6 @@
 package pl.polsl.bd2.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,11 +15,11 @@ import com.trolltech.qt.gui.QAbstractTableModel;
  * 
  * 1) -----Should have "From, Date, Title, MarkAsRead, Select" in header
  * 2) -----Should be sortable by From, Date, Title, MarkAsRead
- * 3) Data to textBox are comming from model
+ * 3) -----Data to textBox are comming from model
  * 4) Messages are shown for current user
  * 5) On answer option the Topic and To are filled
  * 6) Delete button work on model
- * 7) Each change of row changes the text of message
+ * 7) -----Each change of row changes the text of message
  */
 
 public class MessageModel extends QAbstractTableModel {
@@ -77,6 +78,7 @@ public class MessageModel extends QAbstractTableModel {
 	public Object data(QModelIndex index, int role) {
 		int row = index.row();
 		int col = index.column();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			if (col == MessageFields.FROM.getNum())
@@ -84,7 +86,7 @@ public class MessageModel extends QAbstractTableModel {
 			if (col == MessageFields.TITLE.getNum())
 				return messageContainer.get(row).getTopic();
 			if (col == MessageFields.TIMESTAMP.getNum())
-				return messageContainer.get(row).getTimeStamp();
+				return sdf.format(messageContainer.get(row).getTimeStamp());
 			if (col == MessageFields.UNREAD.getNum())
 				return messageContainer.get(row).getUnread() ? tr("Yes")
 						: tr("No");
