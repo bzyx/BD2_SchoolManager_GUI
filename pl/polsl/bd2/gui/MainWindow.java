@@ -11,7 +11,9 @@ import pl.polsl.bd2.ui.Ui_MainWindow;
 public class MainWindow extends QMainWindow {
 
 	Ui_MainWindow ui = new Ui_MainWindow();
-	private TableModel tableDetailsDataModel = new TableModel(DataColumnName.valueOf("DataDetailsTable").returnColumnName());
+	private TableModel tableDetailsDataModel = new TableModel(DataColumnName
+			.valueOf("DataDetailsTable").returnColumnName());
+
 	public static void main(String[] args) {
 		QApplication.initialize(args);
 
@@ -22,21 +24,28 @@ public class MainWindow extends QMainWindow {
 	}
 
 	public MainWindow() {
+		MessageModel messageModel = new MessageModel();
+		QSortFilterProxyModel messageModelSortable = new QSortFilterProxyModel();
+		messageModelSortable.setSourceModel(messageModel);
+		
+		
 		ui.setupUi(this);
 		ui.tableDetailsData.setVisible(false);
-		ui.tableData.setModel(new TableModel(DataColumnName.valueOf("DataTable").returnColumnName()));
+		ui.tableData.setModel(new TableModel(DataColumnName
+				.valueOf("DataTable").returnColumnName()));
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
-		ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
+		ui.labelProgramInData.setText(ui.tableData.model().index(0, 0).data()
+				.toString());
 		connectSignalsAndSlots();
-		
-		//Messages tab
-		ui.tableMessages.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection);
-		ui.tableMessages.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows);
-		ui.tableMessages.setModel(new MessageModel());
+
+		// Messages tab
+		ui.tableMessages.setModel(messageModelSortable);
+		ui.tableMessages.setSortingEnabled(true);
 		ui.tableMessages.resizeColumnsToContents();
 		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
+		ui.tableMessages.verticalHeader().hide();
 	}
-	
+
 	public MainWindow(QWidget parent) {
 		super(parent);
 		ui.setupUi(this);
@@ -47,10 +56,12 @@ public class MainWindow extends QMainWindow {
 		QSignalMapper mapperToogleTableDetailsData = new QSignalMapper();
 		mapperToogleTableDetailsData.setMapping(ui.buttonToogleDetailsData, 1);
 		mapperToogleTableDetailsData.setMapping(ui.tableData, 2);
-		ui.buttonToogleDetailsData.clicked.connect(mapperToogleTableDetailsData, "map()");
+		ui.buttonToogleDetailsData.clicked.connect(
+				mapperToogleTableDetailsData, "map()");
 		ui.tableData.activated.connect(mapperToogleTableDetailsData, "map()");
-		mapperToogleTableDetailsData.mappedInteger.connect(this, "toogleTableDetailsData(int)");
-		ui.tableData.activated.connect(this,"changeDataDetails()");
+		mapperToogleTableDetailsData.mappedInteger.connect(this,
+				"toogleTableDetailsData(int)");
+		ui.tableData.activated.connect(this, "changeDataDetails()");
 	}
 
 	@SuppressWarnings("unused")
@@ -69,10 +80,12 @@ public class MainWindow extends QMainWindow {
 		}
 
 	}
+
 	@SuppressWarnings("unused")
 	private void changeDataDetails() {
 		this.tableDetailsDataModel.setRow(ui.tableData.currentIndex().row());
-		ui.labelProgramInData.setText(ui.tableData.model().index(ui.tableData.currentIndex().row(),0).data().toString());
+		ui.labelProgramInData.setText(ui.tableData.model()
+				.index(ui.tableData.currentIndex().row(), 0).data().toString());
 		ui.tableDetailsData.reset();
 
 	}

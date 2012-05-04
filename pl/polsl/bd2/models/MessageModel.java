@@ -13,7 +13,7 @@ import com.trolltech.qt.gui.QAbstractTableModel;
  * MessageModel Class
  * 
  * 1) -----Should have "From, Date, Title, MarkAsRead, Select" in header
- * 2) Should be sortable by From, Date, Title, MarkAsRead
+ * 2) -----Should be sortable by From, Date, Title, MarkAsRead
  * 3) Data to textBox are comming from model
  * 4) Messages are shown for current user
  * 5) On answer option the Topic and To are filled
@@ -38,9 +38,7 @@ public class MessageModel extends QAbstractTableModel {
 
 	@Override
 	public Object headerData(int section, Orientation orientation, int role) {
-		if (role != Qt.ItemDataRole.DisplayRole)
-			return super.headerData(section, orientation, role);
-
+	if (role == Qt.ItemDataRole.DisplayRole){
 		if (orientation == Qt.Orientation.Horizontal) {
 			if (section == MessageFields.FROM.getNum())
 				return tr("From: ");
@@ -51,8 +49,8 @@ public class MessageModel extends QAbstractTableModel {
 			if (section == MessageFields.UNREAD.getNum())
 				return tr("Unread: ");
 		}
-
-		return super.headerData(section, orientation, role);
+	}
+		return null;
 	}
 
 	@Override
