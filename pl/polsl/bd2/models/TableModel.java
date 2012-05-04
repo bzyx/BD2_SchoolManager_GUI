@@ -2,7 +2,6 @@ package pl.polsl.bd2.models;
 
 import java.util.*;
 
-import com.trolltech.qt.QSignalEmitter;
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.core.Qt.ItemFlag;
