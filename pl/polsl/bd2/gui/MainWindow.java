@@ -51,6 +51,7 @@ public class MainWindow extends QMainWindow {
 		ui.tableMessages.selectionModel().selectionChanged.connect(this,
 				"messageChanged(QItemSelection, QItemSelection)");
 		ui.buttonMarkAsRead.clicked.connect(this, "messageSetAsRead()");
+		ui.buttonDeleteMessage.clicked.connect(this, "messageDeleteMessage()");
 
 		/*
 		 * Messages tab functions ends here
@@ -126,14 +127,22 @@ public class MainWindow extends QMainWindow {
 						MessageModel.MessageRoles.MESSAGETEXT.getNum()));
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void messageSetAsRead() {
 		QModelIndex currentIndex = ui.tableMessages.currentIndex().child(
 				ui.tableMessages.currentIndex().row(),
 				MessageModel.MessageFields.UNREAD.getNum());
-		
+
 		ui.tableMessages.model().setData(currentIndex, false);
+
+	}
+
+	@SuppressWarnings("unused")
+	private void messageDeleteMessage() {
+		QModelIndex currentIndex = ui.tableMessages.currentIndex();
+
+		ui.tableMessages.model().removeRows(currentIndex.row(), 1);
 
 	}
 

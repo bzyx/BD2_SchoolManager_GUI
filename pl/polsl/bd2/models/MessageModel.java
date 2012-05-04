@@ -110,19 +110,32 @@ public class MessageModel extends QAbstractTableModel {
 	public int rowCount(QModelIndex index) {
 		return messageContainer.size();
 	}
-	
+
 	@Override
 	public boolean setData(QModelIndex index, Object value, int role) {
-		if (role == Qt.ItemDataRole.EditRole){
-			if (index.row()>= 0 && index.row()<=messageContainer.size()){
-				if (index.column() == MessageFields.UNREAD.getNum()){
-					messageContainer.get(index.row()).setUnread((Boolean) value);
+		if (role == Qt.ItemDataRole.EditRole) {
+			if (index.row() >= 0 && index.row() <= messageContainer.size()) {
+				if (index.column() == MessageFields.UNREAD.getNum()) {
+					messageContainer.get(index.row())
+							.setUnread((Boolean) value);
 					this.dataChanged.emit(index, index);
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean removeRows(int position, int rows, QModelIndex parent) {
+		beginRemoveRows(parent, position, position + rows - 1);
+
+		for (int row = 0; row < rows; row++) {
+			messageContainer.remove(position);
+		}
+
+		endRemoveRows();
+		return true;
 	}
 
 	public class MessageMock {
@@ -161,7 +174,7 @@ public class MessageModel extends QAbstractTableModel {
 		public Boolean getUnread() {
 			return unread;
 		}
-		
+
 		public void setUnread(Boolean unread) {
 			this.unread = unread;
 		}
