@@ -55,8 +55,8 @@ public class MainWindow extends QMainWindow {
 				"messageChanged(QItemSelection, QItemSelection)");
 		ui.buttonMarkAsRead.clicked.connect(this, "messageSetAsRead()");
 		ui.buttonDeleteMessage.clicked.connect(this, "messageDeleteMessage()");
-		ui.buttonNewMessage.clicked.connect(this, "messageNewMessage()" );
-		ui.buttonReplayMessage.clicked.connect(this, "messageReplay()" );
+		ui.buttonNewMessage.clicked.connect(this, "messageNewMessage()");
+		ui.buttonReplayMessage.clicked.connect(this, "messageReplay()");
 
 		/*
 		 * Messages tab functions ends here
@@ -109,7 +109,7 @@ public class MainWindow extends QMainWindow {
 		ui.buttonReplayMessage.setEnabled(true);
 		ui.buttonDeleteMessage.setEnabled(true);
 		ui.buttonMarkAsRead.setEnabled(true);
-		
+
 		QModelIndex currentIndex = ui.tableMessages.currentIndex();
 		QModelIndex tmpIndex;
 
@@ -146,43 +146,47 @@ public class MainWindow extends QMainWindow {
 		ui.tableMessages.model().removeRows(currentIndex.row(), 1);
 
 	}
-	
-	//TODO: This is so dummy. Need to change it to work fine.
+
+	// TODO: This is so dummy. Need to change it to work fine.
 	@SuppressWarnings("unused")
 	private void messageNewMessage() {
 		contactForm cF = new contactForm("Ala", "Ela");
 		cF.exec();
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void messageReplay() {
 		QModelIndex currentIndex = ui.tableMessages.currentIndex();
-		
-		if (currentIndex!= null && currentIndex.row()>0 && currentIndex.row()<ui.tableMessages.model().rowCount()){
-		
-		String from, to, title;
-		QModelIndex tmpIndex;
-		
-		
-		tmpIndex = currentIndex.child(ui.tableMessages.currentIndex().row(),
-		MessageModel.MessageFields.FROM.getNum());
-		from = (String)ui.tableMessages.model().data(tmpIndex);
-		
-		tmpIndex = currentIndex.child(ui.tableMessages.currentIndex().row(), 0);
-		to = (String)ui.tableMessages.model().data(tmpIndex, MessageModel.MessageRoles.TO.getNum());
-		
-		tmpIndex = currentIndex.child(ui.tableMessages.currentIndex().row(),
-		MessageModel.MessageFields.TITLE.getNum());
-		title = (String)ui.tableMessages.model().data(tmpIndex);
-		
-		title = tr("Re: ") + title;
-		
-		//Need to cross the values because this is a response to sender
-		contactForm cF = new contactForm(to, from, title);
-		cF.exec();
+
+		if (currentIndex != null && currentIndex.row() > 0
+				&& currentIndex.row() < ui.tableMessages.model().rowCount()) {
+
+			String from, to, title;
+			QModelIndex tmpIndex;
+
+			tmpIndex = currentIndex.child(
+					ui.tableMessages.currentIndex().row(),
+					MessageModel.MessageFields.FROM.getNum());
+			from = (String) ui.tableMessages.model().data(tmpIndex);
+
+			tmpIndex = currentIndex.child(
+					ui.tableMessages.currentIndex().row(), 0);
+			to = (String) ui.tableMessages.model().data(tmpIndex,
+					MessageModel.MessageRoles.TO.getNum());
+
+			tmpIndex = currentIndex.child(
+					ui.tableMessages.currentIndex().row(),
+					MessageModel.MessageFields.TITLE.getNum());
+			title = (String) ui.tableMessages.model().data(tmpIndex);
+
+			title = tr("Re: ") + title;
+
+			// Need to cross the values because this is a response to sender
+			contactForm cF = new contactForm(to, from, title);
+			cF.exec();
 		}
-		
+
 	}
 
 	/*

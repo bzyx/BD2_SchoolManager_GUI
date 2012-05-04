@@ -12,14 +12,10 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 /*
  * MessageModel Class
+ * Author: Marcin Jabrzyk
  * 
- * 1) -----Should have "From, Date, Title, MarkAsRead, Select" in header
- * 2) -----Should be sortable by From, Date, Title, MarkAsRead
- * 3) -----Data to textBox are comming from model
+ * TODO:
  * 4) Messages are shown for current user
- * 5) On answer option the Topic and To are filled
- * 6) ---- Delete button work on model
- * 7) -----Each change of row changes the text of message
  */
 
 public class MessageModel extends QAbstractTableModel {

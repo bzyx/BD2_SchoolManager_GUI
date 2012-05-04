@@ -22,19 +22,21 @@ public class contactForm extends QDialog {
 
 		QApplication.exec();
 	}
-	
+
 	private void contactFormInit() {
 		ui.setupUi(this);
 		ui.findButton.clicked.connect(this, "findPressed()");
 		ui.buttonBox.rejected.connect(this, "reject()");
 	}
-	
+
 	public contactForm(String from) {
 		contactFormInit();
-		if (from.equals("")){
+		if (from.equals("")) {
 			Student student = (Student) msgService.findPerson(new Person());
-			ui.fromPerson.setText(student.getFirstname() + " "
-					+ student.getLastname() + " <" + student.getAlbumNo() + ">");
+			ui.fromPerson
+					.setText(student.getFirstname() + " "
+							+ student.getLastname() + " <"
+							+ student.getAlbumNo() + ">");
 		}
 
 	}
@@ -46,10 +48,9 @@ public class contactForm extends QDialog {
 		ui.fromPerson.setEnabled(false);
 		ui.toPerson.setText(to);
 		ui.toPerson.setEnabled(false);
-		
 
 	}
-	
+
 	public contactForm(String from, String to, String topic) {
 		contactFormInit();
 
