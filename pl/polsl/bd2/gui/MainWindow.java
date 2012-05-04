@@ -5,12 +5,14 @@ import com.trolltech.qt.gui.*;
 
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.TableModel;
+import pl.polsl.bd2.models.UserData;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {
 
 	Ui_MainWindow ui = new Ui_MainWindow();
-	private TableModel tableDetailsDataModel = new TableModel(TableModel.DataColumnName.valueOf("DataDetailsTable").returnColumnName());
+	private UserData userData;
+	private TableModel tableDetailsDataModel = new TableModel(TableModel.DataColumnName.valueOf("DataDetailsTable").returnColumnName(), this.userData);
 	public static void main(String[] args) {
 		QApplication.initialize(args);
 
@@ -22,10 +24,19 @@ public class MainWindow extends QMainWindow {
 
 	public MainWindow() {
 		ui.setupUi(this);
+		//Data tab
+		UserData userData = new UserData();
 		ui.tableDetailsData.setVisible(false);
-		ui.tableData.setModel(new TableModel(TableModel.DataColumnName.valueOf("DataTable").returnColumnName()));
+		ui.tableData.setModel(new TableModel(TableModel.DataColumnName.valueOf("DataTable").returnColumnName(), this.userData));
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
-		ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
+		
+		
+		//ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
+		//TUTAJ WYKORZYSTUJE LISTE KTORA TEZ WYKORZYSTUJE W MODELU TABLEMODEL
+		for(UserData.UserDataMock a : userData.getUserDataConteiner()){
+			ui.comboBoxStudent.addItem(a.getName());
+		}
+		//ui.comboBoxStudent.addItem(text)
 		connectSignalsAndSlots();
 		
 		//Messages tab

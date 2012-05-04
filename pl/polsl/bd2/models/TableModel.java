@@ -2,6 +2,7 @@ package pl.polsl.bd2.models;
 
 import java.util.*;
 
+
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.core.Qt.ItemFlag;
@@ -9,25 +10,12 @@ import com.trolltech.qt.core.Qt.ItemFlags;
 import com.trolltech.qt.core.Qt.Orientation;
 
 public class TableModel extends QAbstractTableModel {
-	private final String[] COLUMNS;// = { tr("Subject"), tr("Avg."), tr("No 5"),
-	// tr("No 4"), tr("No 3"), tr("No 2"), tr("No 1"), tr("Absence"),
-	// tr("Excused absence") };
+	private final String[] COLUMNS;
 	private final List<Boolean> selected = new ArrayList<Boolean>();
 	private final List<String> name = new ArrayList<String>();
 	private Integer row = 0;
+	private UserData userData;
 	private final List<List<String>> nameList = new ArrayList<List<String>>();
-
-	{
-		selected.add(true);
-		name.add("Nick");
-		selected.add(true);
-		name.add("Bzyku uu");
-		nameList.add(name);
-		List<String> name2 = new ArrayList<String>();
-		name2.add("karol");
-		name2.add("Misiek");
-		nameList.add(name2);
-	}
 	
 	public enum DataColumnName {
 		DataTable(1), DataDetailsTable(2);
@@ -49,8 +37,9 @@ public class TableModel extends QAbstractTableModel {
 		}
 	}
 
-	public TableModel(String[] columns) {
+	public TableModel(String[] columns, UserData userData) {
 		this.COLUMNS = columns;
+		this.userData = userData;
 	}
 	
 	public void setRow(Integer row) {
@@ -70,17 +59,17 @@ public class TableModel extends QAbstractTableModel {
 			case 0:
 				return index.row() + " Klik";
 			case 1:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			case 2:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			case 3:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			case 4:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			case 5:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			case 6:
-				return nameList.get(row).get(index.row()) + index.column();
+				return userData.getUserDataConteiner().get(0).getName() + index.column();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
@@ -140,85 +129,6 @@ public class TableModel extends QAbstractTableModel {
 
 		return itemFlags;
 	}
-	
-	public class DetailsDataMock {
-		private Date date;
-		private float rate;
-		private String information;
-		private String note;
-		public DetailsDataMock(Date date, float rate, String information,
-				String note) {
-			super();
-			this.date = date;
-			this.rate = rate;
-			this.information = information;
-			this.note = note;
-		}
-		public Date getDate() {
-			return date;
-		}
-		public float getRate() {
-			return rate;
-		}
-		public String getInformation() {
-			return information;
-		}
-		public String getNote() {
-			return note;
-		}
-	}
-	
-	public class DataMock {
-		private String subject;
-		private double avg;
-		private int rates;
-		private int absence;
-		private int excusedAbsence;
-		private DetailsDataMock detailsData;
-		public DataMock(String subject, double avg, int rates, int absence,
-				int excusedAbsence, DetailsDataMock detailsData) {
-			super();
-			this.subject = subject;
-			this.avg = avg;
-			this.rates = rates;
-			this.absence = absence;
-			this.excusedAbsence = excusedAbsence;
-			this.detailsData = detailsData;
-		}
-		public String getSubject() {
-			return subject;
-		}
-		public double getAvg() {
-			return avg;
-		}
-		public int getNote() {
-			return rates;
-		}
-		public int getAbsence() {
-			return absence;
-		}
-		public int getExcusedAbsence() {
-			return excusedAbsence;
-		}
-		public DetailsDataMock getDetailsData() {
-			return detailsData;
-		}	
-	}
-	
-	public class UserDate {
-		private String name;
-		private DataMock data;
-		public UserDate(String name, DataMock data) {
-			super();
-			this.name = name;
-			this.data = data;
-		}
-		public String getName() {
-			return name;
-		}
-		public DataMock getData() {
-			return data;
-		}
-	}
+
 		
 }
