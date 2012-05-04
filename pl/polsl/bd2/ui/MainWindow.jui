@@ -256,6 +256,20 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
+             <widget class="QPushButton" name="buttonNewMessage">
+              <property name="text">
+               <string>New message</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonMarkAsRead">
+              <property name="text">
+               <string>Mark as read</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
@@ -297,13 +311,6 @@
                </size>
               </property>
              </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="buttonNewMessage">
-              <property name="text">
-               <string>New message</string>
-              </property>
-             </widget>
             </item>
            </layout>
           </item>

@@ -50,6 +50,7 @@ public class MainWindow extends QMainWindow {
 
 		ui.tableMessages.selectionModel().selectionChanged.connect(this,
 				"messageChanged(QItemSelection, QItemSelection)");
+		ui.buttonMarkAsRead.clicked.connect(this, "messageSetAsRead()");
 
 		/*
 		 * Messages tab functions ends here
@@ -123,6 +124,16 @@ public class MainWindow extends QMainWindow {
 		ui.plainTextEditMessage
 				.setPlainText((String) ui.tableMessages.model().data(tmpIndex,
 						MessageModel.MessageRoles.MESSAGETEXT.getNum()));
+
+	}
+	
+	@SuppressWarnings("unused")
+	private void messageSetAsRead() {
+		QModelIndex currentIndex = ui.tableMessages.currentIndex().child(
+				ui.tableMessages.currentIndex().row(),
+				MessageModel.MessageFields.UNREAD.getNum());
+		
+		ui.tableMessages.model().setData(currentIndex, false);
 
 	}
 
