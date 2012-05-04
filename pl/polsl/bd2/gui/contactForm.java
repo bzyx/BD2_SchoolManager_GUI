@@ -17,21 +17,50 @@ public class contactForm extends QDialog {
 	public static void main(String[] args) {
 		QApplication.initialize(args);
 
-		contactForm testcontactForm = new contactForm();
+		contactForm testcontactForm = new contactForm("");
 		testcontactForm.show();
 
 		QApplication.exec();
 	}
 
-	public contactForm() {
+	private void contactFormInit() {
 		ui.setupUi(this);
 		ui.findButton.clicked.connect(this, "findPressed()");
 		ui.buttonBox.rejected.connect(this, "reject()");
+	}
 
-		Student student = (Student) msgService.findPerson(new Person());
-		ui.fromPerson.setText(student.getFirstname() + " "
-				+ student.getLastname() + " <" + student.getAlbumNo() + ">");
+	public contactForm(String from) {
+		contactFormInit();
+		if (from.equals("")) {
+			Student student = (Student) msgService.findPerson(new Person());
+			ui.fromPerson
+					.setText(student.getFirstname() + " "
+							+ student.getLastname() + " <"
+							+ student.getAlbumNo() + ">");
+		}
 
+	}
+
+	public contactForm(String from, String to) {
+		contactFormInit();
+
+		ui.fromPerson.setText(from);
+		ui.fromPerson.setEnabled(false);
+		ui.toPerson.setText(to);
+		ui.toPerson.setEnabled(false);
+
+	}
+
+	public contactForm(String from, String to, String topic) {
+		contactFormInit();
+
+		ui.fromPerson.setText(from);
+		ui.fromPerson.setEnabled(false);
+		ui.toPerson.setText(to);
+		ui.toPerson.setEnabled(false);
+		ui.topic.setText(topic);
+		ui.topic.setEnabled(false);
+		ui.findButton.hide();
 	}
 
 	/*

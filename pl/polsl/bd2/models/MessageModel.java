@@ -1,5 +1,6 @@
 package pl.polsl.bd2.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,19 +12,15 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 /*
  * MessageModel Class
+ * Author: Marcin Jabrzyk
  * 
- * 1) -----Should have "From, Date, Title, MarkAsRead, Select" in header
- * 2) Should be sortable by From, Date, Title, MarkAsRead
- * 3) Data to textBox are comming from model
+ * TODO:
  * 4) Messages are shown for current user
- * 5) On answer option the Topic and To are filled
- * 6) Delete button work on model
- * 7) Each change of row changes the text of message
  */
 
 public class MessageModel extends QAbstractTableModel {
 	public enum MessageFields {
-		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4);
+		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4), MESSAGETEXT(5);
 
 		private MessageFields(Integer num) {
 			this.num = num;
@@ -36,23 +33,36 @@ public class MessageModel extends QAbstractTableModel {
 		private Integer num;
 	}
 
-	@Override
-	public Object headerData(int section, Orientation orientation, int role) {
-		if (role != Qt.ItemDataRole.DisplayRole)
-			return super.headerData(section, orientation, role);
+	public enum MessageRoles {
+		TO(Qt.ItemDataRole.UserRole + 0), MESSAGETEXT(
+				Qt.ItemDataRole.UserRole + 1);
 
-		if (orientation == Qt.Orientation.Horizontal) {
-			if (section == MessageFields.FROM.getNum())
-				return tr("From: ");
-			if (section == MessageFields.TIMESTAMP.getNum())
-				return tr("Date/Time: ");
-			if (section == MessageFields.TITLE.getNum())
-				return tr("Title: ");
-			if (section == MessageFields.UNREAD.getNum())
-				return tr("Read? ");
+		private MessageRoles(Integer num) {
+			this.num = num;
 		}
 
-		return super.headerData(section, orientation, role);
+		public Integer getNum() {
+			return num;
+		}
+
+		private Integer num;
+	}
+
+	@Override
+	public Object headerData(int section, Orientation orientation, int role) {
+		if (role == Qt.ItemDataRole.DisplayRole) {
+			if (orientation == Qt.Orientation.Horizontal) {
+				if (section == MessageFields.FROM.getNum())
+					return tr("From: ");
+				if (section == MessageFields.TIMESTAMP.getNum())
+					return tr("Date/Time: ");
+				if (section == MessageFields.TITLE.getNum())
+					return tr("Title: ");
+				if (section == MessageFields.UNREAD.getNum())
+					return tr("Unread: ");
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -64,6 +74,7 @@ public class MessageModel extends QAbstractTableModel {
 	public Object data(QModelIndex index, int role) {
 		int row = index.row();
 		int col = index.column();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			if (col == MessageFields.FROM.getNum())
@@ -71,9 +82,10 @@ public class MessageModel extends QAbstractTableModel {
 			if (col == MessageFields.TITLE.getNum())
 				return messageContainer.get(row).getTopic();
 			if (col == MessageFields.TIMESTAMP.getNum())
-				return messageContainer.get(row).getTimeStamp();
+				return sdf.format(messageContainer.get(row).getTimeStamp());
 			if (col == MessageFields.UNREAD.getNum())
-				return messageContainer.get(row).getUnread()? tr("Yes"):tr("No");
+				return messageContainer.get(row).getUnread() ? tr("Yes")
+						: tr("No");
 		}
 
 		if (role == Qt.ItemDataRole.ToolTipRole) {
@@ -82,12 +94,44 @@ public class MessageModel extends QAbstractTableModel {
 					: msgText.length());
 		}
 
+		if (role == MessageRoles.TO.getNum())
+			return messageContainer.get(row).getTo();
+		if (role == MessageRoles.MESSAGETEXT.getNum())
+			return messageContainer.get(row).getMsgText();
+
 		return null;
 	}
 
 	@Override
 	public int rowCount(QModelIndex index) {
 		return messageContainer.size();
+	}
+
+	@Override
+	public boolean setData(QModelIndex index, Object value, int role) {
+		if (role == Qt.ItemDataRole.EditRole) {
+			if (index.row() >= 0 && index.row() <= messageContainer.size()) {
+				if (index.column() == MessageFields.UNREAD.getNum()) {
+					messageContainer.get(index.row())
+							.setUnread((Boolean) value);
+					this.dataChanged.emit(index, index);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeRows(int position, int rows, QModelIndex parent) {
+		beginRemoveRows(parent, position, position + rows - 1);
+
+		for (int row = 0; row < rows; row++) {
+			messageContainer.remove(position);
+		}
+
+		endRemoveRows();
+		return true;
 	}
 
 	public class MessageMock {
@@ -127,12 +171,17 @@ public class MessageModel extends QAbstractTableModel {
 			return unread;
 		}
 
+		public void setUnread(Boolean unread) {
+			this.unread = unread;
+		}
+
 		String from;
 		String to;
 		String topic;
 		String msgText;
 		Date timeStamp;
 		Boolean unread;
+
 	}
 
 	List<MessageMock> messageContainer;
