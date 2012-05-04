@@ -3,7 +3,6 @@ package pl.polsl.bd2.gui;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
-import pl.polsl.bd2.models.DataColumnName;
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.TableModel;
 import pl.polsl.bd2.ui.Ui_MainWindow;
@@ -11,7 +10,7 @@ import pl.polsl.bd2.ui.Ui_MainWindow;
 public class MainWindow extends QMainWindow {
 
 	Ui_MainWindow ui = new Ui_MainWindow();
-	private TableModel tableDetailsDataModel = new TableModel(DataColumnName.valueOf("DataDetailsTable").returnColumnName());
+	private TableModel tableDetailsDataModel = new TableModel(TableModel.DataColumnName.valueOf("DataDetailsTable").returnColumnName());
 	public static void main(String[] args) {
 		QApplication.initialize(args);
 
@@ -24,7 +23,7 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui.setupUi(this);
 		ui.tableDetailsData.setVisible(false);
-		ui.tableData.setModel(new TableModel(DataColumnName.valueOf("DataTable").returnColumnName()));
+		ui.tableData.setModel(new TableModel(TableModel.DataColumnName.valueOf("DataTable").returnColumnName()));
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
 		connectSignalsAndSlots();

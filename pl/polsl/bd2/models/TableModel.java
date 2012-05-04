@@ -28,6 +28,26 @@ public class TableModel extends QAbstractTableModel {
 		name2.add("Misiek");
 		nameList.add(name2);
 	}
+	
+	public enum DataColumnName {
+		DataTable(1), DataDetailsTable(2);
+		private final Map<Integer, String[]> columnMap = new HashMap<Integer, String[]>();
+		{
+			columnMap.put(1, new String[] {"Subject", "Avg.", "No 5",
+					"No 4", "No 3", "No 2", "No 1"});//, "Absence", "Excused absence" });
+			columnMap.put(2, new String[] { "Ajaja", "I ja.", "no ty",
+					"itd", "No 3", "No 2", "No 1"});//, "Absence", "Excused absence" });
+		}
+		private int identifier;
+
+		private DataColumnName(int i) {
+			this.identifier = i;
+		}
+
+		public String[] returnColumnName() {
+			return columnMap.get(this.identifier);
+		}
+	}
 
 	public TableModel(String[] columns) {
 		this.COLUMNS = columns;
@@ -119,6 +139,86 @@ public class TableModel extends QAbstractTableModel {
 		}
 
 		return itemFlags;
+	}
+	
+	public class DetailsDataMock {
+		private Date date;
+		private float rate;
+		private String information;
+		private String note;
+		public DetailsDataMock(Date date, float rate, String information,
+				String note) {
+			super();
+			this.date = date;
+			this.rate = rate;
+			this.information = information;
+			this.note = note;
+		}
+		public Date getDate() {
+			return date;
+		}
+		public float getRate() {
+			return rate;
+		}
+		public String getInformation() {
+			return information;
+		}
+		public String getNote() {
+			return note;
+		}
+	}
+	
+	public class DataMock {
+		private String subject;
+		private double avg;
+		private int rates;
+		private int absence;
+		private int excusedAbsence;
+		private DetailsDataMock detailsData;
+		public DataMock(String subject, double avg, int rates, int absence,
+				int excusedAbsence, DetailsDataMock detailsData) {
+			super();
+			this.subject = subject;
+			this.avg = avg;
+			this.rates = rates;
+			this.absence = absence;
+			this.excusedAbsence = excusedAbsence;
+			this.detailsData = detailsData;
+		}
+		public String getSubject() {
+			return subject;
+		}
+		public double getAvg() {
+			return avg;
+		}
+		public int getNote() {
+			return rates;
+		}
+		public int getAbsence() {
+			return absence;
+		}
+		public int getExcusedAbsence() {
+			return excusedAbsence;
+		}
+		public DetailsDataMock getDetailsData() {
+			return detailsData;
+		}	
+	}
+	
+	public class UserDate {
+		private String name;
+		private DataMock data;
+		public UserDate(String name, DataMock data) {
+			super();
+			this.name = name;
+			this.data = data;
+		}
+		public String getName() {
+			return name;
+		}
+		public DataMock getData() {
+			return data;
+		}
 	}
 		
 }
