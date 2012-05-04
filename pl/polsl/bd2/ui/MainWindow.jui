@@ -33,7 +33,20 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QTableView" name="tableData"/>
+         <widget class="QTableView" name="tableData">
+          <property name="editTriggers">
+           <set>com.trolltech.qt.gui.QAbstractItemView.EditTrigger.AnyKeyPressed|com.trolltech.qt.gui.QAbstractItemView.EditTrigger.DoubleClicked|com.trolltech.qt.gui.QAbstractItemView.EditTrigger.EditKeyPressed</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+          </property>
+         </widget>
         </item>
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -168,7 +181,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="buttoToogleDetailsData">
+           <widget class="QPushButton" name="buttonToogleDetailsData">
             <property name="text">
              <string>Toogle details</string>
             </property>
