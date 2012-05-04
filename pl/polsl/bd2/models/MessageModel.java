@@ -23,7 +23,7 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class MessageModel extends QAbstractTableModel {
 	public enum MessageFields {
-		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4);
+		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4), MESSAGETEXT(5);
 
 		private MessageFields(Integer num) {
 			this.num = num;
@@ -36,20 +36,35 @@ public class MessageModel extends QAbstractTableModel {
 		private Integer num;
 	}
 
+	public enum MessageRoles {
+		TO(Qt.ItemDataRole.UserRole + 0), MESSAGETEXT(
+				Qt.ItemDataRole.UserRole + 1);
+
+		private MessageRoles(Integer num) {
+			this.num = num;
+		}
+
+		public Integer getNum() {
+			return num;
+		}
+
+		private Integer num;
+	}
+
 	@Override
 	public Object headerData(int section, Orientation orientation, int role) {
-	if (role == Qt.ItemDataRole.DisplayRole){
-		if (orientation == Qt.Orientation.Horizontal) {
-			if (section == MessageFields.FROM.getNum())
-				return tr("From: ");
-			if (section == MessageFields.TIMESTAMP.getNum())
-				return tr("Date/Time: ");
-			if (section == MessageFields.TITLE.getNum())
-				return tr("Title: ");
-			if (section == MessageFields.UNREAD.getNum())
-				return tr("Unread: ");
+		if (role == Qt.ItemDataRole.DisplayRole) {
+			if (orientation == Qt.Orientation.Horizontal) {
+				if (section == MessageFields.FROM.getNum())
+					return tr("From: ");
+				if (section == MessageFields.TIMESTAMP.getNum())
+					return tr("Date/Time: ");
+				if (section == MessageFields.TITLE.getNum())
+					return tr("Title: ");
+				if (section == MessageFields.UNREAD.getNum())
+					return tr("Unread: ");
+			}
 		}
-	}
 		return null;
 	}
 
@@ -71,7 +86,8 @@ public class MessageModel extends QAbstractTableModel {
 			if (col == MessageFields.TIMESTAMP.getNum())
 				return messageContainer.get(row).getTimeStamp();
 			if (col == MessageFields.UNREAD.getNum())
-				return messageContainer.get(row).getUnread()? tr("Yes"):tr("No");
+				return messageContainer.get(row).getUnread() ? tr("Yes")
+						: tr("No");
 		}
 
 		if (role == Qt.ItemDataRole.ToolTipRole) {
@@ -79,6 +95,11 @@ public class MessageModel extends QAbstractTableModel {
 			return msgText.substring(0, (msgText.length() > 300) ? 300
 					: msgText.length());
 		}
+
+		if (role == MessageRoles.TO.getNum())
+			return messageContainer.get(row).getTo();
+		if (role == MessageRoles.MESSAGETEXT.getNum())
+			return messageContainer.get(row).getMsgText();
 
 		return null;
 	}

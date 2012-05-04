@@ -1,5 +1,6 @@
 package pl.polsl.bd2.gui;
 
+import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
@@ -24,11 +25,6 @@ public class MainWindow extends QMainWindow {
 	}
 
 	public MainWindow() {
-		MessageModel messageModel = new MessageModel();
-		QSortFilterProxyModel messageModelSortable = new QSortFilterProxyModel();
-		messageModelSortable.setSourceModel(messageModel);
-		
-		
 		ui.setupUi(this);
 		ui.tableDetailsData.setVisible(false);
 		ui.tableData.setModel(new TableModel(DataColumnName
@@ -38,19 +34,34 @@ public class MainWindow extends QMainWindow {
 				.toString());
 		connectSignalsAndSlots();
 
-		// Messages tab
+		/*
+		 * Messages tab functions starts here
+		 */
+
+		MessageModel messageModel = new MessageModel();
+		QSortFilterProxyModel messageModelSortable = new QSortFilterProxyModel();
+		messageModelSortable.setSourceModel(messageModel);
+
 		ui.tableMessages.setModel(messageModelSortable);
 		ui.tableMessages.setSortingEnabled(true);
 		ui.tableMessages.resizeColumnsToContents();
 		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
 		ui.tableMessages.verticalHeader().hide();
+
+		ui.tableMessages.selectionModel().selectionChanged.connect(this,
+				"messageChanged(QItemSelection, QItemSelection)");
+
+		/*
+		 * Messages tab functions ends here
+		 */
+
 	}
 
-	public MainWindow(QWidget parent) {
-		super(parent);
-		ui.setupUi(this);
-		connectSignalsAndSlots();
-	}
+	// public MainWindow(QWidget parent) {
+	// super(parent);
+	// ui.setupUi(this);
+	// connectSignalsAndSlots();
+	// }
 
 	private void connectSignalsAndSlots() {
 		QSignalMapper mapperToogleTableDetailsData = new QSignalMapper();
@@ -89,4 +100,33 @@ public class MainWindow extends QMainWindow {
 		ui.tableDetailsData.reset();
 
 	}
+
+	/*
+	 * Messages tab functions starts here
+	 */
+	@SuppressWarnings("unused")
+	private void messageChanged(QItemSelection is, QItemSelection was) {
+		QModelIndex currentIndex = ui.tableMessages.currentIndex();
+		QModelIndex tmpIndex;
+
+		tmpIndex = currentIndex.child(currentIndex.row(),
+				MessageModel.MessageFields.FROM.getNum());
+		ui.lineEditFromMessage.setText((String) ui.tableMessages.model().data(
+				tmpIndex));
+
+		tmpIndex = currentIndex.child(currentIndex.row(),
+				MessageModel.MessageFields.TITLE.getNum());
+		ui.lineEditTopicMessage.setText((String) ui.tableMessages.model().data(
+				tmpIndex));
+
+		tmpIndex = currentIndex.child(currentIndex.row(), 0);
+		ui.plainTextEditMessage
+				.setPlainText((String) ui.tableMessages.model().data(tmpIndex,
+						MessageModel.MessageRoles.MESSAGETEXT.getNum()));
+
+	}
+
+	/*
+	 * Messages tab functions ends here
+	 */
 }
