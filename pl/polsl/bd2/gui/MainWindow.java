@@ -4,6 +4,7 @@ import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
 import pl.polsl.bd2.models.DataColumnName;
+import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.TableModel;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
@@ -27,6 +28,13 @@ public class MainWindow extends QMainWindow {
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
 		connectSignalsAndSlots();
+		
+		//Messages tab
+		ui.tableMessages.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection);
+		ui.tableMessages.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows);
+		ui.tableMessages.setModel(new MessageModel());
+		ui.tableMessages.resizeColumnsToContents();
+		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
 	}
 	
 	public MainWindow(QWidget parent) {

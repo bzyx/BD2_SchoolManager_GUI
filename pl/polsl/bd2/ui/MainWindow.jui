@@ -253,10 +253,13 @@
               <property name="orientation">
                <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
               </property>
+              <property name="sizeType">
+               <enum>com.trolltech.qt.gui.QSizePolicy.Policy.Minimum</enum>
+              </property>
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>40</height>
+                <height>64</height>
                </size>
               </property>
              </spacer>
@@ -414,7 +417,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
