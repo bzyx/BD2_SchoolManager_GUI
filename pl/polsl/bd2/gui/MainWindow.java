@@ -5,6 +5,7 @@ import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
 import pl.polsl.bd2.models.DetailsDataModel;
+import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.UserData;
@@ -28,19 +29,18 @@ public class MainWindow extends QMainWindow {
 
 	public MainWindow() {
 		ui.setupUi(this);
-		//Data tab
-		for(UserData.UserDataMock a : userData.getUserDataConteiner()){
+		// Data tab
+		UserData userData = new UserData();
+		ui.tableDetailsData.setVisible(false);
+		for (UserData.UserDataMock a : userData.getUserDataConteiner()) {
 			ui.comboBoxStudent.addItem(a.getName());
 		}
-		ui.tableDetailsData.setVisible(false);
 		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(0).getData());
 		ui.tableData.setModel(this.tableDataModel);
 		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
 		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(0).getDetailsData());
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		
-
-		//ui.comboBoxStudent.addItem(text)
 		connectSignalsAndSlots();
 
 		/*
@@ -123,44 +123,63 @@ public class MainWindow extends QMainWindow {
 	 */
 	@SuppressWarnings("unused")
 	private void messageChanged(QItemSelection is, QItemSelection was) {
-		ui.buttonReplayMessage.setEnabled(true);
-		ui.buttonDeleteMessage.setEnabled(true);
-		ui.buttonMarkAsRead.setEnabled(true);
+
 
 		QModelIndex currentIndex = ui.tableMessages.currentIndex();
-		QModelIndex tmpIndex;
 
-		tmpIndex = currentIndex.child(currentIndex.row(),
-				MessageModel.MessageFields.FROM.getNum());
-		ui.lineEditFromMessage.setText((String) ui.tableMessages.model().data(
-				tmpIndex));
+		if (Helpers.indexIsValid(currentIndex)) {
+			ui.buttonReplayMessage.setEnabled(true);
+			ui.buttonDeleteMessage.setEnabled(true);
+			ui.buttonMarkAsRead.setEnabled(true);
 
-		tmpIndex = currentIndex.child(currentIndex.row(),
-				MessageModel.MessageFields.TITLE.getNum());
-		ui.lineEditTopicMessage.setText((String) ui.tableMessages.model().data(
-				tmpIndex));
+			QModelIndex tmpIndex;
 
-		tmpIndex = currentIndex.child(currentIndex.row(), 0);
-		ui.plainTextEditMessage
-				.setPlainText((String) ui.tableMessages.model().data(tmpIndex,
-						MessageModel.MessageRoles.MESSAGETEXT.getNum()));
+			tmpIndex = currentIndex.child(currentIndex.row(),
+					MessageModel.MessageFields.FROM.getNum());
+			ui.lineEditFromMessage.setText((String) ui.tableMessages.model()
+					.data(tmpIndex));
+
+			tmpIndex = currentIndex.child(currentIndex.row(),
+					MessageModel.MessageFields.TITLE.getNum());
+			ui.lineEditTopicMessage.setText((String) ui.tableMessages.model()
+					.data(tmpIndex));
+
+			tmpIndex = currentIndex.child(currentIndex.row(), 0);
+			ui.plainTextEditMessage.setPlainText((String) ui.tableMessages
+					.model().data(tmpIndex,
+							MessageModel.MessageRoles.MESSAGETEXT.getNum()));
+		} else {
+			ui.lineEditFromMessage.setText("");
+			ui.lineEditTopicMessage.setText("");
+			ui.plainTextEditMessage.setPlainText("");
+			
+			ui.buttonReplayMessage.setEnabled(false);
+			ui.buttonDeleteMessage.setEnabled(false);
+			ui.buttonMarkAsRead.setEnabled(false);
+		}
 
 	}
 
 	@SuppressWarnings("unused")
 	private void messageSetAsRead() {
-		QModelIndex currentIndex = ui.tableMessages.currentIndex().child(
-				ui.tableMessages.currentIndex().row(),
-				MessageModel.MessageFields.UNREAD.getNum());
+		QModelIndex currentIndex = ui.tableMessages.currentIndex();
 
-		ui.tableMessages.model().setData(currentIndex, false);
+		if (Helpers.indexIsValid(currentIndex)) {
+			QModelIndex tmpIndex = currentIndex.child(ui.tableMessages
+					.currentIndex().row(), MessageModel.MessageFields.UNREAD
+					.getNum());
+			ui.tableMessages.model().setData(tmpIndex, false);
+		}
 
 	}
 
 	@SuppressWarnings("unused")
 	private void messageDeleteMessage() {
 		QModelIndex currentIndex = ui.tableMessages.currentIndex();
-		ui.tableMessages.model().removeRows(currentIndex.row(), 1);
+
+		if (Helpers.indexIsValid(currentIndex)) {
+			ui.tableMessages.model().removeRows(currentIndex.row(), 1);
+		}
 
 	}
 
@@ -176,8 +195,7 @@ public class MainWindow extends QMainWindow {
 	private void messageReplay() {
 		QModelIndex currentIndex = ui.tableMessages.currentIndex();
 
-		if (currentIndex != null && currentIndex.row() > 0
-				&& currentIndex.row() < ui.tableMessages.model().rowCount()) {
+		if (Helpers.indexIsValid(currentIndex)) {
 
 			String from, to, title;
 			QModelIndex tmpIndex;
