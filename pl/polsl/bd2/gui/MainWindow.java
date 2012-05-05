@@ -37,9 +37,11 @@ public class MainWindow extends QMainWindow {
 		}
 		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(0).getData());
 		ui.tableData.setModel(this.tableDataModel);
+		ui.tableData.resizeColumnsToContents();
 		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
 		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(0).getDetailsData());
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
+		ui.tableDetailsData.resizeColumnsToContents();
 		
 		connectSignalsAndSlots();
 
