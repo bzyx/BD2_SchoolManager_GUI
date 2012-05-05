@@ -22,10 +22,10 @@ public class UserData{
 		details3.add(new DetailsDataMock(new Date(), 3, "sprawdzian", "blazen"));
 		details4.add(new DetailsDataMock(new Date(), 4, "kartkówka", "-"));
 		details4.add(new DetailsDataMock(new Date(), 6, "sprawdzian", "-"));
-		data1.add(new DataMock("Polski", 3, 4, 4, 3, details1));
-		data1.add(new DataMock("Angielski", 3, 4, 4, 3, details2));
-		data2.add(new DataMock("Niemiecki", 3, 4, 4, 3, details3));
-		data2.add(new DataMock("Chiñski", 3, 4, 4, 3, details4));
+		data1.add(new DataMock("Polski", 3, "4, 5, 6, 2", 4, 3, details1));
+		data1.add(new DataMock("Angielski", 3, "4, 3, 5, 7", 4, 3, details2));
+		data2.add(new DataMock("Niemiecki", 3, "2, 3, 5, 3", 4, 3, details3));
+		data2.add(new DataMock("Chiñski", 3, "6, 4, 2", 4, 3, details4));
 		userDataConteiner.add(new UserDataMock("Adam", data1));
 		userDataConteiner.add(new UserDataMock("Józek", data2));
 	}
@@ -66,11 +66,11 @@ public class UserData{
 	public class DataMock {
 		private String subject;
 		private double avg;
-		private int rates;
+		private String rates;
 		private int absence;
 		private int excusedAbsence;
 		private List<DetailsDataMock> detailsData;
-		public DataMock(String subject, double avg, int rates, int absence,
+		public DataMock(String subject, double avg, String rates, int absence,
 				int excusedAbsence, List<DetailsDataMock> detailsData) {
 			super();
 			this.subject = subject;
@@ -86,7 +86,7 @@ public class UserData{
 		public double getAvg() {
 			return avg;
 		}
-		public int getNote() {
+		public String getNote() {
 			return rates;
 		}
 		public int getAbsence() {

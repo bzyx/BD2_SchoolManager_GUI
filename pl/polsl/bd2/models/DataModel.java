@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
+import com.trolltech.qt.core.Qt.Alignment;
+import com.trolltech.qt.core.Qt.AlignmentFlag;
 import com.trolltech.qt.core.Qt.ItemFlag;
 import com.trolltech.qt.core.Qt.ItemFlags;
 import com.trolltech.qt.core.Qt.Orientation;
@@ -48,10 +50,17 @@ public class DataModel extends QAbstractTableModel {
 			}
 
 		}
-		if (role == Qt.ItemDataRole.CheckStateRole) {
+		//combo box
+		/*if (role == Qt.ItemDataRole.CheckStateRole) {
 			if (index.column() == 0)
 				return !selected.get(index.row());
-		}
+		}*/
+		//center Text in row
+	    /*if ( index.column() >=1 && role == Qt.ItemDataRole.TextAlignmentRole ) {
+	    	Alignment aligmentFlags = new Alignment();
+	        aligmentFlags.set(AlignmentFlag.AlignCenter, Qt.AlignmentFlag.AlignHCenter);// | ;
+	        return aligmentFlags;
+	    }*/
 
 		return null;
 	}

@@ -52,10 +52,10 @@ public class DetailsDataModel extends QAbstractTableModel {
 			}
 
 		}
-		if (role == Qt.ItemDataRole.CheckStateRole) {
+		/*if (role == Qt.ItemDataRole.CheckStateRole) {
 			if (index.column() == 0)
 				return !selected.get(index.row());
-		}
+		}*/
 
 		return null;
 	}

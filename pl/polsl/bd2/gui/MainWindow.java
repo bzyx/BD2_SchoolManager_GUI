@@ -35,13 +35,16 @@ public class MainWindow extends QMainWindow {
 		for (UserData.UserDataMock a : userData.getUserDataConteiner()) {
 			ui.comboBoxStudent.addItem(a.getName());
 		}
+		ui.tableData.selectRow(0);
 		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(0).getData());
 		ui.tableData.setModel(this.tableDataModel);
 		ui.tableData.resizeColumnsToContents();
+		ui.tableData.horizontalHeader().setStretchLastSection(true);
 		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
 		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(0).getDetailsData());
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		ui.tableDetailsData.resizeColumnsToContents();
+		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
 		
 		connectSignalsAndSlots();
 
@@ -118,6 +121,8 @@ public class MainWindow extends QMainWindow {
 		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(ui.comboBoxStudent.currentIndex()).getData());
 		ui.tableData.reset();
 		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
+		ui.tableDetailsData.setVisible(false);
+		ui.tableData.selectRow(0);
 	}
 
 	/*
