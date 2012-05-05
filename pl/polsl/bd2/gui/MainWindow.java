@@ -92,10 +92,10 @@ public class MainWindow extends QMainWindow {
 		mapperToogleTableDetailsData.setMapping(ui.tableData, 2);
 		ui.buttonToogleDetailsData.clicked.connect(
 				mapperToogleTableDetailsData, "map()");
-		ui.tableData.activated.connect(mapperToogleTableDetailsData, "map()");
+		ui.tableData.clicked.connect(mapperToogleTableDetailsData, "map()");
 		mapperToogleTableDetailsData.mappedInteger.connect(this,
 				"toogleTableDetailsData(int)");
-		ui.tableData.activated.connect(this, "changeDataDetails()");
+		ui.tableData.selectionModel().currentRowChanged.connect(this, "changeDataDetails()");
 		ui.comboBoxStudent.currentIndexChanged.connect(this, "changeUserWithData()");
 	}
 
