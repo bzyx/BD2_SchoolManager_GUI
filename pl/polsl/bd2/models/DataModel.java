@@ -2,53 +2,29 @@ package pl.polsl.bd2.models;
 
 import java.util.*;
 
-
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.core.Qt.ItemFlag;
 import com.trolltech.qt.core.Qt.ItemFlags;
 import com.trolltech.qt.core.Qt.Orientation;
 
-public class TableModel extends QAbstractTableModel {
+public class DataModel extends QAbstractTableModel {
 	private final String[] COLUMNS;
 	private final List<Boolean> selected = new ArrayList<Boolean>();
-	private final List<String> name = new ArrayList<String>();
-	private Integer row = 0;
-	private UserData userData;
-	private final List<List<String>> nameList = new ArrayList<List<String>>();
-	
-	public enum DataColumnName {
-		DataTable(1), DataDetailsTable(2);
-		private final Map<Integer, String[]> columnMap = new HashMap<Integer, String[]>();
-		{
-			columnMap.put(1, new String[] {"Subject", "Avg.", "No 5",
-					"No 4", "No 3", "No 2", "No 1"});//, "Absence", "Excused absence" });
-			columnMap.put(2, new String[] { "Ajaja", "I ja.", "no ty",
-					"itd", "No 3", "No 2", "No 1"});//, "Absence", "Excused absence" });
-		}
-		private int identifier;
+	private List<UserData.DataMock> dataContainer;
 
-		private DataColumnName(int i) {
-			this.identifier = i;
-		}
-
-		public String[] returnColumnName() {
-			return columnMap.get(this.identifier);
-		}
+	public DataModel() {
+		this.COLUMNS = DataColumnName.valueOf("DataTable").returnColumnName();
 	}
 
-	public TableModel(String[] columns, UserData userData) {
-		this.COLUMNS = columns;
-		this.userData = userData;
-	}
-	
-	public void setRow(Integer row) {
-		this.row = row;
-	}
-	
 	@Override
 	public int columnCount(QModelIndex arg0) {
-		return COLUMNS.length;
+		return this.COLUMNS.length;
+	}
+
+	@Override
+	public int rowCount(QModelIndex index) {
+		return dataContainer.size();
 	}
 
 	@Override
@@ -57,19 +33,15 @@ public class TableModel extends QAbstractTableModel {
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			switch (index.column()) {
 			case 0:
-				return index.row() + " Klik";
+				return dataContainer.get(index.row()).getSubject();
 			case 1:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
+				return dataContainer.get(index.row()).getNote();
 			case 2:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
+				return dataContainer.get(index.row()).getAvg();
 			case 3:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
+				return dataContainer.get(index.row()).getAbsence();
 			case 4:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
-			case 5:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
-			case 6:
-				return userData.getUserDataConteiner().get(0).getName() + index.column();
+				return dataContainer.get(index.row()).getExcusedAbsence();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
@@ -112,11 +84,6 @@ public class TableModel extends QAbstractTableModel {
 	}
 
 	@Override
-	public int rowCount(QModelIndex index) {
-		return selected.size();
-	}
-
-	@Override
 	public ItemFlags flags(QModelIndex index) {
 		ItemFlags itemFlags = new ItemFlags();
 		itemFlags.clearAll();
@@ -130,5 +97,35 @@ public class TableModel extends QAbstractTableModel {
 		return itemFlags;
 	}
 
-		
+	public enum DataColumnName {
+		DataTable(1), DataDetailsTable(2);
+		private final Map<Integer, String[]> columnMap = new HashMap<Integer, String[]>();
+		{
+			columnMap.put(1, new String[] { "Subject", "Avg.", "Rates",
+					"Absence", "Excused absence" });
+			columnMap.put(2, new String[] { "Ajaja", "I ja.", "no ty", "itd",
+					"No 3", "No 2", "No 1" });
+		}
+		private int identifier;
+
+		private DataColumnName(int i) {
+			this.identifier = i;
+		}
+
+		public String[] returnColumnName() {
+			return columnMap.get(this.identifier);
+		}
+	}
+
+	public void setDataContainer(List<UserData.DataMock> dataContainer) {
+		this.dataContainer = dataContainer;
+		for(int i = 0; i < dataContainer.size(); i++){
+			this.selected.add(true);
+		}
+	}
+
+	public List<UserData.DataMock> getDataContainer() {
+		return dataContainer;
+	}
+
 }

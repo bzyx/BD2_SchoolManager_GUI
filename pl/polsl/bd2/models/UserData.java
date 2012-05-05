@@ -23,9 +23,9 @@ public class UserData{
 		details4.add(new DetailsDataMock(new Date(), 4, "kartkówka", "-"));
 		details4.add(new DetailsDataMock(new Date(), 6, "sprawdzian", "-"));
 		data1.add(new DataMock("Polski", 3, 4, 4, 3, details1));
-		data1.add(new DataMock("Polski", 3, 4, 4, 3, details2));
-		data2.add(new DataMock("Polski", 3, 4, 4, 3, details3));
-		data2.add(new DataMock("Polski", 3, 4, 4, 3, details4));
+		data1.add(new DataMock("Angielski", 3, 4, 4, 3, details2));
+		data2.add(new DataMock("Niemiecki", 3, 4, 4, 3, details3));
+		data2.add(new DataMock("Chiñski", 3, 4, 4, 3, details4));
 		userDataConteiner.add(new UserDataMock("Adam", data1));
 		userDataConteiner.add(new UserDataMock("Józek", data2));
 	}

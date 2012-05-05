@@ -4,16 +4,18 @@ import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
+import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.models.MessageModel;
-import pl.polsl.bd2.models.TableModel;
+import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.UserData;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {
 
 	Ui_MainWindow ui = new Ui_MainWindow();
-	private UserData userData;
-	private TableModel tableDetailsDataModel = new TableModel(TableModel.DataColumnName.valueOf("DataDetailsTable").returnColumnName(), this.userData);
+	private DetailsDataModel tableDetailsDataModel = new DetailsDataModel();
+	private DataModel tableDataModel = new DataModel();
+	private UserData userData = new UserData();
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -27,17 +29,17 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui.setupUi(this);
 		//Data tab
-		UserData userData = new UserData();
-		ui.tableDetailsData.setVisible(false);
-		ui.tableData.setModel(new TableModel(TableModel.DataColumnName.valueOf("DataTable").returnColumnName(), this.userData));
-		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
-		
-		
-		//ui.labelProgramInData.setText(ui.tableData.model().index(0,0).data().toString());
-		//TUTAJ WYKORZYSTUJE LISTE KTORA TEZ WYKORZYSTUJE W MODELU TABLEMODEL
 		for(UserData.UserDataMock a : userData.getUserDataConteiner()){
 			ui.comboBoxStudent.addItem(a.getName());
 		}
+		ui.tableDetailsData.setVisible(false);
+		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(0).getData());
+		ui.tableData.setModel(this.tableDataModel);
+		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
+		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(0).getDetailsData());
+		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
+		
+
 		//ui.comboBoxStudent.addItem(text)
 		connectSignalsAndSlots();
 
@@ -87,6 +89,7 @@ public class MainWindow extends QMainWindow {
 		mapperToogleTableDetailsData.mappedInteger.connect(this,
 				"toogleTableDetailsData(int)");
 		ui.tableData.activated.connect(this, "changeDataDetails()");
+		ui.comboBoxStudent.currentIndexChanged.connect(this, "changeUserWithData()");
 	}
 
 	@SuppressWarnings("unused")
@@ -101,11 +104,18 @@ public class MainWindow extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void changeDataDetails() {
-		this.tableDetailsDataModel.setRow(ui.tableData.currentIndex().row());
+		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(ui.tableData.currentIndex().row()).getDetailsData());
 		ui.labelProgramInData.setText(ui.tableData.model()
 				.index(ui.tableData.currentIndex().row(), 0).data().toString());
 		ui.tableDetailsData.reset();
 
+	}
+	
+	@SuppressWarnings("unused")
+	private void changeUserWithData() {
+		this.tableDataModel.setDataContainer(this.userData.getUserDataConteiner().get(ui.comboBoxStudent.currentIndex()).getData());
+		ui.tableData.reset();
+		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
 	}
 
 	/*
