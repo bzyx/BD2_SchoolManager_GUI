@@ -40,11 +40,13 @@ public class MainWindow extends QMainWindow {
 		ui.tableData.setModel(this.tableDataModel);
 		ui.tableData.resizeColumnsToContents();
 		ui.tableData.horizontalHeader().setStretchLastSection(true);
+		ui.tableData.verticalHeader().hide();
 		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer().get(0).getSubject());
 		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel.getDataContainer().get(0).getDetailsData());
 		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
 		ui.tableDetailsData.resizeColumnsToContents();
 		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
+		ui.tableDetailsData.verticalHeader().hide();
 		
 		connectSignalsAndSlots();
 
