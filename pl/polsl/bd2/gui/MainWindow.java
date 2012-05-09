@@ -6,6 +6,7 @@ import com.trolltech.qt.gui.*;
 
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
+import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.UserData;
@@ -29,7 +30,9 @@ public class MainWindow extends QMainWindow {
 
 	public MainWindow() {
 		ui.setupUi(this);
-		// Data tab
+		/*
+		 * DataTab tab functions starts here
+		 */
 		UserData userData = new UserData();
 		ui.tableDetailsData.setVisible(false);
 		for (UserData.UserDataMock a : userData.getUserDataConteiner()) {
@@ -49,6 +52,13 @@ public class MainWindow extends QMainWindow {
 		ui.tableDetailsData.verticalHeader().hide();
 		
 		connectSignalsAndSlots();
+		/*
+		 * Absence tab functions starts here
+		 */
+		ui.tableAbsences.setModel(new AbsenceModel());
+		ui.tableAbsences.resizeColumnsToContents();
+		ui.tableAbsences.horizontalHeader().setStretchLastSection(true);
+		ui.tableAbsences.verticalHeader().hide();
 
 		/*
 		 * Messages tab functions starts here

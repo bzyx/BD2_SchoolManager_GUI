@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -448,7 +448,14 @@ QTableView::item {
            </widget>
           </item>
           <item>
-           <widget class="QTableView" name="tableAbsences"/>
+           <widget class="QTableView" name="tableAbsences">
+            <property name="selectionMode">
+             <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
