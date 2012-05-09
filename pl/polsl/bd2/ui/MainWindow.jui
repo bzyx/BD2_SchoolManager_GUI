@@ -434,7 +434,11 @@ QTableView::item {
            </widget>
           </item>
           <item>
-           <widget class="QListView" name="listJustifications"/>
+           <widget class="QListView" name="listJustifications">
+            <property name="selectionBehavior">
+             <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

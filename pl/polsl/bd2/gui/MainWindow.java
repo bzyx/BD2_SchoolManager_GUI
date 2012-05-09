@@ -7,6 +7,7 @@ import com.trolltech.qt.gui.*;
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.models.AbsenceModel;
+import pl.polsl.bd2.models.JustificationModel;
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.UserData;
@@ -59,7 +60,7 @@ public class MainWindow extends QMainWindow {
 		ui.tableAbsences.resizeColumnsToContents();
 		ui.tableAbsences.horizontalHeader().setStretchLastSection(true);
 		ui.tableAbsences.verticalHeader().hide();
-
+		ui.listJustifications.setModel(new JustificationModel());
 		/*
 		 * Messages tab functions starts here
 		 */
