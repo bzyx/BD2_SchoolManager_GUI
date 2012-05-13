@@ -19,6 +19,8 @@ public class MainWindow extends QMainWindow {
 	private DetailsDataModel tableDetailsDataModel = new DetailsDataModel();
 	private DataModel tableDataModel = new DataModel();
 	private UserData userData = new UserData();
+	private AbsenceModel absenceModel = new AbsenceModel();
+	private JustificationModel justificationModel = new JustificationModel();
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -56,11 +58,11 @@ public class MainWindow extends QMainWindow {
 		/*
 		 * Absence tab functions starts here
 		 */
-		ui.tableAbsences.setModel(new AbsenceModel());
+		ui.tableAbsences.setModel(absenceModel);
 		ui.tableAbsences.resizeColumnsToContents();
 		ui.tableAbsences.horizontalHeader().setStretchLastSection(true);
 		ui.tableAbsences.verticalHeader().hide();
-		ui.listJustifications.setModel(new JustificationModel());
+		ui.listJustifications.setModel(justificationModel);
 		/*
 		 * Messages tab functions starts here
 		 */
@@ -108,6 +110,7 @@ public class MainWindow extends QMainWindow {
 				"toogleTableDetailsData(int)");
 		ui.tableData.selectionModel().currentRowChanged.connect(this, "changeDataDetails()");
 		ui.comboBoxStudent.currentIndexChanged.connect(this, "changeUserWithData()");
+		ui.tableAbsences.doubleClicked.connect(this, "addJustification()");
 	}
 
 	@SuppressWarnings("unused")
@@ -247,4 +250,15 @@ public class MainWindow extends QMainWindow {
 	/*
 	 * Messages tab functions ends here
 	 */
+	@SuppressWarnings("unused")
+	private void addJustification() {
+		if (absenceModel.getActuallAbsenceMock(ui.tableAbsences.currentIndex())
+				.getHowMuchAbsence() != 0) {
+			justificationForm justification = new justificationForm(this, 
+					absenceModel.getActuallAbsenceMock(ui.tableAbsences
+							.currentIndex()), justificationModel);
+			justification.exec();
+			ui.listJustifications.reset();
+		}
+	}
 }

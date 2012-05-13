@@ -12,9 +12,8 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class AbsenceModel extends QAbstractTableModel{
-	private final String[] COLUMNS = {tr("Date"), tr("How much hour"), tr("Hom much absence")};
+	private final String[] COLUMNS = {tr("Date"), tr("hour"), tr("absence"), tr("unexcused hours")};
 	private List<Absence.AbsenceMock> dataContainer;
-
 	public AbsenceModel(){
 		this.dataContainer = new Absence().getAbsenceConteiner();
 	}
@@ -41,7 +40,7 @@ public class AbsenceModel extends QAbstractTableModel{
 			case 2:
 				return dataContainer.get(index.row()).getHowMuchAbsence();
 			case 3:
-				return dataContainer.get(index.row()).getHowMuchUsprawiedliowioneAbsence();
+				return dataContainer.get(index.row()).getHowMuchUnexcusedAbsence();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
@@ -84,14 +83,14 @@ public class AbsenceModel extends QAbstractTableModel{
 			Date date;
 			int howMuchLection;
 			int howMuchAbsence;
-			int howMuchUsprawiedliowioneAbsence;
+			int howMuchUnexcusedAbsence;
 			public AbsenceMock(Date date, int howMuchLection,
 					int howMuchAbsence, int howMuchUsprawiedliowioneAbsence) {
 				super();
 				this.date = date;
 				this.howMuchLection = howMuchLection;
 				this.howMuchAbsence = howMuchAbsence;
-				this.howMuchUsprawiedliowioneAbsence = howMuchUsprawiedliowioneAbsence;
+				this.howMuchUnexcusedAbsence = howMuchUsprawiedliowioneAbsence;
 			}
 			public Date getDate() {
 				return date;
@@ -102,8 +101,8 @@ public class AbsenceModel extends QAbstractTableModel{
 			public int getHowMuchAbsence() {
 				return howMuchAbsence;
 			}
-			public int getHowMuchUsprawiedliowioneAbsence() {
-				return howMuchUsprawiedliowioneAbsence;
+			public int getHowMuchUnexcusedAbsence() {
+				return howMuchUnexcusedAbsence;
 			}
 			
 		}
@@ -111,5 +110,9 @@ public class AbsenceModel extends QAbstractTableModel{
 			return absenceConteiner;
 		}
 		
+	}
+	
+	public Absence.AbsenceMock getActuallAbsenceMock(QModelIndex index){	
+		return dataContainer.get(index.row());
 	}
 }

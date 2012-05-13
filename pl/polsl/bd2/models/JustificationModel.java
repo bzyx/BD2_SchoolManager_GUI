@@ -1,9 +1,8 @@
 package pl.polsl.bd2.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.swing.AbstractListModel;
 
 import com.trolltech.qt.core.QAbstractListModel;
 import com.trolltech.qt.core.QModelIndex;
@@ -14,8 +13,8 @@ public class JustificationModel extends QAbstractListModel {
 	
 	public JustificationModel(){
 		this.dataContainer = new ArrayList<String>();
-		this.dataContainer.add("lolek matolek");
-		this.dataContainer.add("i jego pacho³ek");
+		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\tbo lolek to matolek");
+		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\ti jego pacho³ek te¿");
 	}
 
 	@Override
@@ -32,5 +31,29 @@ public class JustificationModel extends QAbstractListModel {
 	@Override
 	public int rowCount(QModelIndex parent){
 		return dataContainer.size();
+	}
+	
+	public void addJustification(Date date, int lection, String motive){
+		boolean add = true;
+		String justification;;
+		if (this.dataContainer.size() > 0) {
+			int iterator = 0;
+			while (add && iterator < this.dataContainer.size()) {
+				justification = this.dataContainer.get(iterator);
+				if (justification.regionMatches(0, date.toString(), 0, date
+						.toString().length())) {
+					add = false;
+				} else
+					add = true;
+				iterator++;	
+			}
+		}
+		if (add) {
+			this.dataContainer.add(date.toString() + ";\t"
+					+ Integer.toString(lection) + " hour;\t" + motive);
+		} else {
+			this.dataContainer.add(" ta data ju¿ jest");
+		}
+		
 	}
 }
