@@ -4,8 +4,6 @@ import java.util.*;
 
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
-import com.trolltech.qt.core.Qt.Alignment;
-import com.trolltech.qt.core.Qt.AlignmentFlag;
 import com.trolltech.qt.core.Qt.ItemFlag;
 import com.trolltech.qt.core.Qt.ItemFlags;
 import com.trolltech.qt.core.Qt.Orientation;

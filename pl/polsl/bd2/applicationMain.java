@@ -19,7 +19,6 @@ public final class applicationMain {
 		QTranslator appTranslator = new QTranslator();
 		appTranslator.load("classpath:/pl/polsl/bd2/out.qm",".");
 		QApplication.installTranslator(appTranslator);
-
 		MainWindow testMainWindow = new MainWindow();
 		testMainWindow.show();
 
