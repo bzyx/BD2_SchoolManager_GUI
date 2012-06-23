@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.service.KomunikatService;
+
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.Orientation;
@@ -78,26 +82,26 @@ public class MessageModel extends QAbstractTableModel {
 
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			if (col == MessageFields.FROM.getNum())
-				return messageContainer.get(row).getFrom();
+				return messageContainer.get(row).getOsobaDo().getLogin();
 			if (col == MessageFields.TITLE.getNum())
-				return messageContainer.get(row).getTopic();
+				return messageContainer.get(row).getTrescKomunikatu().getTekst().substring(0, 30);
 			if (col == MessageFields.TIMESTAMP.getNum())
-				return sdf.format(messageContainer.get(row).getTimeStamp());
+				return sdf.format(messageContainer.get(row).getDataOd());
 			if (col == MessageFields.UNREAD.getNum())
-				return messageContainer.get(row).getUnread() ? tr("Yes")
+				return messageContainer.get(row).getPrzeczytany() ? tr("Yes")
 						: tr("No");
 		}
 
 		if (role == Qt.ItemDataRole.ToolTipRole) {
-			String msgText = messageContainer.get(row).getMsgText();
+			String msgText = messageContainer.get(row).getTrescKomunikatu().getTekst();
 			return msgText.substring(0, (msgText.length() > 300) ? 300
 					: msgText.length());
 		}
 
 		if (role == MessageRoles.TO.getNum())
-			return messageContainer.get(row).getTo();
+			return messageContainer.get(row).getOsobaDo().getImie();
 		if (role == MessageRoles.MESSAGETEXT.getNum())
-			return messageContainer.get(row).getMsgText();
+			return messageContainer.get(row).getTrescKomunikatu().getTekst();
 
 		return null;
 	}
@@ -113,7 +117,7 @@ public class MessageModel extends QAbstractTableModel {
 			if (index.row() >= 0 && index.row() <= messageContainer.size()) {
 				if (index.column() == MessageFields.UNREAD.getNum()) {
 					messageContainer.get(index.row())
-							.setUnread((Boolean) value);
+							.setPrzeczytany((Boolean) value);
 					this.dataChanged.emit(index, index);
 					return true;
 				}
@@ -127,6 +131,7 @@ public class MessageModel extends QAbstractTableModel {
 		beginRemoveRows(parent, position, position + rows - 1);
 
 		for (int row = 0; row < rows; row++) {
+			komunikatService.delete(messageContainer.get(row));
 			messageContainer.remove(position);
 		}
 
@@ -184,20 +189,23 @@ public class MessageModel extends QAbstractTableModel {
 
 	}
 
-	List<MessageMock> messageContainer;
+	List<Komunikat> messageContainer;
+	KomunikatService komunikatService;
 
 	{
-		messageContainer = new ArrayList<MessageMock>();
+		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
+		messageContainer = komunikatService.findAll();
+		/*messageContainer = new ArrayList<MessageMock>();
 		messageContainer.add(new MessageMock("Ala", "Ela", "Pozdrowienia",
-				"Z okazji urodzin ¿yczê Ci du¿o szczêscia", new Date(), true));
+				"Z okazji urodzin ï¿½yczï¿½ Ci duï¿½o szczï¿½scia", new Date(), true));
 		messageContainer.add(new MessageMock("Ela", "Ala", "Re: Pozdrowienia",
-				"Dziêkujê za wiadomosæ", new Date(), true));
+				"Dziï¿½kujï¿½ za wiadomosï¿½", new Date(), true));
 		messageContainer.add(new MessageMock("Zosia", "Frania", "Oceny Jasia",
-				"Jasiu chyba sci¹ga³, dam mu pa³ê!", new Date(), false));
-		messageContainer.add(new MessageMock("Frania", "Jaœ",
+				"Jasiu chyba sciï¿½gaï¿½, dam mu paï¿½ï¿½!", new Date(), false));
+		messageContainer.add(new MessageMock("Frania", "Jaï¿½",
 				"Ostatni sprawdzian",
-				"Jasiu idŸ do Pani Zosi i wyt³umacz jej, ¿e nie sci¹ga³eœ.",
-				new Date(), true));
+				"Jasiu idï¿½ do Pani Zosi i wytï¿½umacz jej, ï¿½e nie sciï¿½gaï¿½eï¿½.",
+				new Date(), true));*/
 
 	}
 
