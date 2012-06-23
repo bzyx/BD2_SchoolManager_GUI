@@ -1,20 +1,10 @@
 package pl.polsl.bd2.gui;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
-import pl.polsl.bd2.messageSystem.models.Konkursy;
-import pl.polsl.bd2.messageSystem.models.Role;
-import pl.polsl.bd2.messageSystem.models.TypKonkursu;
-import pl.polsl.bd2.messageSystem.service.KonkursyService;
-import pl.polsl.bd2.messageSystem.service.RoleService;
-import pl.polsl.bd2.messageSystem.service.TypKonkursuService;
+
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.models.AbsenceModel;
@@ -47,22 +37,6 @@ public class MainWindow extends QMainWindow {
 		/*
 		 * DataTab tab functions starts here
 		 */
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(
-				"BeanLocations.xml");
-		/*
-    	TypKonkursuService typService = (TypKonkursuService) appContext.getBean("typKonkursuService");
-    	typService.save(new TypKonkursu("Szkolny"));
-    	typService.save(new TypKonkursu("Szkolny-klasowy"));
-    	typService.save(new TypKonkursu("Panstwowy"));
-    	
-    	KonkursyService konkursService = (KonkursyService) appContext.getBean("konkursyService");
-    	konkursService.save(new Konkursy(1, "Szkolny- Matematyczny"));
-    	konkursService.save(new Konkursy(2, "Szkolny- Biologiczny"));
-    	konkursService.save(new Konkursy(3, "Panstwowy - Polonistyczny"));
-		
-		RoleService service = (RoleService) appContext.getBean("roleService");
-		service.save(new Role("jabba2"));
-		*/
 		UserData userData = new UserData();
 		ui.tableDetailsData.setVisible(false);
 		for (UserData.UserDataMock a : userData.getUserDataConteiner()) {
