@@ -1,12 +1,22 @@
 package pl.polsl.bd2.gui;
 
+import java.util.Date;
+
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
 
+import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
+import pl.polsl.bd2.messageSystem.service.KomunikatService;
+import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.OsobaService;
+import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
+import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
 import pl.polsl.bd2.models.MessageModel;
@@ -22,6 +32,10 @@ public class MainWindow extends QMainWindow {
 	private UserData userData = new UserData();
 	private AbsenceModel absenceModel = new AbsenceModel();
 	private JustificationModel justificationModel = new JustificationModel();
+	private KonfiguracjaService konfiguracjaService;
+	private OsobaService osobaService;
+	private KomunikatService komunikatService;
+	private TrescKomunikatuService trescKomunikatuService;
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -34,6 +48,17 @@ public class MainWindow extends QMainWindow {
 
 	public MainWindow() {
 		ui.setupUi(this);
+		
+		konfiguracjaService = (KonfiguracjaService) SpringUtil.getBean("konfiguracjaService");
+		komunikatService = (KomunikatService) SpringUtil.getBean("komunikatService");
+		trescKomunikatuService = (TrescKomunikatuService) SpringUtil.getBean("trescKomunikatuService");
+		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
+		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
+		
+		Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		System.out.println(osoba.getImie() + " " + osoba.getNazwisko());
+		//konfiguracjaService.setLoggedOsoba(null);
+		
 		/*
 		 * DataTab tab functions starts here
 		 */
@@ -95,8 +120,8 @@ public class MainWindow extends QMainWindow {
 		 * Messages tab functions ends here
 		 */
 
+		
 	}
-
 	// public MainWindow(QWidget parent) {
 	// super(parent);
 	// ui.setupUi(this);
@@ -216,11 +241,17 @@ public class MainWindow extends QMainWindow {
 
 	}
 
-	// TODO: This is so dummy. Need to change it to work fine.
 	@SuppressWarnings("unused")
 	private void messageNewMessage() {
-		contactForm cF = new contactForm("Ala", "Ela");
+		Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		contactForm cF = new contactForm(osoba.getImie()+" "+osoba.getNazwisko(), "wybierz osobę");
 		cF.exec();
+		
+		TrescKomunikatu trescKomunikatu = new TrescKomunikatu(cF.getTekst(), cF.getTemat());
+		trescKomunikatuService.save(trescKomunikatu);
+		komunikatService.save(new Komunikat(osoba,cF.getOsobaDo(),trescKomunikatu, new Date(System.currentTimeMillis()), null));
+		
+		System.out.println(cF.getTemat());
 
 	}
 

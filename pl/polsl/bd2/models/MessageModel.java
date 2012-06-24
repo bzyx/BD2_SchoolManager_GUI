@@ -7,7 +7,9 @@ import java.util.List;
 
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
+import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
@@ -23,6 +25,13 @@ import com.trolltech.qt.gui.QAbstractTableModel;
  */
 
 public class MessageModel extends QAbstractTableModel {
+	
+	public MessageModel() {
+		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
+		konfiguracjaService = (KonfiguracjaService)SpringUtil.getBean("konfiguracjaService");
+		messageContainer = new ArrayList<Komunikat>(konfiguracjaService.getLoggedOsoba().getOsobaDo());
+	}
+	
 	public enum MessageFields {
 		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4), MESSAGETEXT(5);
 
@@ -84,11 +93,11 @@ public class MessageModel extends QAbstractTableModel {
 			if (col == MessageFields.FROM.getNum())
 				return messageContainer.get(row).getOsobaDo().getLogin();
 			if (col == MessageFields.TITLE.getNum())
-				return messageContainer.get(row).getTrescKomunikatu().getTekst().substring(0, 30);
+				return messageContainer.get(row).getTrescKomunikatu().getTytul();
 			if (col == MessageFields.TIMESTAMP.getNum())
-				return sdf.format(messageContainer.get(row).getDataOd());
+				return (messageContainer.get(row).getDataOd()!=null)?sdf.format(messageContainer.get(row).getDataOd()):"-";
 			if (col == MessageFields.UNREAD.getNum())
-				return messageContainer.get(row).getPrzeczytany() ? tr("Yes")
+				return messageContainer.get(row).getNieprzeczytany() ? tr("Yes")
 						: tr("No");
 		}
 
@@ -117,7 +126,8 @@ public class MessageModel extends QAbstractTableModel {
 			if (index.row() >= 0 && index.row() <= messageContainer.size()) {
 				if (index.column() == MessageFields.UNREAD.getNum()) {
 					messageContainer.get(index.row())
-							.setPrzeczytany((Boolean) value);
+							.setNieprzeczytany((Boolean) value);
+					komunikatService.edit(messageContainer.get(index.row()));
 					this.dataChanged.emit(index, index);
 					return true;
 				}
@@ -139,74 +149,7 @@ public class MessageModel extends QAbstractTableModel {
 		return true;
 	}
 
-	public class MessageMock {
-
-		public MessageMock(String from, String to, String topic,
-				String msgText, Date timeStamp, Boolean unread) {
-			super();
-			this.from = from;
-			this.to = to;
-			this.topic = topic;
-			this.msgText = msgText;
-			this.timeStamp = timeStamp;
-			this.unread = unread;
-		}
-
-		public String getFrom() {
-			return from;
-		}
-
-		public String getTo() {
-			return to;
-		}
-
-		public String getTopic() {
-			return topic;
-		}
-
-		public String getMsgText() {
-			return msgText;
-		}
-
-		public Date getTimeStamp() {
-			return timeStamp;
-		}
-
-		public Boolean getUnread() {
-			return unread;
-		}
-
-		public void setUnread(Boolean unread) {
-			this.unread = unread;
-		}
-
-		String from;
-		String to;
-		String topic;
-		String msgText;
-		Date timeStamp;
-		Boolean unread;
-
-	}
-
 	List<Komunikat> messageContainer;
 	KomunikatService komunikatService;
-
-	{
-		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
-		messageContainer = komunikatService.findAll();
-		/*messageContainer = new ArrayList<MessageMock>();
-		messageContainer.add(new MessageMock("Ala", "Ela", "Pozdrowienia",
-				"Z okazji urodzin �ycz� Ci du�o szcz�scia", new Date(), true));
-		messageContainer.add(new MessageMock("Ela", "Ala", "Re: Pozdrowienia",
-				"Dzi�kuj� za wiadomos�", new Date(), true));
-		messageContainer.add(new MessageMock("Zosia", "Frania", "Oceny Jasia",
-				"Jasiu chyba sci�ga�, dam mu pa��!", new Date(), false));
-		messageContainer.add(new MessageMock("Frania", "Ja�",
-				"Ostatni sprawdzian",
-				"Jasiu id� do Pani Zosi i wyt�umacz jej, �e nie sci�ga�e�.",
-				new Date(), true));*/
-
-	}
-
+	KonfiguracjaService konfiguracjaService;
 }

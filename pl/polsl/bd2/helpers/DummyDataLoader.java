@@ -19,8 +19,6 @@ public final class DummyDataLoader {
 			"23-06-2012-20:50");
 
 	public static void tryToLoad() {
-		// ApplicationContext appContext = new ClassPathXmlApplicationContext(
-		// "BeanLocations.xml");
 		ApplicationContext appContext = SpringUtil.getContext();
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) appContext
 				.getBean("konfiguracjaService");
@@ -114,13 +112,13 @@ public final class DummyDataLoader {
 				.getBean("trescKomunikatuService");
 		trescKomunikatuService
 				.save(new TrescKomunikatu(
-						"Aniu, sprawdź te ostatnie sprawdziany bo nie wiem co z ocenami."));
+						"Aniu, sprawdź te ostatnie sprawdziany bo nie wiem co z ocenami.", "Sprawdziany 2a"));
 		trescKomunikatuService.save(new TrescKomunikatu(
-				"Idziemy na wycieczkę? "));
+				"Idziemy na wycieczkę? ", "Wycieczka"));
 		trescKomunikatuService.save(new TrescKomunikatu(
-				"Pilne spotkanie w pokoju nauczycielskim. Jutro o 15:00"));
+				"Pilne spotkanie w pokoju nauczycielskim. Jutro o 15:00", "Spotkanie"));
 
-		/*KomunikatService komunikatService = (KomunikatService) SpringUtil
+		KomunikatService komunikatService = (KomunikatService) SpringUtil
 				.getBean("komunikatService");
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3),
 				osobaService.findAll().get(4), trescKomunikatuService.findAll()
@@ -129,7 +127,7 @@ public final class DummyDataLoader {
 				System.currentTimeMillis()), new Date(System
 				.currentTimeMillis() + 96 * 60 * 60 * 100)));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(4), trescKomunikatuService.findAll().get(2), null, null));
-		*/
+		
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(6), trescKomunikatuService.findAll().get(2), null, null));
