@@ -21,7 +21,9 @@ import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
 import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.DataModel;
+import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.models.UserData;
+import pl.polsl.bd2.models.PupilModel.Pupil;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {
@@ -32,6 +34,8 @@ public class MainWindow extends QMainWindow {
 	private UserData userData = new UserData();
 	private AbsenceModel absenceModel = new AbsenceModel();
 	private JustificationModel justificationModel = new JustificationModel();
+	private PupilModel.Pupil pupilMock = new PupilModel.Pupil();
+	private PupilModel pupilModel = new PupilModel(this.pupilMock.getClassPupil().get(0).getPuil());
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -63,9 +67,8 @@ public class MainWindow extends QMainWindow {
 		RoleService service = (RoleService) appContext.getBean("roleService");
 		service.save(new Role("jabba2"));
 		*/
-		UserData userData = new UserData();
 		ui.tableDetailsData.setVisible(false);
-		for (UserData.UserDataMock a : userData.getUserDataConteiner()) {
+		for (UserData.UserDataMock a : this.userData.getUserDataConteiner()) {
 			ui.comboBoxStudent.addItem(a.getName());
 		}
 		ui.tableData.selectRow(0);
@@ -120,14 +123,22 @@ public class MainWindow extends QMainWindow {
 		/*
 		 * Messages tab functions ends here
 		 */
+		this.teacherGui();
 
 	}
-
-	// public MainWindow(QWidget parent) {
-	// super(parent);
-	// ui.setupUi(this);
-	// connectSignalsAndSlots();
-	// }
+	private void teacherGui(){
+		ui.tableUsers.setModel(this.pupilModel);
+		ui.tableUsers.resizeColumnsToContents();
+		ui.tableUsers.horizontalHeader().setStretchLastSection(true);
+		ui.tableUsers.verticalHeader().hide();
+		ui.tableDetailUsers.setModel(this.tableDetailsDataModel);
+		ui.tableDetailUsers.resizeColumnsToContents();
+		ui.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
+		ui.tableDetailUsers.verticalHeader().hide();
+		for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
+			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
+		}
+	}
 
 	private void connectSignalsAndSlots() {
 		QSignalMapper mapperToogleTableDetailsData = new QSignalMapper();
@@ -143,6 +154,7 @@ public class MainWindow extends QMainWindow {
 		ui.comboBoxStudent.currentIndexChanged.connect(this,
 				"changeUserWithData()");
 		ui.tableAbsences.doubleClicked.connect(this, "addJustification()");
+		ui.comboBoxClass.currentIndexChanged.connect(this, "changePupilTable()");
 	}
 
 	@SuppressWarnings("unused")
@@ -164,6 +176,12 @@ public class MainWindow extends QMainWindow {
 				.index(ui.tableData.currentIndex().row(), 0).data().toString());
 		ui.tableDetailsData.reset();
 
+	}
+	@SuppressWarnings("unused")
+	private void changePupilTable(){
+		this.pupilModel.setDataContainer(this.pupilMock.getClassPupil().get(
+				ui.comboBoxClass.currentIndex()).getPuil());
+		ui.tableUsers.reset();
 	}
 
 	@SuppressWarnings("unused")

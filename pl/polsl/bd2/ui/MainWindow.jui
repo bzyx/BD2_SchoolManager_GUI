@@ -479,16 +479,22 @@ QTableView::item {
       </widget>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
-        <string>Users</string>
+        <string>Pupils</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0" rowspan="5">
+        <item row="0" column="0" rowspan="6">
          <widget class="QTableView" name="tableUsers">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="selectionMode">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
           </property>
          </widget>
         </item>
@@ -512,7 +518,7 @@ QTableView::item {
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="5" column="1">
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
@@ -525,17 +531,24 @@ QTableView::item {
           </property>
          </spacer>
         </item>
-        <item row="5" column="0" rowspan="3">
-         <widget class="QTableView" name="tableDetailUsers"/>
+        <item row="6" column="0" rowspan="3">
+         <widget class="QTableView" name="tableDetailUsers">
+          <property name="selectionMode">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+          </property>
+         </widget>
         </item>
-        <item row="5" column="1">
+        <item row="6" column="1">
          <widget class="QPushButton" name="pushButtonEditRate">
           <property name="text">
            <string>Edit rate</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+        <item row="8" column="1">
          <spacer name="verticalSpacer_6">
           <property name="orientation">
            <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
@@ -548,10 +561,17 @@ QTableView::item {
           </property>
          </spacer>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="1">
          <widget class="QPushButton" name="pushButtonJustify">
           <property name="text">
            <string>Justify</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="pushButtonSave">
+          <property name="text">
+           <string>Save</string>
           </property>
          </widget>
         </item>
@@ -596,6 +616,9 @@ QTableView::item {
         </item>
         <item row="1" column="5" rowspan="4">
          <widget class="QGroupBox" name="groupBoxAddPupil">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="title">
            <string>Personal data</string>
           </property>
@@ -695,8 +718,20 @@ QTableView::item {
         </item>
         <item row="0" column="5">
          <widget class="QGroupBox" name="groupBox_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="title">
            <string>Class name</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
