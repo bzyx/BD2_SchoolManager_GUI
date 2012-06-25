@@ -1,22 +1,22 @@
 package pl.polsl.bd2.gui;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.Date;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.gui.*;
 
-import pl.polsl.bd2.messageSystem.models.Konkursy;
-import pl.polsl.bd2.messageSystem.models.Role;
-import pl.polsl.bd2.messageSystem.models.TypKonkursu;
-import pl.polsl.bd2.messageSystem.service.KonkursyService;
-import pl.polsl.bd2.messageSystem.service.RoleService;
-import pl.polsl.bd2.messageSystem.service.TypKonkursuService;
+
+import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
+import pl.polsl.bd2.messageSystem.service.KomunikatService;
+import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.OsobaService;
+import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
+import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
 import pl.polsl.bd2.models.MessageModel;
@@ -36,6 +36,10 @@ public class MainWindow extends QMainWindow {
 	private JustificationModel justificationModel = new JustificationModel();
 	private PupilModel.Pupil pupilMock = new PupilModel.Pupil();
 	private PupilModel pupilModel = new PupilModel(this.pupilMock.getClassPupil().get(0).getPuil());
+	private KonfiguracjaService konfiguracjaService;
+	private OsobaService osobaService;
+	private KomunikatService komunikatService;
+	private TrescKomunikatuService trescKomunikatuService;
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -48,25 +52,21 @@ public class MainWindow extends QMainWindow {
 
 	public MainWindow() {
 		ui.setupUi(this);
+		
+		konfiguracjaService = (KonfiguracjaService) SpringUtil.getBean("konfiguracjaService");
+		komunikatService = (KomunikatService) SpringUtil.getBean("komunikatService");
+		trescKomunikatuService = (TrescKomunikatuService) SpringUtil.getBean("trescKomunikatuService");
+		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
+		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
+		
+		Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		System.out.println(osoba.getImie() + " " + osoba.getNazwisko());
+		//konfiguracjaService.setLoggedOsoba(null);
+		
 		/*
 		 * DataTab tab functions starts here
 		 */
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(
-				"BeanLocations.xml");
-		/*
-    	TypKonkursuService typService = (TypKonkursuService) appContext.getBean("typKonkursuService");
-    	typService.save(new TypKonkursu("Szkolny"));
-    	typService.save(new TypKonkursu("Szkolny-klasowy"));
-    	typService.save(new TypKonkursu("Panstwowy"));
-    	
-    	KonkursyService konkursService = (KonkursyService) appContext.getBean("konkursyService");
-    	konkursService.save(new Konkursy(1, "Szkolny- Matematyczny"));
-    	konkursService.save(new Konkursy(2, "Szkolny- Biologiczny"));
-    	konkursService.save(new Konkursy(3, "Panstwowy - Polonistyczny"));
-		
-		RoleService service = (RoleService) appContext.getBean("roleService");
-		service.save(new Role("jabba2"));
-		*/
+		UserData userData = new UserData();
 		ui.tableDetailsData.setVisible(false);
 		for (UserData.UserDataMock a : this.userData.getUserDataConteiner()) {
 			ui.comboBoxStudent.addItem(a.getName());
@@ -125,6 +125,7 @@ public class MainWindow extends QMainWindow {
 		 */
 		this.teacherGui();
 
+		
 	}
 	private void teacherGui(){
 		ui.tableUsers.setModel(this.pupilModel);
@@ -139,6 +140,11 @@ public class MainWindow extends QMainWindow {
 			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
 		}
 	}
+	// public MainWindow(QWidget parent) {
+	// super(parent);
+	// ui.setupUi(this);
+	// connectSignalsAndSlots();
+	// }
 
 	private void connectSignalsAndSlots() {
 		QSignalMapper mapperToogleTableDetailsData = new QSignalMapper();
@@ -260,11 +266,17 @@ public class MainWindow extends QMainWindow {
 
 	}
 
-	// TODO: This is so dummy. Need to change it to work fine.
 	@SuppressWarnings("unused")
 	private void messageNewMessage() {
-		contactForm cF = new contactForm("Ala", "Ela");
+		Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		contactForm cF = new contactForm(osoba.getImie()+" "+osoba.getNazwisko(), "wybierz osobę");
 		cF.exec();
+		
+		TrescKomunikatu trescKomunikatu = new TrescKomunikatu(cF.getTekst(), cF.getTemat());
+		trescKomunikatuService.save(trescKomunikatu);
+		komunikatService.save(new Komunikat(osoba,cF.getOsobaDo(),trescKomunikatu, new Date(System.currentTimeMillis()), null));
+		
+		System.out.println(cF.getTemat());
 
 	}
 

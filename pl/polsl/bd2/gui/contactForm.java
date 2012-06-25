@@ -1,9 +1,11 @@
 package pl.polsl.bd2.gui;
 
-/*
-import pl.polsl.bd2.models.Person;
-import pl.polsl.bd2.models.Student;
-*/
+import java.util.ArrayList;
+import java.util.List;
+
+import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.ui.Ui_contactForm;
 import com.trolltech.qt.gui.*;
 
@@ -14,30 +16,32 @@ public class contactForm extends QDialog {
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
+		SpringUtil.setContext("BeanLocations.xml");
 
 		contactForm testcontactForm = new contactForm("");
 		testcontactForm.show();
+		
 
 		QApplication.exec();
 	}
+	private OsobaService osobaService;
+	private ArrayList<String> osoby;
+	private List<Osoba> osobyList;
+	private Osoba osobaDo;
 
 	private void contactFormInit() {
 		ui.setupUi(this);
 		ui.findButton.clicked.connect(this, "findPressed()");
 		ui.buttonBox.rejected.connect(this, "reject()");
+		ui.buttonBox.accepted.connect(this, "accept()");
+		
+		osobaService = (OsobaService)SpringUtil.getBean("osobaService");
+		osoby = (ArrayList<String>) new ArrayList<String>();
+		osobyList = new ArrayList<Osoba>(osobaService.findAll());
 	}
 
 	public contactForm(String from) {
 		contactFormInit();
-		/*
-		if (from.equals("")) {
-			Student student = (Student) msgService.findPerson(new Person());
-			ui.fromPerson
-					.setText(student.getFirstname() + " "
-							+ student.getLastname() + " <"
-							+ student.getAlbumNo() + ">");
-		}*/
-
 	}
 
 	public contactForm(String from, String to) {
@@ -68,8 +72,25 @@ public class contactForm extends QDialog {
 
 	@SuppressWarnings("unused")
 	private void findPressed() {
-		QMessageBox.information(this,
-				tr("School System Destroyer", "Application name"),
-				tr("You have pressed my button"));
+		
+		for (Osoba osoba: osobyList){
+			osoby.add(osoba.getImie()+" "+osoba.getNazwisko() + " ("+osoba.getRole().getNazwa()+")");
+		}
+		
+		String item = QInputDialog.getItem(null, "Wybór osoby", "Wybierz osobę :", osoby);
+		osobaDo = osobyList.get(osoby.indexOf(item));
+		ui.toPerson.setText(item);
+	}
+	
+	public Osoba getOsobaDo() {
+		return osobaDo;
+	}
+	
+	public String getTemat() {
+		return ui.topic.text();
+	}
+	
+	public String getTekst() {
+		return ui.messageText.toPlainText();
 	}
 }
