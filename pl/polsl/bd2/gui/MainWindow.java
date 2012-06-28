@@ -14,6 +14,7 @@ import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
+import pl.polsl.bd2.messageSystem.service.UczenService;
 import pl.polsl.bd2.models.DetailsDataModel;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -23,7 +24,7 @@ import pl.polsl.bd2.models.MessageModel;
 import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.models.UserData;
-import pl.polsl.bd2.models.PupilModel.Pupil;
+//import pl.polsl.bd2.models.PupilModel.Pupil;
 import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {
@@ -40,6 +41,7 @@ public class MainWindow extends QMainWindow {
 	private OsobaService osobaService;
 	private KomunikatService komunikatService;
 	private TrescKomunikatuService trescKomunikatuService;
+	private UczenService uczenService;
 
 	public static void main(String[] args) {
 		QApplication.initialize(args);
@@ -66,26 +68,8 @@ public class MainWindow extends QMainWindow {
 		/*
 		 * DataTab tab functions starts here
 		 */
-		UserData userData = new UserData();
-		ui.tableDetailsData.setVisible(false);
-		for (UserData.UserDataMock a : this.userData.getUserDataConteiner()) {
-			ui.comboBoxStudent.addItem(a.getName());
-		}
-		ui.tableData.selectRow(0);
-		this.tableDataModel.setDataContainer(this.userData
-				.getUserDataConteiner().get(0).getData());
-		ui.tableData.setModel(this.tableDataModel);
-		ui.tableData.resizeColumnsToContents();
-		ui.tableData.horizontalHeader().setStretchLastSection(true);
-		ui.tableData.verticalHeader().hide();
-		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer()
-				.get(0).getSubject());
-		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel
-				.getDataContainer().get(0).getDetailsData());
-		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
-		ui.tableDetailsData.resizeColumnsToContents();
-		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
-		ui.tableDetailsData.verticalHeader().hide();
+		this.dataTab();
+		
 		
 		connectSignalsAndSlots();
 		/*
@@ -139,6 +123,28 @@ public class MainWindow extends QMainWindow {
 		for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
 			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
 		}
+	}
+	
+	private void dataTab(){
+		ui.tableDetailsData.setVisible(false);
+		for (UserData.UserDataMock a : this.userData.getUserDataConteiner()) {
+			ui.comboBoxStudent.addItem(a.getName());
+		}
+		ui.tableData.selectRow(0);
+		this.tableDataModel.setDataContainer(this.userData
+				.getUserDataConteiner().get(0).getData());
+		ui.tableData.setModel(this.tableDataModel);
+		ui.tableData.resizeColumnsToContents();
+		ui.tableData.horizontalHeader().setStretchLastSection(true);
+		ui.tableData.verticalHeader().hide();
+		ui.labelProgramInData.setText(this.tableDataModel.getDataContainer()
+				.get(0).getSubject());
+		this.tableDetailsDataModel.setDetailsDataContainer(this.tableDataModel
+				.getDataContainer().get(0).getDetailsData());
+		ui.tableDetailsData.setModel(this.tableDetailsDataModel);
+		ui.tableDetailsData.resizeColumnsToContents();
+		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
+		ui.tableDetailsData.verticalHeader().hide();
 	}
 	// public MainWindow(QWidget parent) {
 	// super(parent);

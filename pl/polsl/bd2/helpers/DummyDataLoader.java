@@ -1,18 +1,27 @@
 package pl.polsl.bd2.helpers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
 import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
+import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
+import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
+import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
+import pl.polsl.bd2.messageSystem.service.TypPrzedmiotuService;
+import pl.polsl.bd2.messageSystem.service.UczenService;
 
 public final class DummyDataLoader {
 	private static final String modelDateSholdBe = new String(
@@ -127,11 +136,49 @@ public final class DummyDataLoader {
 				System.currentTimeMillis()), new Date(System
 				.currentTimeMillis() + 96 * 60 * 60 * 100)));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(4), trescKomunikatuService.findAll().get(2), null, null));
+		/*
+		 * Dodamy parę oddziałów
+		 */
+		OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
+		oddzialService.save(new Oddzial("Automatyki"));
+		oddzialService.save(new Oddzial("Elektroniki"));
+		oddzialService.save(new Oddzial("Informatyki"));
+		
+		/*
+		 * Dodamy parę uczniów
+		 */
+		UczenService uczenService = (UczenService)SpringUtil.getBean("uczenService");
+		List<Osoba> listaUczniow = new ArrayList<Osoba>(osobaService.findByRoleName("Uczen"));
+		List<Oddzial> listaOddzialow = new ArrayList<Oddzial>(oddzialService.findAll());
+		uczenService.save(new Uczen(listaUczniow.get(0), listaOddzialow.get(0)));
+		uczenService.save(new Uczen(listaUczniow.get(1), listaOddzialow.get(0)));
+		uczenService.save(new Uczen(listaUczniow.get(2), listaOddzialow.get(1)));
+		
+		/*
+		 * Dodamy parę przedmiotów
+		 */
+		TypPrzedmiotuService typPrzedmiotuService = (TypPrzedmiotuService)SpringUtil.getBean("typPrzedmiotuService");
+		typPrzedmiotuService.save(new TypPrzedmiotu("Polski"));
+		typPrzedmiotuService.save(new TypPrzedmiotu("Angielski"));
+		typPrzedmiotuService.save(new TypPrzedmiotu("Matematyka"));
+		typPrzedmiotuService.save(new TypPrzedmiotu("Informatyka"));
+		
+		/*
+		 * Dodamy parę nauczycieli
+		 */
+		
+
 		
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(6), trescKomunikatuService.findAll().get(2), null, null));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(7), trescKomunikatuService.findAll().get(2), null, null));*/
+		//FIXME: KKK Dodać klika oddziłów i dodać uczniów do konkretnych oddzialow
+		//TODO: KKK Do oddziału dodać id nauczyciela (wychowawcy kiedys)
+		//FIXME: KKK Dodać kilka przedmiotów 
+		//TODO: KKK Dodac kilku nauczycieli o ile juz nie ma przydzielic przedmioty do konkretnego nauczyciela i oddzialu
+		//TODO: KKK Dodać kilka nieobecnosci konkretnym uczniom na konkretnym przedmiocie
+		//TODO: KKK Dodać kilka ocen uczniom na konkretnym przedmiocie danych przez konkretnego nauczyciela i tak dalej ;p
 
 	}
 
