@@ -151,7 +151,7 @@ public final class DummyDataLoader {
 		 * Dodamy parę uczniów
 		 */
 		UczenService uczenService = (UczenService)SpringUtil.getBean("uczenService");
-		List<Osoba> listaUczniow = new ArrayList<Osoba>(osobaService.findByRoleName("Uczen"));
+		List<Osoba> listaUczniow = new ArrayList<Osoba>(roleService.findByName("Uczen").get(0).getRole2osoba());
 		List<Oddzial> listaOddzialow = new ArrayList<Oddzial>(oddzialService.findAll());
 		uczenService.save(new Uczen(listaUczniow.get(0), listaOddzialow.get(0)));
 		uczenService.save(new Uczen(listaUczniow.get(1), listaOddzialow.get(0)));
@@ -169,10 +169,11 @@ public final class DummyDataLoader {
 		/*
 		 * Dodamy parę nauczycieli
 		 */
-		NauczycielService nauczyceilService = (NauczycielService)SpringUtil.getBean("nauczycielService");
-		List<Osoba> listaNauczycieli = new ArrayList<Osoba>(osobaService.findByRoleName("Nauczyciel"));
-		for(Osoba nauczyciel: listaNauczycieli){
-			nauczyceilService.save(new Nauczyciel(nauczyciel));
+		NauczycielService nauczycielService = (NauczycielService)SpringUtil.getBean("nauczycielService");
+		List<Osoba> listaOsobNauczycieli = new ArrayList<Osoba>(roleService.findByName("Nauczyciel").get(0).getRole2osoba());
+		System.err.println(listaOsobNauczycieli.toString());
+		for(Osoba nauczyciel: listaOsobNauczycieli){
+			nauczycielService.save(new Nauczyciel(nauczyciel));
 		}
 		
 		/*
@@ -180,9 +181,12 @@ public final class DummyDataLoader {
 		 */
 		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
 		List<TypPrzedmiotu> listaPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
+		List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
 		//TODO: DDD do przedmiotu powinnismy potrzebowac nauczyciela nie osobe.
 		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
-		
+		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
+		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
 		
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
@@ -191,6 +195,7 @@ public final class DummyDataLoader {
 		//FIXME: KKK Dodać klika oddziłów i dodać uczniów do konkretnych oddzialow
 		//TODO: KKK Do oddziału dodać id nauczyciela (wychowawcy kiedys)
 		//FIXME: KKK Dodać kilka przedmiotów 
+		//TODO: zmienić zapytanie w implementacji Dao osoby do wyszukiwania po nazwie roli na takie korzystajace z roli
 		//TODO: KKK Dodac kilku nauczycieli o ile juz nie ma przydzielic przedmioty do konkretnego nauczyciela i oddzialu
 		//TODO: KKK Dodać kilka nieobecnosci konkretnym uczniom na konkretnym przedmiocie
 		//TODO: KKK Dodać kilka ocen uczniom na konkretnym przedmiocie danych przez konkretnego nauczyciela i tak dalej ;p
