@@ -7,14 +7,17 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
 import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
 import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
@@ -155,7 +158,7 @@ public final class DummyDataLoader {
 		uczenService.save(new Uczen(listaUczniow.get(2), listaOddzialow.get(1)));
 		
 		/*
-		 * Dodamy parę przedmiotów
+		 * Dodamy parę typow przedmiotow
 		 */
 		TypPrzedmiotuService typPrzedmiotuService = (TypPrzedmiotuService)SpringUtil.getBean("typPrzedmiotuService");
 		typPrzedmiotuService.save(new TypPrzedmiotu("Polski"));
@@ -166,8 +169,20 @@ public final class DummyDataLoader {
 		/*
 		 * Dodamy parę nauczycieli
 		 */
+		NauczycielService nauczyceilService = (NauczycielService)SpringUtil.getBean("nauczycielService");
+		List<Osoba> listaNauczycieli = new ArrayList<Osoba>(osobaService.findByRoleName("Nauczyciel"));
+		for(Osoba nauczyciel: listaNauczycieli){
+			nauczyceilService.save(new Nauczyciel(nauczyciel));
+		}
 		
-
+		/*
+		 * Dodamy parę przedmiotow
+		 */
+		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
+		List<TypPrzedmiotu> listaPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
+		//TODO: DDD do przedmiotu powinnismy potrzebowac nauczyciela nie osobe.
+		//przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
+		
 		
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
