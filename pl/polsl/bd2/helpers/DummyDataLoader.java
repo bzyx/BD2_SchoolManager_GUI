@@ -181,7 +181,7 @@ public final class DummyDataLoader {
 		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
 		List<TypPrzedmiotu> listaPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
 		//TODO: DDD do przedmiotu powinnismy potrzebowac nauczyciela nie osobe.
-		//przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
 		
 		
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
