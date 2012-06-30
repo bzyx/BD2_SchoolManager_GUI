@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
+import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
@@ -15,6 +16,7 @@ import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
 import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
 import pl.polsl.bd2.messageSystem.models.Uczen;
+import pl.polsl.bd2.messageSystem.service.AbsencjaService;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
@@ -151,11 +153,11 @@ public final class DummyDataLoader {
 		 * Dodamy parę uczniów
 		 */
 		UczenService uczenService = (UczenService)SpringUtil.getBean("uczenService");
-		List<Osoba> listaUczniow = new ArrayList<Osoba>(roleService.findByName("Uczen").get(0).getRole2osoba());
+		List<Osoba> listaOsobUczniow = new ArrayList<Osoba>(roleService.findByName("Uczen").get(0).getRole2osoba());
 		List<Oddzial> listaOddzialow = new ArrayList<Oddzial>(oddzialService.findAll());
-		uczenService.save(new Uczen(listaUczniow.get(0), listaOddzialow.get(0)));
-		uczenService.save(new Uczen(listaUczniow.get(1), listaOddzialow.get(0)));
-		uczenService.save(new Uczen(listaUczniow.get(2), listaOddzialow.get(1)));
+		uczenService.save(new Uczen(listaOsobUczniow.get(0), listaOddzialow.get(0)));
+		uczenService.save(new Uczen(listaOsobUczniow.get(1), listaOddzialow.get(0)));
+		uczenService.save(new Uczen(listaOsobUczniow.get(2), listaOddzialow.get(1)));
 		
 		/*
 		 * Dodamy parę typow przedmiotow
@@ -180,14 +182,27 @@ public final class DummyDataLoader {
 		 * Dodamy parę przedmiotow
 		 */
 		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
-		List<TypPrzedmiotu> listaPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
+		List<TypPrzedmiotu> listaTypPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
 		List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
-		//TODO: DDD do przedmiotu powinnismy potrzebowac nauczyciela nie osobe.
-		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
-		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
-		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
-		przedmiotService.save(new Przedmiot(listaPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
+		System.err.println(listaNauczycieli);
+
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
 		
+		/*
+		 * Dodamy kilka nieobecnosci
+		 */
+		AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
+		List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
+		List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
+		absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(0) ,true ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(1),listaPrzedmiotow.get(0) ,false ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(2),listaPrzedmiotow.get(0) ,false ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(1) ,false ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(1),listaPrzedmiotow.get(1) ,true ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(2),listaPrzedmiotow.get(1) ,true ,(java.sql.Date) new Date()));
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(6), trescKomunikatuService.findAll().get(2), null, null));
@@ -196,7 +211,7 @@ public final class DummyDataLoader {
 		//TODO: KKK Do oddziału dodać id nauczyciela (wychowawcy kiedys)
 		//FIXME: KKK Dodać kilka przedmiotów 
 		//TODO: zmienić zapytanie w implementacji Dao osoby do wyszukiwania po nazwie roli na takie korzystajace z roli
-		//TODO: KKK Dodac kilku nauczycieli o ile juz nie ma przydzielic przedmioty do konkretnego nauczyciela i oddzialu
+		//FIXME: KKK Dodac kilku nauczycieli o ile juz nie ma przydzielic przedmioty do konkretnego nauczyciela i oddzialu
 		//TODO: KKK Dodać kilka nieobecnosci konkretnym uczniom na konkretnym przedmiocie
 		//TODO: KKK Dodać kilka ocen uczniom na konkretnym przedmiocie danych przez konkretnego nauczyciela i tak dalej ;p
 
