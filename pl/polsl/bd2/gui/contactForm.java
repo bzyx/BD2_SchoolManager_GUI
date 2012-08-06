@@ -14,16 +14,6 @@ public class contactForm extends QDialog {
 	Ui_contactForm ui = new Ui_contactForm();
 	// FIXME: remove the mock
 
-	public static void main(String[] args) {
-		QApplication.initialize(args);
-		SpringUtil.setContext("BeanLocations.xml");
-
-		contactForm testcontactForm = new contactForm("");
-		testcontactForm.show();
-		
-
-		QApplication.exec();
-	}
 	private OsobaService osobaService;
 	private ArrayList<String> osoby;
 	private List<Osoba> osobyList;

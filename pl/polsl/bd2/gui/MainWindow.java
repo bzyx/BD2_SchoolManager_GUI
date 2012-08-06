@@ -42,15 +42,7 @@ public class MainWindow extends QMainWindow {
 	private KomunikatService komunikatService;
 	private TrescKomunikatuService trescKomunikatuService;
 	private UczenService uczenService;
-
-	public static void main(String[] args) {
-		QApplication.initialize(args);
-
-		MainWindow testMainWindow = new MainWindow();
-		testMainWindow.show();
-
-		QApplication.exec();
-	}
+	private ContestTypeDialog contestTypeDialog;
 
 	public MainWindow() {
 		ui.setupUi(this);
@@ -108,6 +100,7 @@ public class MainWindow extends QMainWindow {
 		 * Messages tab functions ends here
 		 */
 		this.teacherGui();
+		this.contestGui();
 
 		
 	}
@@ -123,6 +116,11 @@ public class MainWindow extends QMainWindow {
 		for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
 			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
 		}
+	}
+	
+	private void contestGui(){
+		ui.buttonEditContestType.clicked.connect(this, "editContestTypeDialog()");
+		contestTypeDialog = new ContestTypeDialog();
 	}
 	
 	private void dataTab(){
@@ -333,4 +331,17 @@ public class MainWindow extends QMainWindow {
 			ui.listJustifications.reset();
 		}
 	}
+	
+	/*
+	 * Contest tab
+	 */
+	
+	void editContestTypeDialog(){
+		contestTypeDialog.show();
+	}
+	
+	/*
+	 * Contest tab ends here
+	 */
 }
+
