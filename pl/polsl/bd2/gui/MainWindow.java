@@ -16,6 +16,7 @@ import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 import pl.polsl.bd2.models.DetailsDataModel;
+import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.models.AbsenceModel;
@@ -25,7 +26,6 @@ import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.models.UserData;
 //import pl.polsl.bd2.models.PupilModel.Pupil;
-import pl.polsl.bd2.ui.Ui_MainWindow;
 
 public class MainWindow extends QMainWindow {
 

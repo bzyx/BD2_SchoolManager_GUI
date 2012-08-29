@@ -1,4 +1,4 @@
-package pl.polsl.bd2.ui;
+package pl.polsl.bd2.gui.forms;
 
 import com.trolltech.qt.gui.*;
 

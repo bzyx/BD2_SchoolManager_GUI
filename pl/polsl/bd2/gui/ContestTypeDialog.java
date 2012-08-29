@@ -1,6 +1,6 @@
 package pl.polsl.bd2.gui;
 
-import pl.polsl.bd2.ui.Ui_EditContestType;
+import pl.polsl.bd2.gui.forms.Ui_EditContestType;
 
 import com.trolltech.qt.gui.QDialog;
 

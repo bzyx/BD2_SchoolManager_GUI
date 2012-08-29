@@ -1,6 +1,6 @@
 package pl.polsl.bd2.gui;
 
-import pl.polsl.bd2.ui.Ui_loginForm;
+import pl.polsl.bd2.gui.forms.Ui_loginForm;
 
 import com.trolltech.qt.gui.*;
 

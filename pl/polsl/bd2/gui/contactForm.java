@@ -3,10 +3,10 @@ package pl.polsl.bd2.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.polsl.bd2.gui.forms.Ui_contactForm;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
-import pl.polsl.bd2.ui.Ui_contactForm;
 import com.trolltech.qt.gui.*;
 
 public class contactForm extends QDialog {

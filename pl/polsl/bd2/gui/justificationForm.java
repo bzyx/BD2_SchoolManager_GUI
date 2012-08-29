@@ -1,8 +1,8 @@
 package pl.polsl.bd2.gui;
 
+import pl.polsl.bd2.gui.forms.Ui_justificationForm;
 import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
-import pl.polsl.bd2.ui.Ui_justificationForm;
 import com.trolltech.qt.gui.*;
 
 public class justificationForm extends QDialog {
