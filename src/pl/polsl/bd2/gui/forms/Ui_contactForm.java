@@ -1,7 +1,7 @@
 /********************************************************************************
-** Form generated from reading ui file 'contactForm.jui'
+** Form generated from reading ui file 'ContactForm.jui'
 **
-** Created: pon. sie 6 21:15:21 2012
+** Created: Cz 30. sie 21:52:28 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
