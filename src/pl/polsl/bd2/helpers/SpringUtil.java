@@ -31,6 +31,9 @@ public final class SpringUtil {
 		alreadyLoaded.clear();
 		alreadyLoaded.addAll(Arrays.asList(wiringFiles));
 		context = new ClassPathXmlApplicationContext(wiringFiles);
+		System.out.println(context.getBeanDefinitionCount());
+		for (String s: context.getBeanDefinitionNames())
+			System.out.println(s);
 	}
 
 	/**
