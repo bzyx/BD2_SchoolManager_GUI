@@ -33,7 +33,13 @@ public final class DummyDataLoader {
 			"23-06-2012-20:50");
 
 	public static void tryToLoad() {
+		
 		ApplicationContext appContext = SpringUtil.getContext();
+		
+		for ( String s : appContext.getBeanDefinitionNames() ) {
+			System.out.println(s);
+		}
+
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) appContext
 				.getBean("konfiguracjaService");
 		System.out.println(konfiguracjaService);
@@ -197,12 +203,14 @@ public final class DummyDataLoader {
 		AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
 		List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
 		List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
-		absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(0) ,true ,(java.sql.Date) new Date()));
+		
+		//FIXME:  java.lang.ClassCastException: java.util.Date cannot be cast to java.sql.Date
+		/*absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(0) ,true ,(java.sql.Date) new Date()));
 		absencjaService.save(new Absencja(listaUczniow.get(1),listaPrzedmiotow.get(0) ,false ,(java.sql.Date) new Date()));
 		absencjaService.save(new Absencja(listaUczniow.get(2),listaPrzedmiotow.get(0) ,false ,(java.sql.Date) new Date()));
 		absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(1) ,false ,(java.sql.Date) new Date()));
 		absencjaService.save(new Absencja(listaUczniow.get(1),listaPrzedmiotow.get(1) ,true ,(java.sql.Date) new Date()));
-		absencjaService.save(new Absencja(listaUczniow.get(2),listaPrzedmiotow.get(1) ,true ,(java.sql.Date) new Date()));
+		absencjaService.save(new Absencja(listaUczniow.get(2),listaPrzedmiotow.get(1) ,true ,(java.sql.Date) new Date()));*/
 		//TODO: Dlaczego nie można dodać 1 treści komuniaktu do kilku komunikatów/do kilku ludzi/od 1 osoby
 		/*komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(5), trescKomunikatuService.findAll().get(2), null, null));
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(6), trescKomunikatuService.findAll().get(2), null, null));
