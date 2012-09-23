@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.jui'
 **
-** Created: pon. sie 6 21:42:23 2012
+** Created: So 22. wrz 23:43:05 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -104,21 +104,21 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
     public QLabel label_14;
     public QLabel label_15;
     public QLabel label_16;
-    public QLineEdit lineEdit_2;
-    public QLineEdit lineEdit_3;
-    public QLineEdit lineEdit_4;
-    public QLineEdit lineEdit_5;
-    public QLineEdit lineEdit_6;
-    public QLineEdit lineEdit_7;
-    public QLineEdit lineEdit_8;
+    public QLineEdit lineEditNewPupilName;
+    public QLineEdit lineEditNewPupilVorname;
+    public QLineEdit lineEditNewPupilStreet;
+    public QLineEdit lineEditNewPupilCity;
+    public QLineEdit lineEditNewPupilMail;
+    public QLineEdit lineEditNewPupilLogin;
+    public QLineEdit lineEditNewPupilPassword;
     public QSpacerItem verticalSpacer_7;
     public QGroupBox groupBox_2;
     public QVBoxLayout verticalLayout_11;
-    public QLineEdit lineEdit;
+    public QLineEdit lineEditNewClassName;
     public QDialogButtonBox buttonBoxAddClass;
     public QGridLayout gridLayout_7;
     public QPushButton pushButton;
-    public QComboBox comboBox;
+    public QComboBox comboBoxClassAll;
     public QPushButton pushButtonAddPupil;
     public QPushButton pushButtonMovePupil;
     public QSpacerItem horizontalSpacer_2;
@@ -530,6 +530,8 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         sizePolicy3.setVerticalStretch((byte)0);
         sizePolicy3.setHeightForWidth(tableViewPupils.sizePolicy().hasHeightForWidth());
         tableViewPupils.setSizePolicy(sizePolicy3);
+        tableViewPupils.setSelectionMode(com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection);
+        tableViewPupils.setSelectionBehavior(com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows);
 
         gridLayout_5.addWidget(tableViewPupils, 4, 0, 1, 5);
 
@@ -589,40 +591,40 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
 
         gridLayout_6.addWidget(label_16, 6, 0, 1, 1);
 
-        lineEdit_2 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_2.setObjectName("lineEdit_2");
+        lineEditNewPupilName = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilName.setObjectName("lineEditNewPupilName");
 
-        gridLayout_6.addWidget(lineEdit_2, 0, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilName, 0, 1, 1, 1);
 
-        lineEdit_3 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_3.setObjectName("lineEdit_3");
+        lineEditNewPupilVorname = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilVorname.setObjectName("lineEditNewPupilVorname");
 
-        gridLayout_6.addWidget(lineEdit_3, 1, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilVorname, 1, 1, 1, 1);
 
-        lineEdit_4 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_4.setObjectName("lineEdit_4");
+        lineEditNewPupilStreet = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilStreet.setObjectName("lineEditNewPupilStreet");
 
-        gridLayout_6.addWidget(lineEdit_4, 2, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilStreet, 2, 1, 1, 1);
 
-        lineEdit_5 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_5.setObjectName("lineEdit_5");
+        lineEditNewPupilCity = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilCity.setObjectName("lineEditNewPupilCity");
 
-        gridLayout_6.addWidget(lineEdit_5, 3, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilCity, 3, 1, 1, 1);
 
-        lineEdit_6 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_6.setObjectName("lineEdit_6");
+        lineEditNewPupilMail = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilMail.setObjectName("lineEditNewPupilMail");
 
-        gridLayout_6.addWidget(lineEdit_6, 4, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilMail, 4, 1, 1, 1);
 
-        lineEdit_7 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_7.setObjectName("lineEdit_7");
+        lineEditNewPupilLogin = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilLogin.setObjectName("lineEditNewPupilLogin");
 
-        gridLayout_6.addWidget(lineEdit_7, 5, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilLogin, 5, 1, 1, 1);
 
-        lineEdit_8 = new QLineEdit(groupBoxAddPupil);
-        lineEdit_8.setObjectName("lineEdit_8");
+        lineEditNewPupilPassword = new QLineEdit(groupBoxAddPupil);
+        lineEditNewPupilPassword.setObjectName("lineEditNewPupilPassword");
 
-        gridLayout_6.addWidget(lineEdit_8, 6, 1, 1, 1);
+        gridLayout_6.addWidget(lineEditNewPupilPassword, 6, 1, 1, 1);
 
         verticalSpacer_7 = new QSpacerItem(20, 40, com.trolltech.qt.gui.QSizePolicy.Policy.Minimum, com.trolltech.qt.gui.QSizePolicy.Policy.Expanding);
 
@@ -639,10 +641,10 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         groupBox_2.setChecked(false);
         verticalLayout_11 = new QVBoxLayout(groupBox_2);
         verticalLayout_11.setObjectName("verticalLayout_11");
-        lineEdit = new QLineEdit(groupBox_2);
-        lineEdit.setObjectName("lineEdit");
+        lineEditNewClassName = new QLineEdit(groupBox_2);
+        lineEditNewClassName.setObjectName("lineEditNewClassName");
 
-        verticalLayout_11.addWidget(lineEdit);
+        verticalLayout_11.addWidget(lineEditNewClassName);
 
         buttonBoxAddClass = new QDialogButtonBox(groupBox_2);
         buttonBoxAddClass.setObjectName("buttonBoxAddClass");
@@ -667,17 +669,17 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
 
         gridLayout_7.addWidget(pushButton, 0, 0, 1, 1);
 
-        comboBox = new QComboBox(tab_6);
-        comboBox.setObjectName("comboBox");
+        comboBoxClassAll = new QComboBox(tab_6);
+        comboBoxClassAll.setObjectName("comboBoxClassAll");
         QSizePolicy sizePolicy6 = new QSizePolicy(com.trolltech.qt.gui.QSizePolicy.Policy.Minimum, com.trolltech.qt.gui.QSizePolicy.Policy.Fixed);
         sizePolicy6.setHorizontalStretch((byte)0);
         sizePolicy6.setVerticalStretch((byte)0);
-        sizePolicy6.setHeightForWidth(comboBox.sizePolicy().hasHeightForWidth());
-        comboBox.setSizePolicy(sizePolicy6);
-        comboBox.setMinimumSize(new QSize(150, 0));
-        comboBox.setMaximumSize(new QSize(16777215, 16777215));
+        sizePolicy6.setHeightForWidth(comboBoxClassAll.sizePolicy().hasHeightForWidth());
+        comboBoxClassAll.setSizePolicy(sizePolicy6);
+        comboBoxClassAll.setMinimumSize(new QSize(150, 0));
+        comboBoxClassAll.setMaximumSize(new QSize(16777215, 16777215));
 
-        gridLayout_7.addWidget(comboBox, 0, 1, 1, 1);
+        gridLayout_7.addWidget(comboBoxClassAll, 0, 1, 1, 1);
 
         pushButtonAddPupil = new QPushButton(tab_6);
         pushButtonAddPupil.setObjectName("pushButtonAddPupil");
@@ -716,7 +718,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         MainWindow.setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar.setObjectName("menubar");
-        menubar.setGeometry(new QRect(0, 0, 800, 26));
+        menubar.setGeometry(new QRect(0, 0, 800, 21));
         MainWindow.setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar.setObjectName("statusbar");
@@ -724,7 +726,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         QWidget.setTabOrder(comboBoxStudent, tableDetailsData);
         retranslateUi(MainWindow);
 
-        tabWidget.setCurrentIndex(2);
+        tabWidget.setCurrentIndex(5);
 
 
         MainWindow.connectSlotsByName();

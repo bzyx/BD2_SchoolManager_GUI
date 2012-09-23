@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="libs/qtjambi-4.7.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/qtjambi-win32-msvc2008-4.7.1.jar"/>
 	<classpathentry kind="lib" path="/MessageSystem/target/MessageSystem-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-win32-msvc2008-4.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-4.7.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,6 +2,15 @@ package pl.polsl.bd2.models;
 
 import java.util.*;
 
+import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Przedmiot;
+import pl.polsl.bd2.messageSystem.models.Uczen;
+import pl.polsl.bd2.messageSystem.service.KomunikatService;
+import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
+import pl.polsl.bd2.messageSystem.service.UczenService;
+
 import com.trolltech.qt.gui.*;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.core.Qt.ItemFlag;
@@ -12,8 +21,14 @@ public class DataModel extends QAbstractTableModel {
 	private final String[] COLUMNS;
 	private final List<Boolean> selected = new ArrayList<Boolean>();
 	private List<UserData.DataMock> dataContainer;
+	List<Przedmiot> dataContainer2;
+	PrzedmiotService przedmiotService;
+	List<Uczen> listUczen;
+	UczenService uczenService;
 
 	public DataModel() {
+		przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
+		dataContainer2 = new ArrayList<Przedmiot>(przedmiotService.findAll());
 		this.COLUMNS = DataColumnName.valueOf("DataTable").returnColumnName();
 	}
 
@@ -24,24 +39,24 @@ public class DataModel extends QAbstractTableModel {
 
 	@Override
 	public int rowCount(QModelIndex index) {
-		return dataContainer.size();
+		return dataContainer2.size();
 	}
 
 	@Override
 	public Object data(QModelIndex index, int role) {
-
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			switch (index.column()) {
 			case 0:
-				return dataContainer.get(index.row()).getSubject();
+				System.out.println(dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa());
+				return dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa();	
 			case 1:
-				return dataContainer.get(index.row()).getNote();
+				return dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa();
 			case 2:
-				return dataContainer.get(index.row()).getAvg();
+				return dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa();
 			case 3:
-				return dataContainer.get(index.row()).getAbsence();
+				return dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa();
 			case 4:
-				return dataContainer.get(index.row()).getExcusedAbsence();
+				return dataContainer2.get(index.row()).getTypPrzedmiotu().getNazwa();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
@@ -124,9 +139,11 @@ public class DataModel extends QAbstractTableModel {
 		}
 	}
 
-	public void setDataContainer(List<UserData.DataMock> dataContainer) {
+	public void setDataContainer(Uczen uczen, List<UserData.DataMock> dataContainer) {
+		this.dataContainer2 = przedmiotService.findByClass(uczen.getOddzial());
 		this.dataContainer = dataContainer;
-		for(int i = 0; i < dataContainer.size(); i++){
+		System.out.println(this.dataContainer2.size());
+		for(int i = 0; i < dataContainer2.size(); i++){
 			this.selected.add(true);
 		}
 	}

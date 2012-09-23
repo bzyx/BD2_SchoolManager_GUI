@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
+import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Przedmiot;
@@ -20,6 +21,7 @@ import pl.polsl.bd2.messageSystem.service.AbsencjaService;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
+import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
@@ -49,8 +51,8 @@ public final class DummyDataLoader {
 				System.out.println("Wymagana aktualizacja bazy danych.");
 				System.out
 						.println("Ale kod jest zakomentowany. Ponieważ lepiej wcześniej wyczyścić bazę.");
-				// addData();
-				// konfiguracjaService.update("modelDate", modelDateSholdBe);
+				 // addData();
+				 // konfiguracjaService.update("modelDate", modelDateSholdBe);
 			} else {
 				System.out.println("Aktualizacja bazy nie jest wymagana");
 			}
@@ -124,7 +126,7 @@ public final class DummyDataLoader {
 		osobaService.save(new Osoba("Karolina", "Wolna", "Śieniewicza 13",
 				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
 				"karolina", roleService.findByName("Uczen").get(0)));
-
+		System.out.println(roleService.findAll().size());
 		/*
 		 * Dodamy parę treści i komunikatów.
 		 */
@@ -149,12 +151,12 @@ public final class DummyDataLoader {
 		komunikatService.save(new Komunikat(osobaService.findAll().get(3), osobaService.findAll().get(4), trescKomunikatuService.findAll().get(2), null, null));
 		/*
 		 * Dodamy parę oddziałów
+		 * tutaj chyba miała być klasa ;p
 		 */
 		OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 		oddzialService.save(new Oddzial("Automatyki"));
 		oddzialService.save(new Oddzial("Elektroniki"));
 		oddzialService.save(new Oddzial("Informatyki"));
-		
 		/*
 		 * Dodamy parę uczniów
 		 */
@@ -179,7 +181,6 @@ public final class DummyDataLoader {
 		 */
 		NauczycielService nauczycielService = (NauczycielService)SpringUtil.getBean("nauczycielService");
 		List<Osoba> listaOsobNauczycieli = new ArrayList<Osoba>(roleService.findByName("Nauczyciel").get(0).getRole2osoba());
-		System.err.println(listaOsobNauczycieli.toString());
 		for(Osoba nauczyciel: listaOsobNauczycieli){
 			nauczycielService.save(new Nauczyciel(nauczyciel));
 		}
@@ -187,22 +188,41 @@ public final class DummyDataLoader {
 		/*
 		 * Dodamy parę przedmiotow
 		 */
-		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
-		List<TypPrzedmiotu> listaTypPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
-		List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
-		System.err.println(listaNauczycieli);
+		//PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
+		//List<TypPrzedmiotu> listaTypPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
+		//List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
 
-		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
-		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
-		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
-		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
+		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
+		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
+		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
+		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
 		
 		/*
 		 * Dodamy kilka nieobecnosci
 		 */
-		AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
-		List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
-		List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
+		//AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
+		//List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
+		//List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
+		System.out.println(oddzialService.findAll().size());
+		/*
+		 * Dodamy kilka ocen dla uczniów
+		 * bez sensu przedmiot zalezy od nauczyciela, mozna dodac ocene uczniowi za przedmiot ktorego nie ma
+		 * ale narazie to pomine. POWINIEN BYC PIERW ZROBIONY NAUCZYCIEL i ADMINISTRATOR WTEDY BY SIE DODAWALO Z POZIOMU PROGRAMU
+		 * A NIE W TAKI SMIESZNY SPOSOB
+		 */
+		/*OcenaService ocenaService = (OcenaService)SpringUtil.getBean("ocenaService");
+		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(1), 4, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 3, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(1), 2, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(0), 3, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(2), listaPrzedmiotow.get(2), listaNauczycieli.get(1), 4, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(2), listaPrzedmiotow.get(2), listaNauczycieli.get(0), 5, 1, new Date()));
+		ocenaService.save(new Ocena(listaUczniow.get(2), listaPrzedmiotow.get(3), listaNauczycieli.get(1), 4, 1, new Date()));
+*/
+		//List<Ocena> listaOcen = new ArrayList<Ocena>(ocenaService.findBySubject(
+			//	listaPrzedmiotow.get(0), listaUczniow.get(0)));
+		
 		
 		//FIXME:  java.lang.ClassCastException: java.util.Date cannot be cast to java.sql.Date
 		/*absencjaService.save(new Absencja(listaUczniow.get(0),listaPrzedmiotow.get(0) ,true ,(java.sql.Date) new Date()));

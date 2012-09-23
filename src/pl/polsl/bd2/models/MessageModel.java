@@ -141,7 +141,7 @@ public class MessageModel extends QAbstractTableModel {
 		beginRemoveRows(parent, position, position + rows - 1);
 
 		for (int row = 0; row < rows; row++) {
-			komunikatService.delete(messageContainer.get(row));
+			komunikatService.delete(messageContainer.get(position));
 			messageContainer.remove(position);
 		}
 
