@@ -68,8 +68,14 @@ public class contactForm extends QDialog {
 		}
 		
 		String item = QInputDialog.getItem(null, "Wybór osoby", "Wybierz osobę :", osoby);
+		try { 
 		osobaDo = osobyList.get(osoby.indexOf(item));
 		ui.toPerson.setText(item);
+		} catch (ArrayIndexOutOfBoundsException e){
+			QMessageBox.warning(this, "Błąd", "Nie wybrano osoby");
+			osobaDo = null;
+		}
+		
 	}
 	
 	public Osoba getOsobaDo() {

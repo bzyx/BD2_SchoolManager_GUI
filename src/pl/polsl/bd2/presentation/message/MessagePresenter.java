@@ -19,6 +19,7 @@ import pl.polsl.bd2.presentation.BasePresenter;
 
 import com.trolltech.qt.core.QAbstractItemModel;
 import com.trolltech.qt.core.QModelIndex;
+import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QItemSelection;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
@@ -92,8 +93,8 @@ public class MessagePresenter implements BasePresenter {
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
 			final contactForm cF = new contactForm(name, CHOOSE_PERSON);
-			cF.exec();
-			saveMessage(osoba, cF);
+			if (cF.exec() == QDialog.DialogCode.Accepted.value())
+				saveMessage(osoba, cF);
 		}
 	}
 
@@ -120,7 +121,9 @@ public class MessagePresenter implements BasePresenter {
 
 			// Need to cross the values because this is a response to sender
 			contactForm cF = new contactForm(to, from, title);
-			cF.exec();
+			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+			if (cF.exec() == QDialog.DialogCode.Accepted.value())
+				saveMessage(osoba, cF);
 		}
 	}
 
@@ -133,6 +136,7 @@ public class MessagePresenter implements BasePresenter {
 	}
 
 	private void saveMessage(final Osoba osoba, final contactForm cF) {
+		
 		final TrescKomunikatu trescKomunikatu = new TrescKomunikatu(
 				cF.getTekst(), cF.getTemat());
 		trescKomunikatuService.save(trescKomunikatu);

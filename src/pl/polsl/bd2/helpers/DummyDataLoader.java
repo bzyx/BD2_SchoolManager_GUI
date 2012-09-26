@@ -32,13 +32,8 @@ public final class DummyDataLoader {
 		
 		ApplicationContext appContext = SpringUtil.getContext();
 		
-		for ( String s : appContext.getBeanDefinitionNames() ) {
-			System.out.println(s);
-		}
-
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) appContext
 				.getBean("konfiguracjaService");
-		System.out.println(konfiguracjaService);
 		if (konfiguracjaService.keyExists("modelDate")) {
 			if (konfiguracjaService.getValueOrNull("modelDate")
 					.compareToIgnoreCase(modelDateSholdBe) != 0) {
