@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class UserData{
+	//FIXME: A to powinno zniknÄ…Ä‡
+	
 	static public List<UserDataMock> userDataConteiner;
 	{
 		userDataConteiner = new ArrayList<UserDataMock>();
@@ -15,19 +17,19 @@ public class UserData{
 		List<DetailsDataMock> details3 = new ArrayList<DetailsDataMock>();
 		List<DetailsDataMock> details4 = new ArrayList<DetailsDataMock>();
 		details1.add(new DetailsDataMock(new Date(), 3, "sprawdzian", "blazen"));
-		details1.add(new DetailsDataMock(new Date(), 4, "kartkówka", "Bardzo B³azen"));
-		details2.add(new DetailsDataMock(new Date(), 4, "kartkówka", "Bardzo B³azen"));
+		details1.add(new DetailsDataMock(new Date(), 4, "kartkï¿½wka", "Bardzo Bï¿½azen"));
+		details2.add(new DetailsDataMock(new Date(), 4, "kartkï¿½wka", "Bardzo Bï¿½azen"));
 		details2.add(new DetailsDataMock(new Date(), 3, "sprawdzian", "blazen"));
 		details3.add(new DetailsDataMock(new Date(), 6, "sprawdzian", "-"));
 		details3.add(new DetailsDataMock(new Date(), 3, "sprawdzian", "blazen"));
-		details4.add(new DetailsDataMock(new Date(), 4, "kartkówka", "-"));
+		details4.add(new DetailsDataMock(new Date(), 4, "kartkï¿½wka", "-"));
 		details4.add(new DetailsDataMock(new Date(), 6, "sprawdzian", "-"));
 		data1.add(new DataMock("Polski", 3, "4, 5, 6, 2", 4, 3, details1));
 		data1.add(new DataMock("Angielski", 3, "4, 3, 5, 7", 4, 3, details2));
 		data2.add(new DataMock("Niemiecki", 3, "2, 3, 5, 3", 4, 3, details3));
-		data2.add(new DataMock("Chiñski", 3, "6, 4, 2", 4, 3, details4));
+		data2.add(new DataMock("Chiï¿½ski", 3, "6, 4, 2", 4, 3, details4));
 		userDataConteiner.add(new UserDataMock("Adam", data1));
-		userDataConteiner.add(new UserDataMock("Józek", data2));
+		userDataConteiner.add(new UserDataMock("Jï¿½zek", data2));
 	}
 	
 	public List<UserDataMock> getUserDataConteiner() {

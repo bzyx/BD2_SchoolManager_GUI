@@ -6,7 +6,7 @@ import pl.polsl.bd2.models.JustificationModel;
 import com.trolltech.qt.gui.*;
 
 public class JustificationForm extends QDialog {
-
+	//TODO MJ Hmmm nie wiem co to robi ani gdzie jest to użyte
     Ui_justificationForm ui = new Ui_justificationForm();
     JustificationModel model;
     AbsenceModel.Absence.AbsenceMock absence;
@@ -24,7 +24,7 @@ public class JustificationForm extends QDialog {
         ui.setupUi(this);
         this.model = model;
         this.absence = absence;
-        ui.labelDateJustification.setText(absence.getDate().toString());
+        //ui.labelDateJustification.setText(absence.getDate().toString());
         ui.spinBoxHowMuchLection.setMaximum(absence.getHowMuchAbsence());
         ui.spinBoxHowMuchLection.setValue(absence.getHowMuchAbsence());
         ui.buttonBoxJustification.accepted.connect(this, "addJustification()");

@@ -32,6 +32,7 @@ public class MessagePresenter implements BasePresenter {
 	private static final String CHOOSE_PERSON = "wybierz osobę";
 
 	private Ui_MainWindow view;
+	//TODO MJ: Odświerzanie się wiadomości/skrzynki odbiorczej do 5-10 sek
 
 	private KomunikatService komunikatService;
 	private TrescKomunikatuService trescKomunikatuService;

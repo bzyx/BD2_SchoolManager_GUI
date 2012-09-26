@@ -12,7 +12,6 @@ import com.trolltech.qt.gui.*;
 public class contactForm extends QDialog {
 
 	Ui_contactForm ui = new Ui_contactForm();
-	// FIXME: remove the mock
 
 	private OsobaService osobaService;
 	private ArrayList<String> osoby;
@@ -55,10 +54,6 @@ public class contactForm extends QDialog {
 		ui.topic.setEnabled(false);
 		ui.findButton.hide();
 	}
-
-	/*
-	 * public contactForm(QWidget parent) { super(parent); ui.setupUi(this); }
-	 */
 
 	@SuppressWarnings("unused")
 	private void findPressed() {

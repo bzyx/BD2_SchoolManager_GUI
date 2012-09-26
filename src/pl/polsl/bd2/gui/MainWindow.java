@@ -23,6 +23,8 @@ import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
 public class MainWindow extends QMainWindow {
+	//TODO MJ Zakładka z pomocą (QTextEdit chyba ma full HTML ew. przeglądakrkowe okno)
+	//TODO MJ JUstification i absensce
 
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;

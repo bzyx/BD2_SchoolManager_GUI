@@ -3,11 +3,8 @@ package pl.polsl.bd2.models;
 import java.util.*;
 
 import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Uczen;
-import pl.polsl.bd2.messageSystem.service.KomunikatService;
-import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 
@@ -18,6 +15,7 @@ import com.trolltech.qt.core.Qt.ItemFlags;
 import com.trolltech.qt.core.Qt.Orientation;
 
 public class DataModel extends QAbstractTableModel {
+	//TODO MJ Tu pewnie trzeba zajrzec
 	private final String[] COLUMNS;
 	private final List<Boolean> selected = new ArrayList<Boolean>();
 	private List<UserData.DataMock> dataContainer;

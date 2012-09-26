@@ -9,12 +9,13 @@ import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 
 public class JustificationModel extends QAbstractListModel {
+	//TODO MJ Hmmmmm mmmmmm mhmmm
 	private List<String> dataContainer;
 	
 	public JustificationModel(){
 		this.dataContainer = new ArrayList<String>();
 		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\tbo lolek to matolek");
-		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\ti jego pacho³ek te¿");
+		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\ti jego pachoï¿½ek teï¿½");
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class JustificationModel extends QAbstractListModel {
 			this.dataContainer.add(date.toString() + ";\t"
 					+ Integer.toString(lection) + " hour;\t" + motive);
 		} else {
-			this.dataContainer.add(" ta data ju¿ jest");
+			this.dataContainer.add(" ta data juï¿½ jest");
 		}
 		
 	}
