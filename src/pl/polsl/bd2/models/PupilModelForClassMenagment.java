@@ -24,28 +24,20 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 	OsobaService osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
 	int actualClass = 0;
-	List<Osoba> pupilContainer;
 	List<List<Uczen>> pupilContainer2 = new ArrayList<List<Uczen>>();
 	
 	public PupilModelForClassMenagment(){
-		//this.pupilContainer = new ArrayList<Osoba>(this.roleService.findByName("Uczen").get(0).getRole2osoba());
+		
 		List<Oddzial> listClass = new ArrayList<Oddzial>(this.oddzialService.findAll());
-		System.out.println(this.oddzialService.findAll().size());
 		for (Oddzial oddzial: listClass){
 			List<Uczen> listaUczniow = new ArrayList<Uczen>(oddzial.getOddzial2uczen());
-			for( Uczen uczen: listaUczniow){
-				System.out.println(oddzial.getIdOddzial()+ " "+ uczen.getOddzial().getNazwa());
-			}
-			
+		
 			try{
 				this.pupilContainer2.add(listaUczniow);
 			}catch(Exception e){
 				
 			}
 		}
-		// this.pupilContainer2 = new ArrayList<Uczen>(this.oddzialService.f);
-		// this.pupilContainer2.get(0).getOddzial().
-		System.out.println("TAK");
 	}
 	
 	public enum PupilFields {

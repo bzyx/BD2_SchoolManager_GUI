@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Ocena;
+import pl.polsl.bd2.messageSystem.models.Oddzial;
+import pl.polsl.bd2.messageSystem.models.Przedmiot;
+import pl.polsl.bd2.messageSystem.models.Uczen;
+import pl.polsl.bd2.messageSystem.service.OcenaService;
+import pl.polsl.bd2.messageSystem.service.OddzialService;
+import pl.polsl.bd2.messageSystem.service.OsobaService;
+import pl.polsl.bd2.messageSystem.service.UczenService;
+
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.ItemFlag;
@@ -15,9 +25,33 @@ public class PupilModel extends QAbstractTableModel {
 	private final String[] COLUMNS = { tr("Ab."), tr("Name"), tr("Vorname"),
 			tr("Marks"), tr("Avg.") };
 	private List<Pupil.PupilMock> dataContainer;
+	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
+	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
+	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
+	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
 
 	public PupilModel(List<Pupil.PupilMock> pupilMock) {
 		this.dataContainer = pupilMock;
+		int lOddzial = 0;
+		for (Oddzial oddzial: this.oddzialService.findAll()){
+			this.dataContainer2.add(new ArrayList<List<List<Ocena>>>());
+			int lPrzedmiot = 0;
+			for(Przedmiot przedmiot: oddzial.getOddzial2przedmiot()){
+				this.dataContainer2.get(lOddzial).add(new ArrayList<List<Ocena>>());
+				for(Uczen uczen: oddzial.getOddzial2uczen()){
+					List<Ocena> listaOcen = new ArrayList<Ocena>(ocenaService.findBySubject(przedmiot, uczen));
+					try{
+						this.dataContainer2.get(lOddzial).get(lPrzedmiot).add(listaOcen);
+					}catch(Exception e){
+						
+					}
+					System.out.println(Integer.toString(this.dataContainer2.size()));
+				}
+				lPrzedmiot++;
+			}
+			lOddzial++;
+		}
+		
 	}
 
 	@Override
@@ -28,32 +62,49 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public Object data(QModelIndex index, int role) {
+		try{
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			switch (index.column()) {
 			case 0:
-				return dataContainer.get(index.row()).getName();
+				return index.row();
+				//		dataContainer.get(index.row()).getName();
 			case 1:
-				return dataContainer.get(index.row()).getVorname();
+				return this.dataContainer2.get(0).get(0).get(index.row()).get(0).getUczen().getOsoba().getImie();
+				//return dataContainer.get(index.row()).getVorname();
 			case 2:
-				return dataContainer.get(index.row()).getRates();
-			case 3:
-				return dataContainer.get(index.row()).getAvg();
-			case 4:
-				return dataContainer.get(index.row()).getAvg();
+				return this.dataContainer2.get(0).get(0).get(index.row()).get(0).getUczen().getOsoba().getNazwisko();
+				//return dataContainer.get(index.row()).getRates();
+			case 3:{
+				String oceny = new String();
+				for(Ocena ocena: this.dataContainer2.get(0).get(0).get(index.row())){
+					oceny += String.format("%d, ", ocena.getOcena());
+				}
+				return oceny;
+			}
+				//return dataContainer.get(index.row()).getAvg();
+			case 4:{
+				float avg = 0;
+				for(Ocena ocena: this.dataContainer2.get(0).get(0).get(index.row())){
+					avg += ocena.getOcena();
+				}
+				return avg/this.dataContainer2.get(index.row()).get(0).size();
+			}
+			//return dataContainer.get(index.row()).getAvg();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
 			}
 
 		}
-
+		}catch(Exception e){}
 		return null;
+		
 	}
 
 	@Override
 	public int rowCount(QModelIndex arg0) {
 		// TODO Auto-generated method stub
-		return dataContainer.size();
+		return dataContainer2.get(0).get(0).size();
 	}
 
 	@Override
@@ -89,13 +140,13 @@ public class PupilModel extends QAbstractTableModel {
 			pupil1.add(new DetailPupilMock(new Date(), 3, "nudy"));
 			pupil2.add(new DetailPupilMock(new Date(), 3, "nudy2"));
 			pupil2.add(new DetailPupilMock(new Date(), 5, "kotem2"));
-			class1.add(new PupilMock(pupil1, false, "£ukasz", "to æpun :P",
+			class1.add(new PupilMock(pupil1, false, "ï¿½ukasz", "to ï¿½pun :P",
 					"2, 2, 2, 2", "2"));
 			class1.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
 					"5, 5, 5, 5", "5"));
 			class2.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
 					"5, 5, 5, 5", "5"));
-			class2.add(new PupilMock(pupil1, false, "£ukasz", "to æpun :P",
+			class2.add(new PupilMock(pupil1, false, "ï¿½ukasz", "to ï¿½pun :P",
 					"2, 2, 2, 2", "2"));
 			this.classPupil.add(new ClassPupilMock(1, class1));
 			this.classPupil.add(new ClassPupilMock(2, class2));

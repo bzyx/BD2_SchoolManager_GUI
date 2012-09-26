@@ -188,21 +188,21 @@ public final class DummyDataLoader {
 		/*
 		 * Dodamy parę przedmiotow
 		 */
-		//PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
-		//List<TypPrzedmiotu> listaTypPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
-		//List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
+		PrzedmiotService przedmiotService = (PrzedmiotService)SpringUtil.getBean("przedmiotService");
+		List<TypPrzedmiotu> listaTypPrzedmiotow = new ArrayList<TypPrzedmiotu>(typPrzedmiotuService.findAll());
+		List<Nauczyciel> listaNauczycieli = new ArrayList<Nauczyciel>(nauczycielService.findAll());
 
-		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
-		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
-		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
-		//przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(0), listaNauczycieli.get(0), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(1), listaNauczycieli.get(1), listaOddzialow.get(0)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(2), listaNauczycieli.get(2), listaOddzialow.get(1)));
+		przedmiotService.save(new Przedmiot(listaTypPrzedmiotow.get(3), listaNauczycieli.get(3), listaOddzialow.get(1)));
 		
 		/*
 		 * Dodamy kilka nieobecnosci
 		 */
 		//AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
-		//List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
-		//List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
+		List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
+		List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
 		System.out.println(oddzialService.findAll().size());
 		/*
 		 * Dodamy kilka ocen dla uczniów
@@ -210,9 +210,10 @@ public final class DummyDataLoader {
 		 * ale narazie to pomine. POWINIEN BYC PIERW ZROBIONY NAUCZYCIEL i ADMINISTRATOR WTEDY BY SIE DODAWALO Z POZIOMU PROGRAMU
 		 * A NIE W TAKI SMIESZNY SPOSOB
 		 */
-		/*OcenaService ocenaService = (OcenaService)SpringUtil.getBean("ocenaService");
-		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1, new Date()));
-		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(1), 4, 1, new Date()));
+		OcenaService ocenaService = (OcenaService)SpringUtil.getBean("ocenaService");
+		Date date = new Date();
+		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1, date));
+		/*ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 4, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 3, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(1), 2, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(0), 3, 1, new Date()));

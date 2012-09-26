@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.jui'
 **
-** Created: So 22. wrz 23:43:05 2012
+** Created: Pn 24. wrz 00:27:46 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -112,12 +112,12 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
     public QLineEdit lineEditNewPupilLogin;
     public QLineEdit lineEditNewPupilPassword;
     public QSpacerItem verticalSpacer_7;
-    public QGroupBox groupBox_2;
+    public QGroupBox groupBoxAddClass;
     public QVBoxLayout verticalLayout_11;
     public QLineEdit lineEditNewClassName;
     public QDialogButtonBox buttonBoxAddClass;
     public QGridLayout gridLayout_7;
-    public QPushButton pushButton;
+    public QPushButton pushButtonAddClass;
     public QComboBox comboBoxClassAll;
     public QPushButton pushButtonAddPupil;
     public QPushButton pushButtonMovePupil;
@@ -633,41 +633,41 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
 
         gridLayout_5.addWidget(groupBoxAddPupil, 1, 5, 4, 1);
 
-        groupBox_2 = new QGroupBox(tab_6);
-        groupBox_2.setObjectName("groupBox_2");
-        groupBox_2.setEnabled(true);
-        groupBox_2.setFlat(false);
-        groupBox_2.setCheckable(false);
-        groupBox_2.setChecked(false);
-        verticalLayout_11 = new QVBoxLayout(groupBox_2);
+        groupBoxAddClass = new QGroupBox(tab_6);
+        groupBoxAddClass.setObjectName("groupBoxAddClass");
+        groupBoxAddClass.setEnabled(true);
+        groupBoxAddClass.setFlat(false);
+        groupBoxAddClass.setCheckable(false);
+        groupBoxAddClass.setChecked(false);
+        verticalLayout_11 = new QVBoxLayout(groupBoxAddClass);
         verticalLayout_11.setObjectName("verticalLayout_11");
-        lineEditNewClassName = new QLineEdit(groupBox_2);
+        lineEditNewClassName = new QLineEdit(groupBoxAddClass);
         lineEditNewClassName.setObjectName("lineEditNewClassName");
 
         verticalLayout_11.addWidget(lineEditNewClassName);
 
-        buttonBoxAddClass = new QDialogButtonBox(groupBox_2);
+        buttonBoxAddClass = new QDialogButtonBox(groupBoxAddClass);
         buttonBoxAddClass.setObjectName("buttonBoxAddClass");
         buttonBoxAddClass.setStandardButtons(com.trolltech.qt.gui.QDialogButtonBox.StandardButton.createQFlags(com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Cancel,com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok));
 
         verticalLayout_11.addWidget(buttonBoxAddClass);
 
 
-        gridLayout_5.addWidget(groupBox_2, 0, 5, 1, 1);
+        gridLayout_5.addWidget(groupBoxAddClass, 0, 5, 1, 1);
 
         gridLayout_7 = new QGridLayout();
         gridLayout_7.setObjectName("gridLayout_7");
-        pushButton = new QPushButton(tab_6);
-        pushButton.setObjectName("pushButton");
+        pushButtonAddClass = new QPushButton(tab_6);
+        pushButtonAddClass.setObjectName("pushButtonAddClass");
         QSizePolicy sizePolicy5 = new QSizePolicy(com.trolltech.qt.gui.QSizePolicy.Policy.Minimum, com.trolltech.qt.gui.QSizePolicy.Policy.Fixed);
         sizePolicy5.setHorizontalStretch((byte)0);
         sizePolicy5.setVerticalStretch((byte)0);
-        sizePolicy5.setHeightForWidth(pushButton.sizePolicy().hasHeightForWidth());
-        pushButton.setSizePolicy(sizePolicy5);
-        pushButton.setMinimumSize(new QSize(150, 0));
-        pushButton.setMaximumSize(new QSize(16777215, 16777215));
+        sizePolicy5.setHeightForWidth(pushButtonAddClass.sizePolicy().hasHeightForWidth());
+        pushButtonAddClass.setSizePolicy(sizePolicy5);
+        pushButtonAddClass.setMinimumSize(new QSize(150, 0));
+        pushButtonAddClass.setMaximumSize(new QSize(16777215, 16777215));
 
-        gridLayout_7.addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout_7.addWidget(pushButtonAddClass, 0, 0, 1, 1);
 
         comboBoxClassAll = new QComboBox(tab_6);
         comboBoxClassAll.setObjectName("comboBoxClassAll");
@@ -726,7 +726,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         QWidget.setTabOrder(comboBoxStudent, tableDetailsData);
         retranslateUi(MainWindow);
 
-        tabWidget.setCurrentIndex(5);
+        tabWidget.setCurrentIndex(4);
 
 
         MainWindow.connectSlotsByName();
@@ -797,8 +797,8 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         label_14.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Mail: ", null));
         label_15.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Login: ", null));
         label_16.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Password: ", null));
-        groupBox_2.setTitle(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Class name", null));
-        pushButton.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Add class", null));
+        groupBoxAddClass.setTitle(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Class name", null));
+        pushButtonAddClass.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Add class", null));
         pushButtonAddPupil.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Add pupil", null));
         pushButtonMovePupil.setText(com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Move pupil", null));
         tabWidget.setTabText(tabWidget.indexOf(tab_6), com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Class menagment", null));

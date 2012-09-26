@@ -120,13 +120,13 @@ public class MainWindow extends QMainWindow {
 		ui.tableUsers.resizeColumnsToContents();
 		ui.tableUsers.horizontalHeader().setStretchLastSection(true);
 		ui.tableUsers.verticalHeader().hide();
-		ui.tableDetailUsers.setModel(this.tableDetailsDataModel);
-		ui.tableDetailUsers.resizeColumnsToContents();
-		ui.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
-		ui.tableDetailUsers.verticalHeader().hide();
-		for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
+		// ui.tableDetailUsers.setModel(this.tableDetailsDataModel);
+		// ui.tableDetailUsers.resizeColumnsToContents();
+		// ui.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
+		// ui.tableDetailUsers.verticalHeader().hide();
+		/*for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
 			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
-		}
+		}*/
 	}
 	
 	private void contestGui(){
@@ -156,7 +156,17 @@ public class MainWindow extends QMainWindow {
 		
 		ui.comboBoxClassAll.currentIndexChanged.connect(this, "changeClassPupilTable()");
 		ui.pushButtonDeletePupil.clicked.connect(this, "deletePupilClass()");
-
+	
+		//ui.pushButtonAddClass.clicked.connect(this, "hideGroupBox(0)");
+		//ui.pushButtonAddPupil.clicked.connect(this, "hideGroupBox(1)");
+		QSignalMapper hideGroupBoxMapper = new QSignalMapper();
+		hideGroupBoxMapper.setMapping(ui.pushButtonAddClass, 1);
+		hideGroupBoxMapper.setMapping(ui.pushButtonAddPupil, 2);
+		ui.pushButtonAddClass.clicked.connect(
+				hideGroupBoxMapper, "map()");
+		ui.pushButtonAddPupil.clicked.connect(hideGroupBoxMapper, "map()");
+		hideGroupBoxMapper.mappedInteger.connect(this,
+				"hideGroupBox(int)");
 		// ui.comboBoxClassAll.currentIndexChanged.connect(this, "ui.tableViewPupils.reset()");
 	}
 	
@@ -229,6 +239,16 @@ public class MainWindow extends QMainWindow {
 			ui.tableDetailsData.setVisible(true);
 		}
 	}
+	@SuppressWarnings("unused")
+	private void hideGroupBox(int i){
+		if(i == 1){
+			ui.groupBoxAddClass.setVisible(!ui.groupBoxAddClass.isVisible());
+		}
+		else
+		{
+			ui.groupBoxAddPupil.setVisible(!ui.groupBoxAddPupil.isVisible());
+		}
+	}
 	
 	@SuppressWarnings("unused")
 	private void addClass() {
@@ -237,6 +257,7 @@ public class MainWindow extends QMainWindow {
 			oddzialService.save(new Oddzial(ui.lineEditNewClassName.text()));
 			//this.reloadComboBoxClassAll();
 			ui.comboBoxClassAll.addItem(ui.lineEditNewClassName.text());
+			ui.comboBoxClass.addItem(ui.lineEditNewClassName.text());
 			ui.lineEditNewClassName.clear();
 			this.pupilModelForClassMenagment.reContainer();
 			ui.tableViewPupils.reset();
@@ -248,6 +269,7 @@ public class MainWindow extends QMainWindow {
 		OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 		for( Oddzial oddzial: oddzialService.findAll()){
 			ui.comboBoxClassAll.addItem(oddzial.getNazwa());
+			ui.comboBoxClass.addItem(oddzial.getNazwa());
 		}
 		
 	}
