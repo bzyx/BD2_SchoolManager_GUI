@@ -6,25 +6,19 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 
-import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
-import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Osoba;
-import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
 import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
 import pl.polsl.bd2.messageSystem.models.Uczen;
-import pl.polsl.bd2.messageSystem.service.AbsencjaService;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
-import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
-import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
 import pl.polsl.bd2.messageSystem.service.TypPrzedmiotuService;

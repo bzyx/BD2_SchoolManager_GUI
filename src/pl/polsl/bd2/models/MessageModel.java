@@ -2,12 +2,12 @@ package pl.polsl.bd2.models;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import pl.polsl.bd2.enums.MessageFields;
+import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
-import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 
@@ -32,34 +32,20 @@ public class MessageModel extends QAbstractTableModel {
 		messageContainer = new ArrayList<Komunikat>(konfiguracjaService.getLoggedOsoba().getOsobaDo());
 	}
 	
-	public enum MessageFields {
-		UNREAD(0), FROM(1), TIMESTAMP(2), TITLE(3), TO(4), MESSAGETEXT(5);
-
-		private MessageFields(Integer num) {
-			this.num = num;
-		}
-
-		public Integer getNum() {
-			return num;
-		}
-
-		private Integer num;
-	}
-
-	public enum MessageRoles {
-		TO(Qt.ItemDataRole.UserRole + 0), MESSAGETEXT(
-				Qt.ItemDataRole.UserRole + 1);
-
-		private MessageRoles(Integer num) {
-			this.num = num;
-		}
-
-		public Integer getNum() {
-			return num;
-		}
-
-		private Integer num;
-	}
+//	public enum MessageRoles {
+//		TO(Qt.ItemDataRole.UserRole + 0), MESSAGETEXT(
+//				Qt.ItemDataRole.UserRole + 1);
+//
+//		private MessageRoles(Integer num) {
+//			this.num = num;
+//		}
+//
+//		public Integer getNum() {
+//			return num;
+//		}
+//
+//		private Integer num;
+//	}
 
 	@Override
 	public Object headerData(int section, Orientation orientation, int role) {
