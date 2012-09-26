@@ -5,7 +5,7 @@ import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
 import com.trolltech.qt.gui.*;
 
-public class justificationForm extends QDialog {
+public class JustificationForm extends QDialog {
 
     Ui_justificationForm ui = new Ui_justificationForm();
     JustificationModel model;
@@ -20,7 +20,7 @@ public class justificationForm extends QDialog {
         QApplication.exec();
     }
 
-    public justificationForm(MainWindow parrent, AbsenceModel.Absence.AbsenceMock absence, JustificationModel model) {
+    public JustificationForm(MainWindow parrent, AbsenceModel.Absence.AbsenceMock absence, JustificationModel model) {
         ui.setupUi(this);
         this.model = model;
         this.absence = absence;
@@ -31,7 +31,7 @@ public class justificationForm extends QDialog {
         ui.buttonBoxJustification.rejected.connect(this, "close()");
     }
 
-    public justificationForm(QWidget parent) {
+    public JustificationForm(QWidget parent) {
         super(parent);
         ui.setupUi(this);
     }
