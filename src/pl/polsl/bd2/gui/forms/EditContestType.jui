@@ -19,7 +19,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="labelDescription">
          <property name="text">
           <string>Dodaj/Edytuj konkurs:</string>
          </property>
@@ -29,7 +29,7 @@
         <widget class="QLineEdit" name="lineEditCompetiononType"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="buttonZapisz">
          <property name="text">
           <string>Zapisz</string>
          </property>
@@ -40,7 +40,7 @@
     </layout>
    </item>
    <item row="1" column="1" rowspan="2">
-    <widget class="QListView" name="listView"/>
+    <widget class="QListView" name="listKonkursTyp"/>
    </item>
    <item row="4" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
