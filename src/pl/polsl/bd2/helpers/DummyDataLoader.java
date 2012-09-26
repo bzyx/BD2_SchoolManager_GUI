@@ -35,6 +35,7 @@ public final class DummyDataLoader {
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) appContext
 				.getBean("konfiguracjaService");
 		if (konfiguracjaService.keyExists("modelDate")) {
+			System.out.println(konfiguracjaService.getValueOrNull("modelDate"));
 			if (konfiguracjaService.getValueOrNull("modelDate")
 					.compareToIgnoreCase(modelDateSholdBe) != 0) {
 				System.out.println("Wymagana aktualizacja bazy danych.");
@@ -48,8 +49,8 @@ public final class DummyDataLoader {
 
 		} else {
 			System.out.println("Baza danych była pusta - wprowadzam dane");
-			addData();
 			konfiguracjaService.add("modelDate", modelDateSholdBe);
+			addData();
 		}
 
 	}
