@@ -21,11 +21,8 @@ public class ContestPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private ContestTypeDialog contestTypeDialog;
 	private ContestListModel contestListModel;
-	//TODO: MJ Edycja konkursów
 	//TODO: MJ Dodawania nowych stopni wyników konkrusu
-	//TODO: MJ Uwalić to "o konkursie"
 	//TODO: MJ Połączenie ucznia z konkursem (b. ważne)!!
-	//TODO: MJ Edycja istniejących konkursów
 	
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -60,9 +57,6 @@ public class ContestPresenter implements BasePresenter {
 			contestListModel.makeUpdate();
 		}
 		
-
-		//TODO: MJ Uwaga model tworzony razem z oknem (nie aktualizuje danych)
-		//TODO: MJ Obsługa przycisku zapisz i cancel
 	}
 	
 	@SuppressWarnings("unused")		

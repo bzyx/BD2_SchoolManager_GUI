@@ -26,7 +26,6 @@ import com.trolltech.qt.gui.QSortFilterProxyModel;
 /**
  * Handles actions connected to Message Form
  * 
- * @author lizmajlowicz
  */
 public class MessagePresenter implements BasePresenter {
 	private static final String CHOOSE_PERSON = "wybierz osobę";
@@ -96,6 +95,7 @@ public class MessagePresenter implements BasePresenter {
 			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
+		
 		}
 	}
 
@@ -145,6 +145,8 @@ public class MessagePresenter implements BasePresenter {
 		final Komunikat komunikat = new Komunikat(osoba, cF.getOsobaDo(),
 				trescKomunikatu, getCurrentDate(), null);
 		komunikatService.save(komunikat);
+		
+		view.tableMessages.reset();
 	}
 
 	private Date getCurrentDate() {

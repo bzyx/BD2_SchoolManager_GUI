@@ -1,14 +1,16 @@
 package pl.polsl.bd2.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import pl.polsl.bd2.gui.forms.Ui_contactForm;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 
-import com.trolltech.qt.QThread;
 import com.trolltech.qt.gui.*;
 
 public class ContactForm extends QDialog {
@@ -26,17 +28,30 @@ public class ContactForm extends QDialog {
 		ui.buttonBox.rejected.connect(this, "reject()");
 		ui.buttonBox.accepted.connect(this, "accept()");
 
-		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
-		osoby = (ArrayList<String>) new ArrayList<String>();
+		if (osoby == null)
+			osoby = new ArrayList<String>();
 		
-		// Assign `osobyList`
-		getPersons();
+		if (!osoby.isEmpty())
+			osoby.clear();
+		
+		//if (osobyList == null)
+		//	osobyList = new ArrayList<Osoba>();
+		
+		//if (!osobyList.isEmpty())
+		//	osobyList.clear();
+		
+		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
+		osobyList =  new ArrayList<Osoba>(new HashSet<Osoba>(osobaService.findAll()));
+		
+		Collections.sort(osobyList);
+		for (Osoba osoba : osobyList) {
+			System.out.println(osoba.getIdOsoba() +" "+ osoba.getImie() + " " + osoba.getNazwisko() + " ("
+					+ osoba.getRole().getNazwa() + ")");
+			osoby.add(osoba.getImie() + " " + osoba.getNazwisko() + " ("
+					+ osoba.getRole().getNazwa() + ")");
+		}
 	}
-
-	public ContactForm(String from) {
-		contactFormInit();
-	}
-
+		
 	public ContactForm(String from, String to) {
 		contactFormInit();
 
@@ -61,10 +76,6 @@ public class ContactForm extends QDialog {
 
 	@SuppressWarnings("unused")
 	private void findPressed() {
-		for (Osoba osoba : osobyList) {
-			osoby.add(osoba.getImie() + " " + osoba.getNazwisko() + " ("
-					+ osoba.getRole().getNazwa() + ")");
-		}
 
 		String item = QInputDialog.getItem(null, "Wybór osoby",
 				"Wybierz osobę :", osoby);
@@ -88,17 +99,5 @@ public class ContactForm extends QDialog {
 
 	public String getTekst() {
 		return ui.messageText.toPlainText();
-	}
-	
-	private void getPersons() {
-		QThread finderThread = new QThread(new PersonFinder());
-		finderThread.start();
-	}
-	
-	class PersonFinder implements Runnable {
-		@Override
-		public void run() {
-			osobyList = new ArrayList<Osoba>(osobaService.findAll());
-		}
 	}
 }

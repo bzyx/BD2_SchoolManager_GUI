@@ -7,7 +7,6 @@ import pl.polsl.bd2.models.ContestTypeListModel;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.QDialog;
-import com.trolltech.qt.gui.QMessageBox;
 
 public class ContestTypeDialog extends QDialog {
 	
