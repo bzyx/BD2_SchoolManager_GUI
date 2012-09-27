@@ -8,7 +8,12 @@ import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Konkurs;
+import pl.polsl.bd2.messageSystem.models.Nauczyciel;
+import pl.polsl.bd2.messageSystem.models.UczestnikKonkursu;
+import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.KonkursService;
+import pl.polsl.bd2.messageSystem.service.NauczycielService;
+import pl.polsl.bd2.messageSystem.service.UczestnikKonkursuService;
 import pl.polsl.bd2.models.ContestListModel;
 import pl.polsl.bd2.presentation.BasePresenter;
 
@@ -22,6 +27,7 @@ public class ContestPresenter implements BasePresenter {
 	private ContestTypeDialog contestTypeDialog;
 	private ContestListModel contestListModel;
 	private ContestParticipantDialog competitionParticipantDialog;
+	private UczestnikKonkursuService uczestnikKonkursuService;
 	//TODO: MJ Dodawania nowych stopni wyników konkrusu
 	//TODO: MJ Połączenie ucznia z konkursem (b. ważne)!!
 	
@@ -96,6 +102,17 @@ public class ContestPresenter implements BasePresenter {
 	}
 	
 	public void addContestParticipant(){
-		competitionParticipantDialog.exec();
+		KonfiguracjaService  konfiguracjaService = (KonfiguracjaService) SpringUtil.getBean("konfiguracjaService");// .getLoggedOsoba();
+		
+		NauczycielService nauczycielService = (NauczycielService) SpringUtil.getBean("nauczycielService");
+		Nauczyciel nauczyciel = nauczycielService.findById(konfiguracjaService.getLoggedOsoba().getIdOsoba());
+		if (competitionParticipantDialog.exec()  == QDialog.DialogCode.Accepted.value()){
+			uczestnikKonkursuService = (UczestnikKonkursuService) SpringUtil.getBean("uczestnikKonkursuService");
+			
+			uczestnikKonkursuService.save(new UczestnikKonkursu(competitionParticipantDialog.getUczen(),
+					nauczyciel, competitionParticipantDialog.getKonkurs(), 
+					competitionParticipantDialog.getWynikKonkursu(),
+					competitionParticipantDialog.getDodatkoweInformacje() ) );
+		}
 	}
 }
