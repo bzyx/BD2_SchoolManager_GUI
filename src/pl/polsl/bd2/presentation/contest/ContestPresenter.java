@@ -1,23 +1,26 @@
 package pl.polsl.bd2.presentation.contest;
 
+import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QMessageBox;
 
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
+import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Konkurs;
 import pl.polsl.bd2.messageSystem.service.KonkursService;
+import pl.polsl.bd2.models.ContestListModel;
 import pl.polsl.bd2.presentation.BasePresenter;
 
 public class ContestPresenter implements BasePresenter {
 	private interface ContestSlots {
 		final static String SHOW_ADD_CONTEST = "showAddDialog()";
-		final static String ADD_NEW_CONTEST = "addNewContest()";
+		final static String SHOW_EDIT_CONTEST = "editContest()";
 	}
 
 	private Ui_MainWindow view;
 	private ContestTypeDialog contestTypeDialog;
-	//TODO: MJ Dodanie dodawania nowychh typów konkursów
+	private ContestListModel contestListModel;
 	//TODO: MJ Edycja konkursów
 	//TODO: MJ Dodawania nowych stopni wyników konkrusu
 	//TODO: MJ Uwalić to "o konkursie"
@@ -26,12 +29,16 @@ public class ContestPresenter implements BasePresenter {
 	
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
+		contestListModel = new ContestListModel();
+		
+		view.listContest.setModel(contestListModel);
 	}
 
 	@Override
 	public void connectSlots() {
 		view.buttonRegisterContest.clicked
 				.connect(this, ContestSlots.SHOW_ADD_CONTEST);
+		view.buttonEditContestType.clicked.connect(this, ContestSlots.SHOW_EDIT_CONTEST);
 	}
 
 	@SuppressWarnings("unused")
@@ -39,6 +46,7 @@ public class ContestPresenter implements BasePresenter {
 		if (contestTypeDialog == null) {
 			contestTypeDialog = new ContestTypeDialog();
 		}
+		contestTypeDialog.setAddMode(true);
 		
 		if (contestTypeDialog.exec() == QDialog.DialogCode.Accepted.value()){
 			String nazwaKonkursu = contestTypeDialog.getNazwaKonkursu().trim();
@@ -49,12 +57,44 @@ public class ContestPresenter implements BasePresenter {
 			}
 			KonkursService konkursService = (KonkursService) SpringUtil.getBean("konkursService");
 			konkursService.save(new Konkurs(contestTypeDialog.getTypKonkursu(), nazwaKonkursu));
-			
+			contestListModel.makeUpdate();
 		}
 		
-		
-		//konkursService.save(new Konkurs(arg0, arg1))
+
 		//TODO: MJ Uwaga model tworzony razem z oknem (nie aktualizuje danych)
 		//TODO: MJ Obsługa przycisku zapisz i cancel
+	}
+	
+	@SuppressWarnings("unused")		
+	private void editContest(){
+		if (contestTypeDialog == null) {
+			contestTypeDialog = new ContestTypeDialog();
+		}
+		
+		if (!Helpers.indexIsValid(view.listContest.currentIndex())){
+			QMessageBox.warning(null, "Błąd", "Należy wybrać konkurs do edycji.");
+			return;
+		}
+		contestTypeDialog.setAddMode(false);
+		Konkurs konkurs = (Konkurs) contestListModel.data(view.listContest.currentIndex(), ItemDataRole.UserRole);
+		
+		contestTypeDialog.setNazwaKonkursu(konkurs.getNazwa());
+		contestTypeDialog.setTypKonkursu(konkurs.getTypKonkursu());
+		
+		if (contestTypeDialog.exec() == QDialog.DialogCode.Accepted.value()){
+			String nazwaKonkursu = contestTypeDialog.getNazwaKonkursu().trim();
+			
+			if (nazwaKonkursu.isEmpty()){
+				QMessageBox.warning(null, "Błąd", "Należy podać nazwę konkrusu");
+				return;
+			}
+			KonkursService konkursService = (KonkursService) SpringUtil.getBean("konkursService");
+			
+			konkurs.setNazwa(nazwaKonkursu);
+			konkurs.setTypKonkursu(contestTypeDialog.getTypKonkursu());
+			
+			konkursService.edit(konkurs);
+			contestListModel.makeUpdate();
+		}
 	}
 }

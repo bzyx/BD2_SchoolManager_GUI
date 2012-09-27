@@ -393,6 +393,13 @@ QTableView::item {
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="buttonEditContestType">
+              <property name="text">
+               <string>Edytuj typy konkursu</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_3">
               <property name="orientation">
                <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
@@ -406,11 +413,38 @@ QTableView::item {
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="buttonEditContestType">
+             <widget class="QPushButton" name="buttonAddContestParticipant">
               <property name="text">
-               <string>Edytuj typy konkursu</string>
+               <string>Dodaj uczestnika</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonEditConestParticipant">
+              <property name="text">
+               <string>Edytuj uczestnika</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonRemoveConestParticipant">
+              <property name="text">
+               <string>Usuń uczestnika</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -437,12 +471,12 @@ QTableView::item {
           <item>
            <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>O konkursie</string>
+             <string>Uczestnicy konkursu:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEditAbouContest"/>
+           <widget class="QTableView" name="contestTable"/>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4"/>
@@ -886,6 +920,22 @@ QTableView::item {
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Pomoc</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QWebView" name="webView">
+          <property name="url">
+           <url>
+            <string>about:blank</string>
+           </url>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -902,6 +952,13 @@ QTableView::item {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends></extends>
+   <header>com.trolltech.qt.webkit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>comboBoxStudent</tabstop>
   <tabstop>tableDetailsData</tabstop>

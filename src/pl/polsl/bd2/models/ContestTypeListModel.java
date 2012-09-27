@@ -12,10 +12,10 @@ import com.trolltech.qt.core.QAbstractListModel;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 
-public class ContestTypeModel extends QAbstractListModel {
+public class ContestTypeListModel extends QAbstractListModel {
 	
 
-	public ContestTypeModel() {
+	public ContestTypeListModel() {
 		typKonkursuService = (TypKonkursuService) SpringUtil.getBean("typKonkursuService");
 		container = new ArrayList<TypKonkursu>();
 		container = typKonkursuService.findAll();

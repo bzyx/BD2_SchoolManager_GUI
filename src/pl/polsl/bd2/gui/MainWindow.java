@@ -19,6 +19,7 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 
 import com.trolltech.qt.core.QModelIndex;
+import com.trolltech.qt.core.QUrl;
 import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
@@ -46,7 +47,9 @@ public class MainWindow extends QMainWindow {
 				.getBean("konfiguracjaService");
 		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
-
+		
+		ui.webView.setUrl(new QUrl("classpath:/pl/polsl/bd2/help.html"));
+		
 		initTabs();
 	}
 
