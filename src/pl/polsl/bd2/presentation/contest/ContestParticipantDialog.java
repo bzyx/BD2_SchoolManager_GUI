@@ -1,6 +1,7 @@
 package pl.polsl.bd2.presentation.contest;
 
 import pl.polsl.bd2.gui.forms.Ui_CompetitionParticipant;
+import pl.polsl.bd2.models.ContestResultListModel;
 import pl.polsl.bd2.models.ContestTypeListModel;
 
 import com.trolltech.qt.gui.*;
@@ -13,6 +14,7 @@ public class ContestParticipantDialog extends QDialog {
         ui.setupUi(this);
         
         //ui.comboStudentList.setModel()
+        ui.comboBoxCompetitionList.setModel(new ContestResultListModel());
         ui.comboBoxResultList.setModel(new ContestTypeListModel());
     } 
     
