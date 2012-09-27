@@ -22,13 +22,14 @@ public class ContestPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private ContestTypeDialog contestTypeDialog;
 	private ContestListModel contestListModel;
-	private CompetitionParticipantDialog competitionParticipant;
+	private ContestParticipantDialog competitionParticipantDialog;
 	//TODO: MJ Dodawania nowych stopni wyników konkrusu
 	//TODO: MJ Połączenie ucznia z konkursem (b. ważne)!!
 	
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
 		contestListModel = new ContestListModel();
+		competitionParticipantDialog = new ContestParticipantDialog();
 		
 		view.listContest.setModel(contestListModel);
 	}
@@ -96,6 +97,6 @@ public class ContestPresenter implements BasePresenter {
 	}
 	
 	public void addContestParticipant(){
-		
+		competitionParticipantDialog.exec();
 	}
 }
