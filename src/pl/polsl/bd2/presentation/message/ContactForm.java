@@ -1,12 +1,11 @@
-package pl.polsl.bd2.gui;
+package pl.polsl.bd2.presentation.message;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import pl.polsl.bd2.gui.forms.Ui_contactForm;
+import pl.polsl.bd2.gui.forms.Ui_SendMessageDialog;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
@@ -15,7 +14,7 @@ import com.trolltech.qt.gui.*;
 
 public class ContactForm extends QDialog {
 
-	Ui_contactForm ui = new Ui_contactForm();
+	Ui_SendMessageDialog ui = new Ui_SendMessageDialog();
 
 	private OsobaService osobaService;
 	private ArrayList<String> osoby;
@@ -45,8 +44,10 @@ public class ContactForm extends QDialog {
 		
 		Collections.sort(osobyList);
 		for (Osoba osoba : osobyList) {
-			System.out.println(osoba.getIdOsoba() +" "+ osoba.getImie() + " " + osoba.getNazwisko() + " ("
-					+ osoba.getRole().getNazwa() + ")");
+			/*MJ Gdbyby znów osoby w wiaodmośiach pojawiły się podwójnie.
+			 * Odkomentować i sprawdzić.
+			 * System.out.println(osoba.getIdOsoba() +" "+ osoba.getImie() + " " + osoba.getNazwisko() + " ("
+					+ osoba.getRole().getNazwa() + ")");*/
 			osoby.add(osoba.getImie() + " " + osoba.getNazwisko() + " ("
 					+ osoba.getRole().getNazwa() + ")");
 		}

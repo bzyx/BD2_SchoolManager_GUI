@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0" language="jambi">
- <class>EditContestType</class>
- <widget class="QDialog" name="EditContestType">
+ <class>ContestTypeDialog</class>
+ <widget class="QDialog" name="ContestTypeDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

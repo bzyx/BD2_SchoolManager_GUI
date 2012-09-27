@@ -1,12 +1,12 @@
 package pl.polsl.bd2.gui;
 
-import pl.polsl.bd2.gui.forms.Ui_loginForm;
+import pl.polsl.bd2.gui.forms.Ui_LoginDialog;
 
 import com.trolltech.qt.gui.*;
 
 public class loginForm extends QWidget {
 
-    Ui_loginForm ui = new Ui_loginForm();
+    Ui_LoginDialog ui = new Ui_LoginDialog();
 
     public static void main(String[] args) {
         QApplication.initialize(args);

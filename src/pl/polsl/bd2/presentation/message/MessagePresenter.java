@@ -4,7 +4,6 @@ import java.util.Date;
 
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
-import pl.polsl.bd2.gui.ContactForm;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -36,6 +35,7 @@ public class MessagePresenter implements BasePresenter {
 	private KomunikatService komunikatService;
 	private TrescKomunikatuService trescKomunikatuService;
 	private KonfiguracjaService konfiguracjaService;
+	private MessageModel messageModel;
 
 	public MessagePresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -59,7 +59,7 @@ public class MessagePresenter implements BasePresenter {
 	}
 
 	public void initModel() {
-		final MessageModel messageModel = new MessageModel();
+		messageModel = new MessageModel();
 		QSortFilterProxyModel messageModelSortable = new QSortFilterProxyModel();
 		messageModelSortable.setSourceModel(messageModel);
 
@@ -93,8 +93,11 @@ public class MessagePresenter implements BasePresenter {
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
 			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
-			if (cF.exec() == QDialog.DialogCode.Accepted.value())
+			if (cF.exec() == QDialog.DialogCode.Accepted.value()){
 				saveMessage(osoba, cF);
+				messageModel.refreshModel();
+				//view.tableMessages.reset();
+			}
 		
 		}
 	}
@@ -125,6 +128,8 @@ public class MessagePresenter implements BasePresenter {
 			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
+				messageModel.refreshModel();
+				//view.tableMessages.reset();
 		}
 	}
 
@@ -146,7 +151,6 @@ public class MessagePresenter implements BasePresenter {
 				trescKomunikatu, getCurrentDate(), null);
 		komunikatService.save(komunikat);
 		
-		view.tableMessages.reset();
 	}
 
 	private Date getCurrentDate() {
@@ -193,6 +197,8 @@ public class MessagePresenter implements BasePresenter {
 			view.buttonDeleteMessage.setEnabled(false);
 			view.buttonMarkAsRead.setEnabled(false);
 		}
+		
+		messageModel.refreshModel();
 	}
 
 }

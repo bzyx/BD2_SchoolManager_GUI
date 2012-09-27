@@ -1,13 +1,15 @@
-package pl.polsl.bd2.gui;
+package pl.polsl.bd2.presentation.absence;
 
-import pl.polsl.bd2.gui.forms.Ui_justificationForm;
+
+import pl.polsl.bd2.gui.MainWindow;
+import pl.polsl.bd2.gui.forms.Ui_JustificationDialog;
 import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.JustificationModel;
 import com.trolltech.qt.gui.*;
 
 public class JustificationForm extends QDialog {
 	//TODO MJ Hmmm nie wiem co to robi ani gdzie jest to użyte
-    Ui_justificationForm ui = new Ui_justificationForm();
+    Ui_JustificationDialog ui = new Ui_JustificationDialog();
     JustificationModel model;
     AbsenceModel.Absence.AbsenceMock absence;
 

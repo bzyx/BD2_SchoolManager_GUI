@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0" language="jambi">
- <class>justificationForm</class>
- <widget class="QWidget" name="justificationForm">
+ <class>JustificationDialog</class>
+ <widget class="QWidget" name="JustificationDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

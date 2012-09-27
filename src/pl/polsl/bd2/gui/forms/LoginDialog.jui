@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0" language="jambi">
- <class>loginForm</class>
- <widget class="QWidget" name="loginForm">
+ <class>LoginDialog</class>
+ <widget class="QWidget" name="LoginDialog">
   <property name="windowModality">
    <enum>com.trolltech.qt.core.Qt.WindowModality.ApplicationModal</enum>
   </property>

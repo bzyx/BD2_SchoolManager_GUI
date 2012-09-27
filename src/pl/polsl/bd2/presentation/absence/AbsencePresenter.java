@@ -2,7 +2,6 @@ package pl.polsl.bd2.presentation.absence;
 
 import com.trolltech.qt.core.QModelIndex;
 
-import pl.polsl.bd2.gui.JustificationForm;
 import pl.polsl.bd2.gui.MainWindow;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.models.AbsenceModel;
