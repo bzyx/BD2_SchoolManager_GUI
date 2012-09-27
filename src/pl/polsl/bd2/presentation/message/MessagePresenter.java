@@ -4,7 +4,7 @@ import java.util.Date;
 
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
-import pl.polsl.bd2.gui.contactForm;
+import pl.polsl.bd2.gui.ContactForm;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -93,7 +93,7 @@ public class MessagePresenter implements BasePresenter {
 		final Osoba osoba = konfiguracjaService.getLoggedOsoba();
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
-			final contactForm cF = new contactForm(name, CHOOSE_PERSON);
+			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
 		}
@@ -121,7 +121,7 @@ public class MessagePresenter implements BasePresenter {
 			title = "Re: " + title;
 
 			// Need to cross the values because this is a response to sender
-			contactForm cF = new contactForm(to, from, title);
+			ContactForm cF = new ContactForm(to, from, title);
 			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
@@ -136,7 +136,7 @@ public class MessagePresenter implements BasePresenter {
 		return view.tableMessages.model();
 	}
 
-	private void saveMessage(final Osoba osoba, final contactForm cF) {
+	private void saveMessage(final Osoba osoba, final ContactForm cF) {
 		
 		final TrescKomunikatu trescKomunikatu = new TrescKomunikatu(
 				cF.getTekst(), cF.getTemat());
