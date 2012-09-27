@@ -4,8 +4,8 @@ import java.util.Date;
 
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
-import pl.polsl.bd2.gui.ContactForm;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
+import pl.polsl.bd2.gui.forms.Ui_contactForm;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
@@ -137,8 +137,6 @@ public class MessagePresenter implements BasePresenter {
 	}
 
 	private void saveMessage(final Osoba osoba, final ContactForm cF) {
-		
->>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 		final TrescKomunikatu trescKomunikatu = new TrescKomunikatu(
 				cF.getTekst(), cF.getTemat());
 		trescKomunikatuService.save(trescKomunikatu);

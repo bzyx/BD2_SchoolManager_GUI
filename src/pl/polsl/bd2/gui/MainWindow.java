@@ -19,11 +19,8 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 
 import com.trolltech.qt.core.QModelIndex;
-<<<<<<< HEAD
 import com.trolltech.qt.core.QSignalMapper;
-=======
 import com.trolltech.qt.core.QUrl;
->>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 

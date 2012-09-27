@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'EditContestType.jui'
 **
-** Created: Cz 27. wrz 17:09:43 2012
+** Created: Cz 27. wrz 17:29:24 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
