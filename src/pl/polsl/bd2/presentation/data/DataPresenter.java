@@ -11,6 +11,7 @@ import pl.polsl.bd2.models.UserData;
 import pl.polsl.bd2.presentation.BasePresenter;
 
 import com.trolltech.qt.core.QSignalMapper;
+import com.trolltech.qt.core.Qt.ItemDataRole;
 
 public class DataPresenter implements BasePresenter {
 
@@ -116,6 +117,8 @@ public class DataPresenter implements BasePresenter {
 	private void changedDataSubject(int i){
 		//Zmiana przedmiotu
 		System.out.println(i);
+		
+		System.out.println(subjectListModel.data(subjectListModel.index(i, 0), ItemDataRole.UserRole));
 	}
 
 }
