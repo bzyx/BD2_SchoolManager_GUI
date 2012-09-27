@@ -22,7 +22,6 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public int columnCount(QModelIndex arg0) {
-		// TODO Auto-generated method stub
 		return COLUMNS.length;
 	}
 
@@ -52,7 +51,6 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public int rowCount(QModelIndex arg0) {
-		// TODO Auto-generated method stub
 		return dataContainer.size();
 	}
 
@@ -89,13 +87,13 @@ public class PupilModel extends QAbstractTableModel {
 			pupil1.add(new DetailPupilMock(new Date(), 3, "nudy"));
 			pupil2.add(new DetailPupilMock(new Date(), 3, "nudy2"));
 			pupil2.add(new DetailPupilMock(new Date(), 5, "kotem2"));
-			class1.add(new PupilMock(pupil1, false, "£ukasz", "to æpun :P",
+			class1.add(new PupilMock(pupil1, false, "ï¿½ukasz", "to ï¿½pun :P",
 					"2, 2, 2, 2", "2"));
 			class1.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
 					"5, 5, 5, 5", "5"));
 			class2.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
 					"5, 5, 5, 5", "5"));
-			class2.add(new PupilMock(pupil1, false, "£ukasz", "to æpun :P",
+			class2.add(new PupilMock(pupil1, false, "ï¿½ukasz", "to ï¿½pun :P",
 					"2, 2, 2, 2", "2"));
 			this.classPupil.add(new ClassPupilMock(1, class1));
 			this.classPupil.add(new ClassPupilMock(2, class2));

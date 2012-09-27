@@ -6,6 +6,7 @@ import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 import pl.polsl.bd2.models.DataModel;
 import pl.polsl.bd2.models.DetailsDataModel;
+import pl.polsl.bd2.models.SubjectListModel;
 import pl.polsl.bd2.models.UserData;
 import pl.polsl.bd2.presentation.BasePresenter;
 
@@ -18,6 +19,7 @@ public class DataPresenter implements BasePresenter {
 	private DetailsDataModel tableDetailsDataModel;
 	private UserData userData;
 	private UczenService uczenService;
+	private SubjectListModel subjectListModel;
 
 	public DataPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -27,6 +29,7 @@ public class DataPresenter implements BasePresenter {
 		userData = new UserData();
 		tableDataModel = new DataModel();
 		tableDetailsDataModel = new DetailsDataModel();
+		subjectListModel = new SubjectListModel();
 	}
 
 	@Override
@@ -35,6 +38,8 @@ public class DataPresenter implements BasePresenter {
 		mapperToogleTableDetailsData
 				.setMapping(view.buttonToogleDetailsData, 1);
 		mapperToogleTableDetailsData.setMapping(view.tableData, 2);
+		
+		view.comboBoxSubject.setModel(subjectListModel);
 
 		view.buttonToogleDetailsData.clicked.connect(
 				mapperToogleTableDetailsData, "map()");
@@ -45,6 +50,7 @@ public class DataPresenter implements BasePresenter {
 				DataSlots.CHANGE_DATA_DETAILS);
 		view.comboBoxStudent.currentIndexChanged.connect(this,
 				DataSlots.CHANGE_USER_WITH_DATA);
+		view.comboBoxSubject.currentIndexChanged.connect(this, DataSlots.CHANGE_SUBJECT);
 	}
 
 	public void initModel() {
@@ -104,6 +110,12 @@ public class DataPresenter implements BasePresenter {
 				.get(0).getSubject());
 		view.tableDetailsData.setVisible(false);
 		view.tableData.selectRow(0);
+	}
+	
+	@SuppressWarnings("unused")
+	private void changedDataSubject(int i){
+		//Zmiana przedmiotu
+		System.out.println(i);
 	}
 
 }

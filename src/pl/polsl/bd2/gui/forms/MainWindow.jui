@@ -30,11 +30,11 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Date</string>
+        <string>Podgląd ucznia</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="2" column="0" colspan="3">
@@ -98,7 +98,7 @@ QTableView::item {
           <item>
            <widget class="QLabel" name="labelNameStudent">
             <property name="text">
-             <string>Name:</string>
+             <string>Imię:</string>
             </property>
            </widget>
           </item>
@@ -112,7 +112,7 @@ QTableView::item {
           <item>
            <widget class="QLabel" name="labelSurnameStudent">
             <property name="text">
-             <string>Surname:</string>
+             <string>Nazwisko:</string>
             </property>
            </widget>
           </item>
@@ -126,7 +126,7 @@ QTableView::item {
           <item>
            <widget class="QLabel" name="labelClassStudent">
             <property name="text">
-             <string>Class:</string>
+             <string>Klasa:</string>
             </property>
            </widget>
           </item>
@@ -142,27 +142,24 @@ QTableView::item {
         <item row="1" column="2">
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Student:</string>
+             <string>Uczeńt:</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QComboBox" name="comboBoxStudent"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Przedmiot:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxSubject"/>
           </item>
           <item>
            <spacer name="verticalSpacer_4">
@@ -218,7 +215,7 @@ QTableView::item {
              <number>0</number>
             </property>
             <property name="text">
-             <string>Subject</string>
+             <string>Nazwa_Przedmiotu</string>
             </property>
             <property name="alignment">
              <set>com.trolltech.qt.core.Qt.AlignmentFlag.AlignCenter</set>
@@ -228,7 +225,7 @@ QTableView::item {
           <item>
            <widget class="QPushButton" name="buttonToogleDetailsData">
             <property name="text">
-             <string>Toogle details</string>
+             <string>Pokaż szczegółowe informacje</string>
             </property>
            </widget>
           </item>
