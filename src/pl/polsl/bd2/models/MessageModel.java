@@ -20,8 +20,6 @@ import com.trolltech.qt.gui.QAbstractTableModel;
  * MessageModel Class
  * Author: Marcin Jabrzyk
  * 
- * TODO:
- * 4) Messages are shown for current user
  */
 
 public class MessageModel extends QAbstractTableModel {

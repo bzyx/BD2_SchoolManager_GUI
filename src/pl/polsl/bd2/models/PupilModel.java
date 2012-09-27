@@ -65,7 +65,6 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public int columnCount(QModelIndex arg0) {
-		// TODO Auto-generated method stub
 		return COLUMNS.length;
 	}
 

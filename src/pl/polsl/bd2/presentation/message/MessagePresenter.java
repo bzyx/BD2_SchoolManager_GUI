@@ -4,7 +4,7 @@ import java.util.Date;
 
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
-import pl.polsl.bd2.gui.contactForm;
+import pl.polsl.bd2.gui.ContactForm;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -19,6 +19,7 @@ import pl.polsl.bd2.presentation.BasePresenter;
 
 import com.trolltech.qt.core.QAbstractItemModel;
 import com.trolltech.qt.core.QModelIndex;
+import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QItemSelection;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
@@ -31,6 +32,7 @@ public class MessagePresenter implements BasePresenter {
 	private static final String CHOOSE_PERSON = "wybierz osobę";
 
 	private Ui_MainWindow view;
+	//TODO MJ: Odświerzanie się wiadomości/skrzynki odbiorczej do 5-10 sek
 
 	private KomunikatService komunikatService;
 	private TrescKomunikatuService trescKomunikatuService;
@@ -91,9 +93,9 @@ public class MessagePresenter implements BasePresenter {
 		final Osoba osoba = konfiguracjaService.getLoggedOsoba();
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
-			final contactForm cF = new contactForm(name, CHOOSE_PERSON);
-			cF.exec();
-			saveMessage(osoba, cF);
+			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
+			if (cF.exec() == QDialog.DialogCode.Accepted.value())
+				saveMessage(osoba, cF);
 		}
 	}
 
@@ -119,8 +121,10 @@ public class MessagePresenter implements BasePresenter {
 			title = "Re: " + title;
 
 			// Need to cross the values because this is a response to sender
-			contactForm cF = new contactForm(to, from, title);
-			cF.exec();
+			ContactForm cF = new ContactForm(to, from, title);
+			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+			if (cF.exec() == QDialog.DialogCode.Accepted.value())
+				saveMessage(osoba, cF);
 		}
 	}
 
@@ -132,7 +136,9 @@ public class MessagePresenter implements BasePresenter {
 		return view.tableMessages.model();
 	}
 
-	private void saveMessage(final Osoba osoba, final contactForm cF) {
+	private void saveMessage(final Osoba osoba, final ContactForm cF) {
+		
+>>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 		final TrescKomunikatu trescKomunikatu = new TrescKomunikatu(
 				cF.getTekst(), cF.getTemat());
 		trescKomunikatuService.save(trescKomunikatu);

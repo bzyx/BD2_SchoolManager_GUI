@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'JustificationForm.jui'
 **
-** Created: Wt 25. wrz 23:34:11 2012
+** Created: Cz 27. wrz 17:09:43 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -16,13 +16,12 @@ public class Ui_justificationForm implements com.trolltech.qt.QUiForm<QWidget>
 {
     public QGridLayout gridLayout;
     public QLabel label;
+    public QDateEdit dateEdit;
     public QLabel label_2;
     public QSpinBox spinBoxHowMuchLection;
     public QLabel label_3;
     public QPlainTextEdit plainTextEditJustification;
     public QDialogButtonBox buttonBoxJustification;
-    public QSpacerItem horizontalSpacer;
-    public QLabel labelDateJustification;
 
     public Ui_justificationForm() { super(); }
 
@@ -45,6 +44,11 @@ public class Ui_justificationForm implements com.trolltech.qt.QUiForm<QWidget>
 
         gridLayout.addWidget(label, 0, 0, 1, 1);
 
+        dateEdit = new QDateEdit(justificationForm);
+        dateEdit.setObjectName("dateEdit");
+
+        gridLayout.addWidget(dateEdit, 0, 1, 1, 1);
+
         label_2 = new QLabel(justificationForm);
         label_2.setObjectName("label_2");
         QSizePolicy sizePolicy1 = new QSizePolicy(com.trolltech.qt.gui.QSizePolicy.Policy.Maximum, com.trolltech.qt.gui.QSizePolicy.Policy.Preferred);
@@ -61,7 +65,7 @@ public class Ui_justificationForm implements com.trolltech.qt.QUiForm<QWidget>
         spinBoxHowMuchLection = new QSpinBox(justificationForm);
         spinBoxHowMuchLection.setObjectName("spinBoxHowMuchLection");
 
-        gridLayout.addWidget(spinBoxHowMuchLection, 1, 2, 1, 1);
+        gridLayout.addWidget(spinBoxHowMuchLection, 1, 1, 1, 1);
 
         label_3 = new QLabel(justificationForm);
         label_3.setObjectName("label_3");
@@ -74,27 +78,18 @@ public class Ui_justificationForm implements com.trolltech.qt.QUiForm<QWidget>
         font2.setPointSize(12);
         label_3.setFont(font2);
 
-        gridLayout.addWidget(label_3, 2, 0, 1, 3);
+        gridLayout.addWidget(label_3, 2, 0, 1, 1);
 
         plainTextEditJustification = new QPlainTextEdit(justificationForm);
         plainTextEditJustification.setObjectName("plainTextEditJustification");
 
-        gridLayout.addWidget(plainTextEditJustification, 3, 0, 1, 3);
+        gridLayout.addWidget(plainTextEditJustification, 3, 0, 1, 2);
 
         buttonBoxJustification = new QDialogButtonBox(justificationForm);
         buttonBoxJustification.setObjectName("buttonBoxJustification");
         buttonBoxJustification.setStandardButtons(com.trolltech.qt.gui.QDialogButtonBox.StandardButton.createQFlags(com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Cancel,com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok));
 
-        gridLayout.addWidget(buttonBoxJustification, 4, 2, 1, 1);
-
-        horizontalSpacer = new QSpacerItem(40, 20, com.trolltech.qt.gui.QSizePolicy.Policy.Expanding, com.trolltech.qt.gui.QSizePolicy.Policy.Minimum);
-
-        gridLayout.addItem(horizontalSpacer, 0, 1, 1, 1);
-
-        labelDateJustification = new QLabel(justificationForm);
-        labelDateJustification.setObjectName("labelDateJustification");
-
-        gridLayout.addWidget(labelDateJustification, 0, 2, 1, 1);
+        gridLayout.addWidget(buttonBoxJustification, 4, 1, 1, 1);
 
         retranslateUi(justificationForm);
 
@@ -107,7 +102,6 @@ public class Ui_justificationForm implements com.trolltech.qt.QUiForm<QWidget>
         label.setText(com.trolltech.qt.core.QCoreApplication.translate("justificationForm", "Date: ", null));
         label_2.setText(com.trolltech.qt.core.QCoreApplication.translate("justificationForm", "How much lection: ", null));
         label_3.setText(com.trolltech.qt.core.QCoreApplication.translate("justificationForm", "Motive: ", null));
-        labelDateJustification.setText(com.trolltech.qt.core.QCoreApplication.translate("justificationForm", "TextLabel", null));
     } // retranslateUi
 
 }

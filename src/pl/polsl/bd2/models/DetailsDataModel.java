@@ -14,6 +14,7 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class DetailsDataModel extends QAbstractTableModel {
+	//TODO MJ Jak w Data/trzeba przejrzeć
 	
 	private final String[] COLUMNS;
 	private final List<Boolean> selected = new ArrayList<Boolean>();

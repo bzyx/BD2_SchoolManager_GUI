@@ -14,8 +14,10 @@ import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
+import pl.polsl.bd2.messageSystem.models.TypKonkursu;
 import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
 import pl.polsl.bd2.messageSystem.models.Uczen;
+import pl.polsl.bd2.messageSystem.models.WynikKonkursu;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
@@ -25,8 +27,10 @@ import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
+import pl.polsl.bd2.messageSystem.service.TypKonkursuService;
 import pl.polsl.bd2.messageSystem.service.TypPrzedmiotuService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
+import pl.polsl.bd2.messageSystem.service.WynikKonkursuService;
 
 public final class DummyDataLoader {
 	private static final String modelDateSholdBe = new String(
@@ -36,14 +40,10 @@ public final class DummyDataLoader {
 		
 		ApplicationContext appContext = SpringUtil.getContext();
 		
-		for ( String s : appContext.getBeanDefinitionNames() ) {
-			System.out.println(s);
-		}
-
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) appContext
 				.getBean("konfiguracjaService");
-		System.out.println(konfiguracjaService);
 		if (konfiguracjaService.keyExists("modelDate")) {
+			System.out.println(konfiguracjaService.getValueOrNull("modelDate"));
 			if (konfiguracjaService.getValueOrNull("modelDate")
 					.compareToIgnoreCase(modelDateSholdBe) != 0) {
 				System.out.println("Wymagana aktualizacja bazy danych.");
@@ -53,12 +53,14 @@ public final class DummyDataLoader {
 				 // konfiguracjaService.update("modelDate", modelDateSholdBe);
 			} else {
 				System.out.println("Aktualizacja bazy nie jest wymagana");
+				
+				
 			}
 
 		} else {
 			System.out.println("Baza danych była pusta - wprowadzam dane");
-			addData();
 			konfiguracjaService.add("modelDate", modelDateSholdBe);
+			addData();
 		}
 
 	}
@@ -182,6 +184,32 @@ public final class DummyDataLoader {
 		for(Osoba nauczyciel: listaOsobNauczycieli){
 			nauczycielService.save(new Nauczyciel(nauczyciel));
 		}
+		
+		/*
+		 * Dodajemy typy konkursów
+		 */
+		
+		TypKonkursuService  typKonkursuService = (TypKonkursuService)SpringUtil
+				.getBean("typKonkursuService");
+		typKonkursuService.save(new TypKonkursu("Konkurs szkolny"));
+		typKonkursuService.save(new TypKonkursu("Konkurs regionalny"));
+		typKonkursuService.save(new TypKonkursu("Konkurs wojewódzki"));
+		typKonkursuService.save(new TypKonkursu("Konkurs ogólnokrajowy"));
+		typKonkursuService.save(new TypKonkursu("Konkurs olimpiada przedmiotowa"));
+		typKonkursuService.save(new TypKonkursu("Konkurs międzynarodowy"));
+		
+		/*
+		 * Dodajemy typów wyników konkursu
+		 */
+		
+		WynikKonkursuService wynikKonkursuService = (WynikKonkursuService)SpringUtil
+				.getBean("wynikKonkursuService");
+		wynikKonkursuService.save(new WynikKonkursu("I miejsce", "Główna nagroda w konkursie, laureat."));
+		wynikKonkursuService.save(new WynikKonkursu("II miejsce", "Druga nagroda"));
+		wynikKonkursuService.save(new WynikKonkursu("III miejsce", "Trzecia nagroda"));
+		wynikKonkursuService.save(new WynikKonkursu("Finalista", "Osoba będąca w finale konkrsu."));
+		wynikKonkursuService.save(new WynikKonkursu("Nagroda pocieszenia", "Specjalna nagroda dla uczestnika."));
+		wynikKonkursuService.save(new WynikKonkursu("Uczestnik", "Osoba biorąca udział w konkursie."));
 		
 		/*
 		 * Dodamy parę przedmiotow

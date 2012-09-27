@@ -19,12 +19,20 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 
 import com.trolltech.qt.core.QModelIndex;
+<<<<<<< HEAD
 import com.trolltech.qt.core.QSignalMapper;
+=======
+import com.trolltech.qt.core.QUrl;
+>>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
 public class MainWindow extends QMainWindow {
-	
+
+	//TODO MJ Zakładka z pomocą (QTextEdit chyba ma full HTML ew. przeglądakrkowe okno)
+	//TODO MJ JUstification i absensce
+
+
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
@@ -44,7 +52,9 @@ public class MainWindow extends QMainWindow {
 				.getBean("konfiguracjaService");
 		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
-
+		
+		ui.webView.setUrl(new QUrl("classpath:/pl/polsl/bd2/help.html"));
+		
 		initTabs();
 	}
 
