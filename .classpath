@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/MessageSystem/target/MessageSystem-jar-with-dependencies.jar"/>
+=======
+	<classpathentry kind="lib" path="/MessageSystem/target/MessageSystem-jar-with-dependencies.jar" sourcepath="/MessageSystem"/>
+	<classpathentry kind="lib" path="C:/lib/qtjambi-4.7.1/qtjambi-win32-msvc2008-4.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/lib/qtjambi-4.7.1/qtjambi-4.7.1.jar"/>
+>>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-4.7.1.jar"/>
 	<classpathentry kind="lib" path="C:/qtjambi-4.7.1/qtjambi-win32-msvc2008-4.7.1.jar"/>

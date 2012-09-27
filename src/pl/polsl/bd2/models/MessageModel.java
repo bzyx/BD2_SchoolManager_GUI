@@ -16,6 +16,7 @@ import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
+
 /*
  * MessageModel Class
  * Author: Marcin Jabrzyk
@@ -131,6 +132,11 @@ public class MessageModel extends QAbstractTableModel {
 
 		endRemoveRows();
 		return true;
+	}
+	
+	public void refreshModel(){
+		messageContainer.clear();
+		messageContainer =  new ArrayList<Komunikat>(konfiguracjaService.getLoggedOsoba().getOsobaDo());
 	}
 
 	List<Komunikat> messageContainer;

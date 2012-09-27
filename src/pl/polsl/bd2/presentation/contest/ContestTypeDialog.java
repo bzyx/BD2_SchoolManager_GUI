@@ -1,21 +1,20 @@
 package pl.polsl.bd2.presentation.contest;
 
-import pl.polsl.bd2.gui.forms.Ui_EditContestType;
+import pl.polsl.bd2.gui.forms.Ui_ContestTypeDialog;
 import pl.polsl.bd2.messageSystem.models.TypKonkursu;
 import pl.polsl.bd2.models.ContestTypeListModel;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.QDialog;
-import com.trolltech.qt.gui.QMessageBox;
 
 public class ContestTypeDialog extends QDialog {
 	
-	Ui_EditContestType ui;
+	Ui_ContestTypeDialog ui;
 	ContestTypeListModel contestTypeModel;
 	
 	public ContestTypeDialog() {
-		ui = new Ui_EditContestType();
+		ui = new Ui_ContestTypeDialog();
 		ui.setupUi(this);
 		this.setWindowTitle("Dodawanie konkursu.");
 		

@@ -12,6 +12,7 @@ import pl.polsl.bd2.messageSystem.service.KonkursService;
 import pl.polsl.bd2.models.ContestListModel;
 import pl.polsl.bd2.presentation.BasePresenter;
 
+
 public class ContestPresenter implements BasePresenter {
 	private interface ContestSlots {
 		final static String SHOW_ADD_CONTEST = "showAddDialog()";
@@ -21,11 +22,9 @@ public class ContestPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private ContestTypeDialog contestTypeDialog;
 	private ContestListModel contestListModel;
-	//TODO: MJ Edycja konkursów
+	private CompetitionParticipantDialog competitionParticipant;
 	//TODO: MJ Dodawania nowych stopni wyników konkrusu
-	//TODO: MJ Uwalić to "o konkursie"
 	//TODO: MJ Połączenie ucznia z konkursem (b. ważne)!!
-	//TODO: MJ Edycja istniejących konkursów
 	
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -39,6 +38,7 @@ public class ContestPresenter implements BasePresenter {
 		view.buttonRegisterContest.clicked
 				.connect(this, ContestSlots.SHOW_ADD_CONTEST);
 		view.buttonEditContestType.clicked.connect(this, ContestSlots.SHOW_EDIT_CONTEST);
+		view.buttonAddContestParticipant.clicked.connect(this, "addContestParticipant()");
 	}
 
 	@SuppressWarnings("unused")
@@ -60,9 +60,6 @@ public class ContestPresenter implements BasePresenter {
 			contestListModel.makeUpdate();
 		}
 		
-
-		//TODO: MJ Uwaga model tworzony razem z oknem (nie aktualizuje danych)
-		//TODO: MJ Obsługa przycisku zapisz i cancel
 	}
 	
 	@SuppressWarnings("unused")		
@@ -96,5 +93,9 @@ public class ContestPresenter implements BasePresenter {
 			konkursService.edit(konkurs);
 			contestListModel.makeUpdate();
 		}
+	}
+	
+	public void addContestParticipant(){
+		
 	}
 }
