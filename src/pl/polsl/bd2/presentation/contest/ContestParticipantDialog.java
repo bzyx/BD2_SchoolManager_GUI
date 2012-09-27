@@ -6,9 +6,9 @@ import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.models.WynikKonkursu;
 import pl.polsl.bd2.models.ContestListModel;
 import pl.polsl.bd2.models.ContestResultListModel;
-import pl.polsl.bd2.models.ContestTypeListModel;
 import pl.polsl.bd2.models.StudentListModel;
 
+import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.*;
 
@@ -23,7 +23,16 @@ public class ContestParticipantDialog extends QDialog {
 	}
 
 	public void setUczen(Uczen uczen) {
-		this.uczen = uczen;
+	QModelIndex tmpIndex = studentListModel.index(0, 0);
+		
+		for (int i = 0; i < studentListModel.rowCount(); i++ ){
+			if ( studentListModel.data(tmpIndex).equals(String.format("%s %s", uczen.getOsoba().getImie(),uczen.getOsoba().getNazwisko()))){
+				ui.comboStudentList.setCurrentIndex(tmpIndex.row());
+				break;
+			}
+			
+			tmpIndex = studentListModel.index(i, 0);
+		}
 	}
 
 	public Konkurs getKonkurs() {
@@ -33,7 +42,16 @@ public class ContestParticipantDialog extends QDialog {
 	}
 
 	public void setKonkurs(Konkurs konkurs) {
-		this.konkurs = konkurs;
+	QModelIndex tmpIndex = contestListModel.index(0, 0);
+		
+		for (int i = 0; i < contestListModel.rowCount(); i++ ){
+			if ( contestListModel.data(tmpIndex).equals(String.format("%s ( %s )", konkurs.getNazwa(), konkurs.getTypKonkursu().getNazwa()))){
+				ui.comboBoxCompetitionList.setCurrentIndex(tmpIndex.row());
+				break;
+			}
+			
+			tmpIndex = contestListModel.index(i, 0);
+		}
 	}
 
 	public WynikKonkursu getWynikKonkursu() {
@@ -43,7 +61,16 @@ public class ContestParticipantDialog extends QDialog {
 	}
 
 	public void setWynikKonkursu(WynikKonkursu wynikKonkursu) {
-		this.wynikKonkursu = wynikKonkursu;
+		QModelIndex tmpIndex = contestResultListModel.index(0, 0);
+		
+		for (int i = 0; i < contestResultListModel.rowCount(); i++ ){
+			if ( contestResultListModel.data(tmpIndex).equals(wynikKonkursu.getWynik())){
+				ui.comboBoxCompetitionList.setCurrentIndex(tmpIndex.row());
+				break;
+			}
+			
+			tmpIndex = contestResultListModel.index(i, 0);
+		}
 	}
 
 	public String getDodatkoweInformacje() {
@@ -51,20 +78,23 @@ public class ContestParticipantDialog extends QDialog {
 	}
 
 	public void setDodatkoweInformacje(String dodatkoweInformacje) {
-		this.dodatkoweInformacje = dodatkoweInformacje;
+		 ui.textAdditionalInfo.setText(dodatkoweInformacje);
 	}
 
-	private Uczen uczen;
-	private Konkurs konkurs;
-	private WynikKonkursu wynikKonkursu;
-	private String dodatkoweInformacje;
+	private StudentListModel studentListModel;
+	private ContestListModel contestListModel;
+	private ContestResultListModel contestResultListModel;
 
 	public ContestParticipantDialog() {
 		ui.setupUi(this);
-
-		ui.comboStudentList.setModel(new StudentListModel());
-		ui.comboBoxCompetitionList.setModel(new ContestListModel());
-		ui.comboBoxResultList.setModel(new ContestResultListModel());
+		studentListModel = new StudentListModel();
+		contestListModel = new ContestListModel();
+		contestResultListModel = new ContestResultListModel();
+		
+		
+		ui.comboStudentList.setModel(studentListModel);
+		ui.comboBoxCompetitionList.setModel(contestListModel);
+		ui.comboBoxResultList.setModel(contestResultListModel);
 		
 		ui.buttonBox.accepted.connect(this, "accept()");
 		ui.buttonBox.rejected.connect(this, "reject()");
