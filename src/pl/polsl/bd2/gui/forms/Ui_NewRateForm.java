@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'NewRateForm.jui'
 **
-** Created: Cz 27. wrz 01:29:28 2012
+** Created: Cz 27. wrz 17:55:52 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
