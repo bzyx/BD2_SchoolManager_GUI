@@ -8,8 +8,10 @@ import org.springframework.context.ApplicationContext;
 
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
+import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Role;
 import pl.polsl.bd2.messageSystem.models.TrescKomunikatu;
 import pl.polsl.bd2.messageSystem.models.TypPrzedmiotu;
@@ -17,8 +19,10 @@ import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
+import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
+import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.TrescKomunikatuService;
 import pl.polsl.bd2.messageSystem.service.TypPrzedmiotuService;
@@ -206,7 +210,7 @@ public final class DummyDataLoader {
 		 */
 		OcenaService ocenaService = (OcenaService)SpringUtil.getBean("ocenaService");
 		Date date = new Date();
-		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1, date));
+		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1.0f , date));
 		/*ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 4, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 3, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(1), 2, 1, new Date()));

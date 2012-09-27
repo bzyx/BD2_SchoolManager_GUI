@@ -1,12 +1,10 @@
 package pl.polsl.bd2.models;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
-import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
@@ -19,25 +17,14 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class PupilModelForClassMenagment extends QAbstractTableModel {
-	RoleService roleService = (RoleService) SpringUtil.getBean("roleService");
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OsobaService osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
 	int actualClass = 0;
-	List<List<Uczen>> pupilContainer2 = new ArrayList<List<Uczen>>();
+	List<List<Uczen>> pupilContainer = new ArrayList<List<Uczen>>();
 	
-	public PupilModelForClassMenagment(){
-		
-		List<Oddzial> listClass = new ArrayList<Oddzial>(this.oddzialService.findAll());
-		for (Oddzial oddzial: listClass){
-			List<Uczen> listaUczniow = new ArrayList<Uczen>(oddzial.getOddzial2uczen());
-		
-			try{
-				this.pupilContainer2.add(listaUczniow);
-			}catch(Exception e){
-				
-			}
-		}
+	public PupilModelForClassMenagment(){		
+		this.reContainer();
 	}
 	
 	public enum PupilFields {
@@ -70,10 +57,10 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 	}
 	
 	public void reContainer(){
-		this.pupilContainer2.clear();	
+		this.pupilContainer.clear();	
 		for (Oddzial oddzial: this.oddzialService.findAll()){			
 			try{
-				this.pupilContainer2.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
+				this.pupilContainer.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
 			}catch(Exception e){				
 			}
 		}
@@ -118,17 +105,17 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			if (col == PupilFields.NAME.getNum())
-				return this.pupilContainer2.get(this.actualClass).get(row).getOsoba().getImie();
+				return this.pupilContainer.get(this.actualClass).get(row).getOsoba().getImie();
 			if (col == PupilFields.VORNAME.getNum())
-				return pupilContainer2.get(this.actualClass).get(row).getOsoba().getNazwisko();
+				return pupilContainer.get(this.actualClass).get(row).getOsoba().getNazwisko();
 			if (col == PupilFields.STREET.getNum())
-				return pupilContainer2.get(this.actualClass).get(row).getOsoba().getUlica();
+				return pupilContainer.get(this.actualClass).get(row).getOsoba().getUlica();
 			if (col == PupilFields.CITY.getNum())
-				return pupilContainer2.get(this.actualClass).get(row).getOsoba().getMiasto();
+				return pupilContainer.get(this.actualClass).get(row).getOsoba().getMiasto();
 			if (col == PupilFields.MAIL.getNum())
-				return pupilContainer2.get(this.actualClass).get(row).getOsoba().getMail();
+				return pupilContainer.get(this.actualClass).get(row).getOsoba().getMail();
 			if (col == PupilFields.LOGIN.getNum())
-				return pupilContainer2.get(this.actualClass).get(row).getOsoba().getLogin();
+				return pupilContainer.get(this.actualClass).get(row).getOsoba().getLogin();
 			//TODO: dodac mail itp.
 		}
 /*
@@ -148,7 +135,7 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 
 	@Override
 	public int rowCount(QModelIndex index) {
-		return pupilContainer2.get(this.actualClass).size();
+		return pupilContainer.get(this.actualClass).size();
 	}
 
 	@Override
@@ -172,19 +159,14 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 		beginRemoveRows(parent, position, position + rows - 1);
 		Uczen uczen;
 		for (int row = 0; row < rows; row++) {
-			uczen = pupilContainer2.get(this.actualClass).get(position);
+			uczen = pupilContainer.get(this.actualClass).get(position);
 			uczenService.delete(uczen);
 			osobaService.delete(uczen.getOsoba());
-			pupilContainer2.get(this.actualClass).remove(position);
+			pupilContainer.get(this.actualClass).remove(position);
 		}
 
 		endRemoveRows();
 		return true;
 	}
-	/*
-	@Override
-	public boolean removeRow(){
-		
-	}*/
 
 }

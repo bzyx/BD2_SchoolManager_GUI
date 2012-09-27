@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.jui'
 **
-** Created: Pn 24. wrz 00:27:46 2012
+** Created: Cz 27. wrz 01:23:55 2012
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -463,7 +463,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         tableUsers.setSelectionMode(com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection);
         tableUsers.setSelectionBehavior(com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows);
 
-        gridLayout_4.addWidget(tableUsers, 0, 0, 6, 1);
+        gridLayout_4.addWidget(tableUsers, 0, 0, 7, 1);
 
         comboBoxObject = new QComboBox(tab_5);
         comboBoxObject.setObjectName("comboBoxObject");
@@ -483,37 +483,37 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         pushButtonAddNote = new QPushButton(tab_5);
         pushButtonAddNote.setObjectName("pushButtonAddNote");
 
-        gridLayout_4.addWidget(pushButtonAddNote, 3, 1, 1, 1);
+        gridLayout_4.addWidget(pushButtonAddNote, 4, 1, 1, 1);
 
         verticalSpacer_5 = new QSpacerItem(20, 40, com.trolltech.qt.gui.QSizePolicy.Policy.Minimum, com.trolltech.qt.gui.QSizePolicy.Policy.Expanding);
 
-        gridLayout_4.addItem(verticalSpacer_5, 5, 1, 1, 1);
+        gridLayout_4.addItem(verticalSpacer_5, 6, 1, 1, 1);
 
         tableDetailUsers = new QTableView(tab_5);
         tableDetailUsers.setObjectName("tableDetailUsers");
         tableDetailUsers.setSelectionMode(com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection);
         tableDetailUsers.setSelectionBehavior(com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows);
 
-        gridLayout_4.addWidget(tableDetailUsers, 6, 0, 3, 1);
+        gridLayout_4.addWidget(tableDetailUsers, 7, 0, 3, 1);
 
         pushButtonEditRate = new QPushButton(tab_5);
         pushButtonEditRate.setObjectName("pushButtonEditRate");
 
-        gridLayout_4.addWidget(pushButtonEditRate, 6, 1, 1, 1);
+        gridLayout_4.addWidget(pushButtonEditRate, 7, 1, 1, 1);
 
         verticalSpacer_6 = new QSpacerItem(20, 40, com.trolltech.qt.gui.QSizePolicy.Policy.Minimum, com.trolltech.qt.gui.QSizePolicy.Policy.Expanding);
 
-        gridLayout_4.addItem(verticalSpacer_6, 8, 1, 1, 1);
+        gridLayout_4.addItem(verticalSpacer_6, 9, 1, 1, 1);
 
         pushButtonJustify = new QPushButton(tab_5);
         pushButtonJustify.setObjectName("pushButtonJustify");
 
-        gridLayout_4.addWidget(pushButtonJustify, 7, 1, 1, 1);
+        gridLayout_4.addWidget(pushButtonJustify, 8, 1, 1, 1);
 
         pushButtonSave = new QPushButton(tab_5);
         pushButtonSave.setObjectName("pushButtonSave");
 
-        gridLayout_4.addWidget(pushButtonSave, 4, 1, 1, 1);
+        gridLayout_4.addWidget(pushButtonSave, 5, 1, 1, 1);
 
         tabWidget.addTab(tab_5, com.trolltech.qt.core.QCoreApplication.translate("MainWindow", "Pupils", null));
         tab_6 = new QWidget();
@@ -718,7 +718,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         MainWindow.setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar.setObjectName("menubar");
-        menubar.setGeometry(new QRect(0, 0, 800, 21));
+        menubar.setGeometry(new QRect(0, 0, 800, 22));
         MainWindow.setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar.setObjectName("statusbar");

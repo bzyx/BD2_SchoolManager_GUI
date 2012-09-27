@@ -26,16 +26,20 @@ public class PupilModel extends QAbstractTableModel {
 			tr("Marks"), tr("Avg.") };
 	private List<Pupil.PupilMock> dataContainer;
 	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
+	private List<List<Przedmiot>> przedmiotWithOddzial = new ArrayList<List<Przedmiot>>();
+	private List<List<Uczen>> uczenWithOddzial = new ArrayList<List<Uczen>>();
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
+	int currentClass = 0;
 
-	public PupilModel(List<Pupil.PupilMock> pupilMock) {
-		this.dataContainer = pupilMock;
+	public PupilModel() {
 		int lOddzial = 0;
 		for (Oddzial oddzial: this.oddzialService.findAll()){
 			this.dataContainer2.add(new ArrayList<List<List<Ocena>>>());
 			int lPrzedmiot = 0;
+			this.przedmiotWithOddzial.add(new ArrayList<Przedmiot>(oddzial.getOddzial2przedmiot()));
+			this.uczenWithOddzial.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
 			for(Przedmiot przedmiot: oddzial.getOddzial2przedmiot()){
 				this.dataContainer2.get(lOddzial).add(new ArrayList<List<Ocena>>());
 				for(Uczen uczen: oddzial.getOddzial2uczen()){
@@ -53,6 +57,11 @@ public class PupilModel extends QAbstractTableModel {
 		}
 		
 	}
+	
+	public void changeClass(int newClass){
+		this.currentClass = newClass;
+		this.layoutChanged.emit();
+	}
 
 	@Override
 	public int columnCount(QModelIndex arg0) {
@@ -62,41 +71,38 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public Object data(QModelIndex index, int role) {
-		try{
 		if (role == Qt.ItemDataRole.DisplayRole) {
+			try{
 			switch (index.column()) {
 			case 0:
 				return index.row();
-				//		dataContainer.get(index.row()).getName();
 			case 1:
-				return this.dataContainer2.get(0).get(0).get(index.row()).get(0).getUczen().getOsoba().getImie();
-				//return dataContainer.get(index.row()).getVorname();
+				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getImie();
 			case 2:
-				return this.dataContainer2.get(0).get(0).get(index.row()).get(0).getUczen().getOsoba().getNazwisko();
-				//return dataContainer.get(index.row()).getRates();
+				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
 			case 3:{
 				String oceny = new String();
-				for(Ocena ocena: this.dataContainer2.get(0).get(0).get(index.row())){
+				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
 					oceny += String.format("%d, ", ocena.getOcena());
 				}
 				return oceny;
 			}
-				//return dataContainer.get(index.row()).getAvg();
 			case 4:{
 				float avg = 0;
-				for(Ocena ocena: this.dataContainer2.get(0).get(0).get(index.row())){
-					avg += ocena.getOcena();
+				float waga =0;
+				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
+					avg += ocena.getOcena()*ocena.getWaga();
+					waga += ocena.getWaga();
 				}
-				return avg/this.dataContainer2.get(index.row()).get(0).size();
+				return avg/waga;
 			}
-			//return dataContainer.get(index.row()).getAvg();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
 			}
+			}catch(IndexOutOfBoundsException e){}
 
 		}
-		}catch(Exception e){}
 		return null;
 		
 	}
@@ -104,7 +110,11 @@ public class PupilModel extends QAbstractTableModel {
 	@Override
 	public int rowCount(QModelIndex arg0) {
 		// TODO Auto-generated method stub
-		return dataContainer2.get(0).get(0).size();
+		try{
+			return dataContainer2.get(this.currentClass).get(0).size();
+		}catch(IndexOutOfBoundsException e){
+			return 0;
+		}
 	}
 
 	@Override

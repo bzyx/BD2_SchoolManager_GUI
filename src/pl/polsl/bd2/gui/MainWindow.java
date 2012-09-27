@@ -24,19 +24,18 @@ import com.trolltech.qt.gui.QMainWindow;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
 public class MainWindow extends QMainWindow {
-
+	
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
 	private DataPresenter dataPresenter;
-
-	Ui_MainWindow ui = new Ui_MainWindow();
-	private PupilModel.Pupil pupilMock = new PupilModel.Pupil();
-	private PupilModel pupilModel = new PupilModel(this.pupilMock
-			.getClassPupil().get(0).getPuil());
+	
+	private PupilModel pupilModel;
 	private KonfiguracjaService konfiguracjaService;
 	private OsobaService osobaService;
 	private PupilModelForClassMenagment pupilModelForClassMenagment;
+	
+	Ui_MainWindow ui = new Ui_MainWindow();
 
 	public MainWindow() {
 		ui.setupUi(this);
@@ -92,10 +91,15 @@ public class MainWindow extends QMainWindow {
 	}
 
 	private void teacherGui() {
+		this.pupilModel = new PupilModel();
 		ui.tableUsers.setModel(this.pupilModel);
 		ui.tableUsers.resizeColumnsToContents();
 		ui.tableUsers.horizontalHeader().setStretchLastSection(true);
 		ui.tableUsers.verticalHeader().hide();
+		
+		ui.comboBoxClass.currentIndexChanged.connect(this,
+				"changeClassPupilTable()");
+		ui.pushButtonAddRate.clicked.connect(this, "addRate()");
 		// ui.tableDetailUsers.setModel(this.tableDetailsDataModel);
 		// ui.tableDetailUsers.resizeColumnsToContents();
 		// ui.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
@@ -126,7 +130,7 @@ public class MainWindow extends QMainWindow {
 		ui.buttonBoxAddPupil.rejected.connect(this, "clearFieldsPupil()");
 
 		ui.comboBoxClassAll.currentIndexChanged.connect(this,
-				"changeClassPupilTable()");
+				"changeClassAllPupilTable()");
 		ui.pushButtonDeletePupil.clicked.connect(this, "deletePupilClass()");
 
 		//ui.pushButtonAddClass.clicked.connect(this, "hideGroupBox(0)");
@@ -178,9 +182,15 @@ public class MainWindow extends QMainWindow {
 			ui.tableViewPupils.model().removeRows(currentIndex.row(), 1);
 		}
 	}
-
+	
 	@SuppressWarnings("unused")
 	private void changeClassPupilTable() {
+		this.pupilModel.changeClass(ui.comboBoxClass.currentIndex());
+		ui.tableUsers.reset();
+	}
+	
+	@SuppressWarnings("unused")
+	private void changeClassAllPupilTable() {
 		this.pupilModelForClassMenagment.reClass(ui.comboBoxClassAll
 				.currentIndex());
 		ui.tableViewPupils.reset();
@@ -236,6 +246,11 @@ public class MainWindow extends QMainWindow {
 		// TODO: Cos w stylu chowania mozna zrobic
 		ui.lineEditNewClassName.clear();
 	}
+	
+	@SuppressWarnings("unused")
+	private void addRate() {
+		
+	}
 
 	@SuppressWarnings("unused")
 	private void addPupil() {
@@ -259,8 +274,7 @@ public class MainWindow extends QMainWindow {
 			System.err.println(oddzialService.findAll()
 					.get(ui.comboBoxClassAll.currentIndex()).getNazwa());
 
-			// List<Osoba> users = new
-			// ArrayList<Osoba>(roleService.findByName("Uczen").get(0).getRole2osoba());
+
 			uczenService.save(new Uczen(osobaService.findLast(), oddzialService
 					.findAll().get(ui.comboBoxClassAll.currentIndex())));
 			this.clearFieldsPupil();
@@ -281,8 +295,6 @@ public class MainWindow extends QMainWindow {
 
 	@SuppressWarnings("unused")
 	private void changePupilTable() {
-		this.pupilModel.setDataContainer(this.pupilMock.getClassPupil()
-				.get(ui.comboBoxClass.currentIndex()).getPuil());
 		ui.tableUsers.reset();
 	}
 
