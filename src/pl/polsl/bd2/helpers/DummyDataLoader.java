@@ -129,6 +129,26 @@ public final class DummyDataLoader {
 				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
 				"karolina", roleService.findByName("Uczen").get(0)));
 		System.out.println(roleService.findAll().size());
+		
+		osobaService.save(new Osoba("Karolina", "Wolniak", "Śieniewicza 13",
+				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
+				"karolina", roleService.findByName("Uczen").get(0)));
+		System.out.println(roleService.findAll().size());
+		
+		osobaService.save(new Osoba("Karolina", "Test", "Śieniewicza 13",
+				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
+				"karolina", roleService.findByName("Uczen").get(0)));
+		System.out.println(roleService.findAll().size());
+		
+		osobaService.save(new Osoba("Karolina", "Maj", "Śieniewicza 13",
+				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
+				"karolina", roleService.findByName("Uczen").get(0)));
+		System.out.println(roleService.findAll().size());
+		
+		osobaService.save(new Osoba("Karolina", "Czerwiec", "Śieniewicza 13",
+				"Ząbkowice Wielkie", "karolcia99@wp.pl", "karolina",
+				"karolina", roleService.findByName("Uczen").get(0)));
+		System.out.println(roleService.findAll().size());
 		/*
 		 * Dodamy parę treści i komunikatów.
 		 */
