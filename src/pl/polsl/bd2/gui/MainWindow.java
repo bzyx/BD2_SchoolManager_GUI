@@ -156,25 +156,18 @@ public class MainWindow extends QMainWindow {
 
 	private void dataTab() {
 		dataPresenter = new DataPresenter(ui);
-		dataPresenter.initModel();
 		dataPresenter.connectSlots();
 
 		// Init views
-		ui.tableDetailsData.setVisible(false);
 		dataPresenter.assignStudentsToSpinner();
 
-		ui.tableData.selectRow(0);
+		ui.tableGrades.resizeColumnsToContents();
+		ui.tableGrades.horizontalHeader().setStretchLastSection(true);
+		ui.tableGrades.verticalHeader().hide();
 
-		ui.tableData.resizeColumnsToContents();
-		ui.tableData.horizontalHeader().setStretchLastSection(true);
-		ui.tableData.verticalHeader().hide();
-
-		ui.labelProgramInData.setText(dataPresenter.getTableDataModel()
-				.getDataContainer().get(0).getSubject());
-
-		ui.tableDetailsData.resizeColumnsToContents();
-		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
-		ui.tableDetailsData.verticalHeader().hide();
+		ui.tableAbsence.resizeColumnsToContents();
+		ui.tableAbsence.horizontalHeader().setStretchLastSection(true);
+		ui.tableAbsence.verticalHeader().hide();
 	}
 
 	private void connectSignalsAndSlots() {
@@ -203,14 +196,6 @@ public class MainWindow extends QMainWindow {
 		ui.tableViewPupils.reset();
 	}
 	
-	@SuppressWarnings("unused")
-	private void toogleTableDetailsData(int i) {
-		if (i == 1) {
-			ui.tableDetailsData.setVisible(!ui.tableDetailsData.isVisible());
-		} else if (!ui.tableDetailsData.isVisible()) {
-			ui.tableDetailsData.setVisible(true);
-		}
-	}
 	@SuppressWarnings("unused")
 	private void hideGroupBox(int i){
 		if(i == 1){
