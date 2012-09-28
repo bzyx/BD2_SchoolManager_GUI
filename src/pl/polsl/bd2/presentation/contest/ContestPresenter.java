@@ -5,6 +5,7 @@ import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QMessageBox;
 
+import pl.polsl.bd2.gui.DictEditorWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -17,6 +18,8 @@ import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.UczestnikKonkursuService;
 import pl.polsl.bd2.models.ContestParticipantsTableModel;
 import pl.polsl.bd2.models.ContestListModel;
+import pl.polsl.bd2.models.ContestResultListModel;
+import pl.polsl.bd2.models.ContestTypeListModel;
 import pl.polsl.bd2.presentation.BasePresenter;
 
 public class ContestPresenter implements BasePresenter {
@@ -31,12 +34,18 @@ public class ContestPresenter implements BasePresenter {
 	private ContestParticipantDialog competitionParticipantDialog;
 	private UczestnikKonkursuService uczestnikKonkursuService;
 	private ContestParticipantsTableModel contestParticipantsTableModel;
+	private DictEditorWidget dictEditorWidget;
+	private ContestTypeListModel contestTypeListModel;
+	private ContestResultListModel contestResultListModel;
 
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
 		contestListModel = new ContestListModel();
 		competitionParticipantDialog = new ContestParticipantDialog();
 		contestParticipantsTableModel = new ContestParticipantsTableModel();
+		dictEditorWidget = new DictEditorWidget();
+		contestTypeListModel = new ContestTypeListModel();
+		contestResultListModel = new ContestResultListModel();
 
 		view.listContest.setModel(contestListModel);
 		view.contestTable.setModel(contestParticipantsTableModel);
@@ -55,6 +64,8 @@ public class ContestPresenter implements BasePresenter {
 				"addContestParticipant()");
 		view.buttonEditConestParticipant.clicked.connect(this,
 				"editContestParticipant()");
+		view.buttonContestType.clicked.connect(this, "contestTypeDialog()");
+		view.buttonContestResult.clicked.connect(this, "contestResultDialog()");
 	}
 
 	@SuppressWarnings("unused")
@@ -77,10 +88,7 @@ public class ContestPresenter implements BasePresenter {
 			konkursService.save(new Konkurs(contestTypeDialog.getTypKonkursu(),
 					nazwaKonkursu));
 
-			view.contestTable.setModel(null);
-			contestListModel.makeUpdate();
-			view.contestTable.reset();
-			view.contestTable.setModel(new ContestParticipantsTableModel());
+			makeUpdateOfView();
 		}
 
 	}
@@ -116,6 +124,7 @@ public class ContestPresenter implements BasePresenter {
 
 			konkurs.setNazwa(nazwaKonkursu);
 			konkurs.setTypKonkursu(contestTypeDialog.getTypKonkursu());
+			konkursService.edit(konkurs);
 
 			makeUpdateOfView();
 		}
@@ -140,10 +149,7 @@ public class ContestPresenter implements BasePresenter {
 					competitionParticipantDialog.getWynikKonkursu(),
 					competitionParticipantDialog.getDodatkoweInformacje()));
 		}
-		view.contestTable.setModel(null);
-		contestListModel.makeUpdate();
-		view.contestTable.reset();
-		view.contestTable.setModel(new ContestParticipantsTableModel());
+		makeUpdateOfView();
 
 	}
 
@@ -179,10 +185,23 @@ public class ContestPresenter implements BasePresenter {
 				uczestnikKonkursuService.edit(uczestnikKonkursu);
 			}
 
-			
 		}
 		makeUpdateOfView();
 
+	}
+	
+	public void contestTypeDialog(){
+		dictEditorWidget.setWindowTitle("Typy konkursów");
+		dictEditorWidget.setModel(contestTypeListModel);
+		
+		dictEditorWidget.show();
+	}
+	
+	public void contestResultDialog(){
+		dictEditorWidget.setWindowTitle("Wyniki konkursów");
+		dictEditorWidget.setModel(contestResultListModel);
+		
+		dictEditorWidget.show();
 	}
 
 	@Override
@@ -191,6 +210,6 @@ public class ContestPresenter implements BasePresenter {
 		contestListModel.makeUpdate();
 		view.contestTable.reset();
 		view.contestTable.setModel(new ContestParticipantsTableModel());
-		
+
 	}
 }

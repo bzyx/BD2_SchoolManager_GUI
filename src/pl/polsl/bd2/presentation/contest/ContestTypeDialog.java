@@ -62,4 +62,10 @@ public class ContestTypeDialog extends QDialog {
 			this.setWindowTitle("Edycja konkursu");
 	}
 	
+	@Override
+	public int exec() {
+		contestTypeModel.makeUpdate();
+		return super.exec();
+	}
+	
 }

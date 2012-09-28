@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="1">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="minimumSize">
        <size>
@@ -30,7 +30,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -308,12 +308,19 @@ QTableView::item {
             <item>
              <widget class="QPushButton" name="buttonEditContestType">
               <property name="text">
-               <string>Edytuj typy konkursu</string>
+               <string>Edytuj konkurs</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_3">
+             <widget class="QPushButton" name="buttonRemoveContest">
+              <property name="text">
+               <string>Usuń Konkurs</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4">
               <property name="orientation">
                <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
               </property>
@@ -326,21 +333,21 @@ QTableView::item {
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="buttonAddContestParticipant">
+             <widget class="QPushButton" name="buttonContestType">
               <property name="text">
-               <string>Dodaj uczestnika</string>
+               <string>Typy konkursów</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="buttonEditConestParticipant">
+             <widget class="QPushButton" name="buttonContestResult">
               <property name="text">
-               <string>Edytuj uczestnika</string>
+               <string>Wyniki konkursów</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_4">
+             <spacer name="horizontalSpacer_3">
               <property name="orientation">
                <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
               </property>
@@ -371,6 +378,31 @@ QTableView::item {
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QPushButton" name="buttonAddContestParticipant">
+            <property name="text">
+             <string>Dodaj uczestnika</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonEditConestParticipant">
+            <property name="text">
+             <string>Edytuj uczestnika</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonRemoveContestParticipant">
+            <property name="text">
+             <string>Usuń uczestnika</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_7">
