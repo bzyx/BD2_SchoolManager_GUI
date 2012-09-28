@@ -11,12 +11,12 @@ import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
-import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.models.PupilModelForClassMenagment;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
 import pl.polsl.bd2.presentation.contest.ContestPresenter;
 import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
+import pl.polsl.bd2.presentation.pupils.PupilPresenter;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
@@ -34,8 +34,8 @@ public class MainWindow extends QMainWindow {
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
 	private DataPresenter dataPresenter;
+	private PupilPresenter pupilPresenter;
 	
-	private PupilModel pupilModel;
 	private KonfiguracjaService konfiguracjaService;
 	private OsobaService osobaService;
 	private PupilModelForClassMenagment pupilModelForClassMenagment;
@@ -62,7 +62,7 @@ public class MainWindow extends QMainWindow {
 		absenceTab();
 		messagesTab();
 
-		teacherGui();
+		pupilsTab();
 		contestTab();
 	}
 
@@ -97,24 +97,12 @@ public class MainWindow extends QMainWindow {
 		contestPresenter.connectSlots();
 	}
 
-	private void teacherGui() {
-		this.pupilModel = new PupilModel();
-		ui.tableUsers.setModel(this.pupilModel);
-		ui.tableUsers.resizeColumnsToContents();
-		ui.tableUsers.horizontalHeader().setStretchLastSection(true);
-		ui.tableUsers.verticalHeader().hide();
-		
-		ui.comboBoxClass.currentIndexChanged.connect(this,
-				"changeClassPupilTable()");
-		ui.pushButtonAddRate.clicked.connect(this, "addRate()");
-		// ui.tableDetailUsers.setModel(this.tableDetailsDataModel);
-		// ui.tableDetailUsers.resizeColumnsToContents();
-		// ui.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
-		// ui.tableDetailUsers.verticalHeader().hide();
-		/*for (PupilModel.Pupil.ClassPupilMock classPupil : this.pupilMock.getClassPupil()){
-			ui.comboBoxClass.addItem(Integer.toString(classPupil.getClassPupil()));
-		}*/
+	private void pupilsTab() {
+		this.pupilPresenter = new PupilPresenter(ui);
+		this.pupilPresenter.initModel();
+		this.pupilPresenter.connectSlots();
 	}
+	
 
 	private void classMenagmentTab() {
 		this.pupilModelForClassMenagment = new PupilModelForClassMenagment();
@@ -140,8 +128,6 @@ public class MainWindow extends QMainWindow {
 				"changeClassAllPupilTable()");
 		ui.pushButtonDeletePupil.clicked.connect(this, "deletePupilClass()");
 
-		//ui.pushButtonAddClass.clicked.connect(this, "hideGroupBox(0)");
-		//ui.pushButtonAddPupil.clicked.connect(this, "hideGroupBox(1)");
 		QSignalMapper hideGroupBoxMapper = new QSignalMapper();
 		hideGroupBoxMapper.setMapping(ui.pushButtonAddClass, 1);
 		hideGroupBoxMapper.setMapping(ui.pushButtonAddPupil, 2);
@@ -150,7 +136,6 @@ public class MainWindow extends QMainWindow {
 		ui.pushButtonAddPupil.clicked.connect(hideGroupBoxMapper, "map()");
 		hideGroupBoxMapper.mappedInteger.connect(this,
 				"hideGroupBox(int)");
-		// ui.comboBoxClassAll.currentIndexChanged.connect(this, "ui.tableViewPupils.reset()");
 
 	}
 
@@ -190,11 +175,6 @@ public class MainWindow extends QMainWindow {
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void changeClassPupilTable() {
-		this.pupilModel.changeClass(ui.comboBoxClass.currentIndex());
-		ui.tableUsers.reset();
-	}
 	
 	@SuppressWarnings("unused")
 	private void changeClassAllPupilTable() {
@@ -252,11 +232,6 @@ public class MainWindow extends QMainWindow {
 	private void clearLineNewClass() {
 		// TODO: Cos w stylu chowania mozna zrobic
 		ui.lineEditNewClassName.clear();
-	}
-	
-	@SuppressWarnings("unused")
-	private void addRate() {
-		
 	}
 
 	@SuppressWarnings("unused")

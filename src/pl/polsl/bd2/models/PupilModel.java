@@ -22,9 +22,8 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class PupilModel extends QAbstractTableModel {
-	private final String[] COLUMNS = { tr("Ab."), tr("Name"), tr("Vorname"),
+	private final String[] COLUMNS = { tr("Name"), tr("Vorname"),
 			tr("Marks"), tr("Avg.") };
-	private List<Pupil.PupilMock> dataContainer;
 	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
 	private List<List<Przedmiot>> przedmiotWithOddzial = new ArrayList<List<Przedmiot>>();
 	private List<List<Uczen>> uczenWithOddzial = new ArrayList<List<Uczen>>();
@@ -32,15 +31,17 @@ public class PupilModel extends QAbstractTableModel {
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
 	int currentClass = 0;
+	int row=0;
 
 	public PupilModel() {
 		int lOddzial = 0;
 		for (Oddzial oddzial: this.oddzialService.findAll()){
 			this.dataContainer2.add(new ArrayList<List<List<Ocena>>>());
 			int lPrzedmiot = 0;
-			this.przedmiotWithOddzial.add(new ArrayList<Przedmiot>(oddzial.getOddzial2przedmiot()));
+			List<Przedmiot> przedmioty = new ArrayList<Przedmiot>(oddzial.getOddzial2przedmiot());
+			this.przedmiotWithOddzial.add(przedmioty);
 			this.uczenWithOddzial.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
-			for(Przedmiot przedmiot: oddzial.getOddzial2przedmiot()){
+			for(Przedmiot przedmiot: przedmioty){
 				this.dataContainer2.get(lOddzial).add(new ArrayList<List<Ocena>>());
 				for(Uczen uczen: oddzial.getOddzial2uczen()){
 					List<Ocena> listaOcen = new ArrayList<Ocena>(ocenaService.findBySubject(przedmiot, uczen));
@@ -58,8 +59,17 @@ public class PupilModel extends QAbstractTableModel {
 		
 	}
 	
+	public void initDetail(NoteModel detail){
+		detail.initData(this.uczenWithOddzial.get(0));
+	}
+	
 	public void changeClass(int newClass){
 		this.currentClass = newClass;
+		this.layoutChanged.emit();
+	}
+
+	public void refreshModel(){
+		this.reset();
 		this.layoutChanged.emit();
 	}
 
@@ -70,23 +80,24 @@ public class PupilModel extends QAbstractTableModel {
 
 	@Override
 	public Object data(QModelIndex index, int role) {
+		this.row = index.row();
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			try{
 			switch (index.column()) {
 			case 0:
-				return index.row();
-			case 1:
 				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getImie();
-			case 2:
+			case 1:
 				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
-			case 3:{
+			case 2:{
+				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
 				String oceny = new String();
 				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
-					oceny += String.format("%d, ", ocena.getOcena());
+					oceny += String.format("%d ( %.1f ), ", ocena.getOcena(), ocena.getWaga());
 				}
 				return oceny;
 			}
-			case 4:{
+			case 3:{
+				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
 				float avg = 0;
 				float waga =0;
 				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
@@ -136,187 +147,27 @@ public class PupilModel extends QAbstractTableModel {
 		itemFlags.set(ItemFlag.ItemIsEnabled, ItemFlag.ItemIsSelectable);
 		return itemFlags;
 	}
-
-	public static class Pupil {
-		List<ClassPupilMock> classPupil;
-		{
-			this.classPupil = new ArrayList<ClassPupilMock>();
-			List<DetailPupilMock> pupil1 = new ArrayList<DetailPupilMock>();
-			List<DetailPupilMock> pupil2 = new ArrayList<DetailPupilMock>();
-			List<PupilMock> class1 = new ArrayList<PupilMock>();
-			List<PupilMock> class2 = new ArrayList<PupilMock>();
-			pupil1.add(new DetailPupilMock(new Date(), 5, "kotem"));
-			pupil1.add(new DetailPupilMock(new Date(), 3, "nudy"));
-			pupil2.add(new DetailPupilMock(new Date(), 3, "nudy2"));
-			pupil2.add(new DetailPupilMock(new Date(), 5, "kotem2"));
-			class1.add(new PupilMock(pupil1, false, "�ukasz", "to �pun :P",
-					"2, 2, 2, 2", "2"));
-			class1.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
-					"5, 5, 5, 5", "5"));
-			class2.add(new PupilMock(pupil2, false, "Karol", "to mistrz :P",
-					"5, 5, 5, 5", "5"));
-			class2.add(new PupilMock(pupil1, false, "�ukasz", "to �pun :P",
-					"2, 2, 2, 2", "2"));
-			this.classPupil.add(new ClassPupilMock(1, class1));
-			this.classPupil.add(new ClassPupilMock(2, class2));
-		}
-
-		public Pupil() {
-		}
-
-		public class DetailPupilMock {
-			Date date;
-			int rate;
-			String note;
-
-			public DetailPupilMock(Date date, int rate, String note) {
-				super();
-				this.date = date;
-				this.rate = rate;
-				this.note = note;
-			}
-
-			public Date getDate() {
-				return date;
-			}
-
-			public void setDate(Date date) {
-				this.date = date;
-			}
-
-			public int getRate() {
-				return rate;
-			}
-
-			public void setRate(int rate) {
-				this.rate = rate;
-			}
-
-			public String getNote() {
-				return note;
-			}
-
-			public void setNote(String note) {
-				this.note = note;
-			}
-
-		}
-
-		public class PupilMock {
-			List<DetailPupilMock> detailsPupilMock;
-			boolean absence;
-			String name;
-			String vorname;
-			String rates;
-			String avg;
-
-			public PupilMock(List<DetailPupilMock> detailsPupilMock,
-					boolean absence, String name, String vorname, String rates,
-					String avg) {
-				super();
-				this.detailsPupilMock = detailsPupilMock;
-				this.absence = absence;
-				this.name = name;
-				this.vorname = vorname;
-				this.rates = rates;
-				this.avg = avg;
-			}
-
-			public List<DetailPupilMock> getDetailsPupilMock() {
-				return detailsPupilMock;
-			}
-
-			public void setDetailsPupilMock(
-					List<DetailPupilMock> detailsPupilMock) {
-				this.detailsPupilMock = detailsPupilMock;
-			}
-
-			public boolean isAbsence() {
-				return absence;
-			}
-
-			public void setAbsence(boolean absence) {
-				this.absence = absence;
-			}
-
-			public String getName() {
-				return name;
-			}
-
-			public void setName(String name) {
-				this.name = name;
-			}
-
-			public String getVorname() {
-				return vorname;
-			}
-
-			public void setVorname(String vorname) {
-				this.vorname = vorname;
-			}
-
-			public String getRates() {
-				return rates;
-			}
-
-			public void setRates(String rates) {
-				this.rates = rates;
-			}
-
-			public String getAvg() {
-				return avg;
-			}
-
-			public void setAvg(String avg) {
-				this.avg = avg;
-			}
-		}
-
-		public class ClassPupilMock {
-			int classPupil;
-			List<PupilMock> pupil;
-
-			public ClassPupilMock(int classPupil, List<PupilMock> puil) {
-				super();
-				this.classPupil = classPupil;
-				this.pupil = puil;
-			}
-
-			public int getClassPupil() {
-				return classPupil;
-			}
-
-			public void setClassPupil(int classPupil) {
-				this.classPupil = classPupil;
-			}
-
-			public List<PupilMock> getPuil() {
-				return pupil;
-			}
-
-			public void setPupil(List<PupilMock> puil) {
-				this.pupil = puil;
-			}
-		}
-
-		public List<ClassPupilMock> getClassPupil() {
-			return classPupil;
-		}
-
-		public void setClassPupil(List<ClassPupilMock> classPupil) {
-			this.classPupil = classPupil;
-		}
-
+	
+	public void addRate(Ocena ocena, int row){
+		this.dataContainer2.get(this.currentClass).get(0).get(row).add(ocena);
+		this.refreshModel();
 	}
 
-	public List<Pupil.PupilMock> getDataContainer() {
-		return dataContainer;
+	public List<List<List<List<Ocena>>>> getDataContainer2() {
+		return dataContainer2;
 	}
 
-	public void setDataContainer(List<Pupil.PupilMock> dataContainer) {
-		this.dataContainer = dataContainer;
+	public void setDataContainer2(List<List<List<List<Ocena>>>> dataContainer2) {
+		this.dataContainer2 = dataContainer2;
 	}
 	
+	public List<Uczen> getPupils(){
+		return uczenWithOddzial.get(this.currentClass);
+	}
+	
+	public List<Przedmiot> getPrzedmioty(){
+		return przedmiotWithOddzial.get(this.currentClass);
+	}
 	
 
 }

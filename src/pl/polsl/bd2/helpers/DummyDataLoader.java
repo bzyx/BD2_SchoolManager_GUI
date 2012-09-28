@@ -182,7 +182,7 @@ public final class DummyDataLoader {
 		NauczycielService nauczycielService = (NauczycielService)SpringUtil.getBean("nauczycielService");
 		List<Osoba> listaOsobNauczycieli = new ArrayList<Osoba>(roleService.findByName("Nauczyciel").get(0).getRole2osoba());
 		for(Osoba nauczyciel: listaOsobNauczycieli){
-			nauczycielService.save(new Nauczyciel(nauczyciel));
+			nauczycielService.save(new Nauczyciel(nauczyciel, listaOddzialow.get(0)));
 		}
 		
 		/*
@@ -229,7 +229,6 @@ public final class DummyDataLoader {
 		//AbsencjaService absencjaService = (AbsencjaService)SpringUtil.getBean("absencjaService");
 		List<Uczen> listaUczniow = new ArrayList<Uczen>(uczenService.findAll());
 		List<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>(przedmiotService.findAll());
-		System.out.println(oddzialService.findAll().size());
 		/*
 		 * Dodamy kilka ocen dla uczniów
 		 * bez sensu przedmiot zalezy od nauczyciela, mozna dodac ocene uczniowi za przedmiot ktorego nie ma
@@ -239,7 +238,7 @@ public final class DummyDataLoader {
 		OcenaService ocenaService = (OcenaService)SpringUtil.getBean("ocenaService");
 		Date date = new Date();
 		ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 5, 1.0f , date));
-		/*ocenaService.save(new Ocena(listaUczniow.get(0), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 4, 1, new Date()));
+		/*ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(3), 4, 1.0f, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(0), listaNauczycieli.get(0), 3, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(1), 2, 1, new Date()));
 		ocenaService.save(new Ocena(listaUczniow.get(1), listaPrzedmiotow.get(1), listaNauczycieli.get(0), 3, 1, new Date()));

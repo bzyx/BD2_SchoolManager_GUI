@@ -536,7 +536,7 @@ QTableView::item {
         <string>Pupils</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0" rowspan="7">
+        <item row="0" column="0" rowspan="6">
          <widget class="QTableView" name="tableUsers">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -551,9 +551,6 @@ QTableView::item {
            <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
           </property>
          </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="comboBoxObject"/>
         </item>
         <item row="1" column="1">
          <widget class="QComboBox" name="comboBoxClass"/>
@@ -572,7 +569,7 @@ QTableView::item {
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="5" column="1">
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
@@ -585,7 +582,7 @@ QTableView::item {
           </property>
          </spacer>
         </item>
-        <item row="7" column="0" rowspan="3">
+        <item row="6" column="0" rowspan="2">
          <widget class="QTableView" name="tableDetailUsers">
           <property name="selectionMode">
            <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
@@ -596,13 +593,6 @@ QTableView::item {
          </widget>
         </item>
         <item row="7" column="1">
-         <widget class="QPushButton" name="pushButtonEditRate">
-          <property name="text">
-           <string>Edit rate</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
          <spacer name="verticalSpacer_6">
           <property name="orientation">
            <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
@@ -614,20 +604,6 @@ QTableView::item {
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="8" column="1">
-         <widget class="QPushButton" name="pushButtonJustify">
-          <property name="text">
-           <string>Justify</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QPushButton" name="pushButtonSave">
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
