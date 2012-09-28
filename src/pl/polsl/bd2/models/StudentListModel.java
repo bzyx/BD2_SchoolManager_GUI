@@ -19,6 +19,12 @@ public class StudentListModel extends QAbstractListModel {
 		container = new ArrayList<Uczen>();
 		container = uczenService.findAll();
 	}
+	
+	public void makeUpdate() {
+		container.clear();
+		container = uczenService.findAll();
+		reset();
+	}
 
 	@Override
 	@QtBlockedSlot
@@ -41,4 +47,5 @@ public class StudentListModel extends QAbstractListModel {
 
 	private UczenService uczenService;
 	private List<Uczen> container;
+	
 }

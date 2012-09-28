@@ -99,5 +99,14 @@ public class ContestParticipantDialog extends QDialog {
 		ui.buttonBox.accepted.connect(this, "accept()");
 		ui.buttonBox.rejected.connect(this, "reject()");
 	}
+	
+	@Override
+	public int exec() {
+		studentListModel.makeUpdate();
+		contestListModel.makeUpdate();
+		contestResultListModel.makeUpdate();
+		
+		return super.exec();
+	}
 
 }

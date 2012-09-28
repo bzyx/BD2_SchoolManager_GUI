@@ -11,6 +11,7 @@ import com.trolltech.qt.QtBlockedSlot;
 import com.trolltech.qt.core.QAbstractListModel;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
+import com.trolltech.qt.core.Qt.ItemDataRole;
 
 public class ContestResultListModel extends QAbstractListModel {
 	
@@ -41,6 +42,42 @@ public class ContestResultListModel extends QAbstractListModel {
 		return container.size();
 	}
 	
+	@Override
+	@QtBlockedSlot
+	public boolean setData(QModelIndex arg0, Object arg1, int arg2) {
+		WynikKonkursu entity = new WynikKonkursu((String) arg1, "");
+		if (arg0 == null){
+			container.add(entity);
+			wynikKonkursuService.save(entity);
+			return super.setData(arg0, arg1, arg2);
+		}
+	
+		if (arg0.row() > container.size()){
+			container.add(entity);
+			wynikKonkursuService.save(entity);
+		}
+		else {
+			WynikKonkursu typ = (WynikKonkursu)arg0.data(ItemDataRole.UserRole);
+			typ.setWynik((String) arg1);
+			wynikKonkursuService.edit(typ);
+			container.set(arg0.row(), typ);
+		}
+		return super.setData(arg0, arg1, arg2);
+	}
+	
+	@Override
+	@QtBlockedSlot
+	public boolean removeRows(int arg0, int arg1, QModelIndex arg2) {
+		wynikKonkursuService.delete(container.get(arg0));
+		container.remove(arg0);
+		return super.removeRows(arg0, arg1, arg2);
+	}
+	
+	public void makeUpdate() {
+		container.clear();
+		container = wynikKonkursuService.findAll();
+		reset();
+	}
 
 	private WynikKonkursuService wynikKonkursuService;
 	private List<WynikKonkursu> container;

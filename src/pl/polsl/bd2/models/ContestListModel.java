@@ -45,8 +45,6 @@ public class ContestListModel extends QAbstractListModel {
 		reset();
 	}
 
-	
-
 	private KonkursService konkursService;
 	private List<Konkurs> container;
 }
