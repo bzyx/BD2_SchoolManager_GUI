@@ -60,12 +60,18 @@
        <property name="maximum">
         <double>2.000000000000000</double>
        </property>
+       <property name="singleStep">
+        <double>0.500000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="buttonBoxAddRate">
      <property name="focusPolicy">
       <enum>com.trolltech.qt.core.Qt.FocusPolicy.TabFocus</enum>
      </property>
