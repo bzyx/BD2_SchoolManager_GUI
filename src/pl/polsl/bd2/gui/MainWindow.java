@@ -155,7 +155,7 @@ public class MainWindow extends QMainWindow {
 		ui.tableData.verticalHeader().hide();
 
 		ui.labelProgramInData.setText(dataPresenter.getTableDataModel()
-				.getDataContainer().get(0).getSubject());
+		.getDataContainer().get(0).getSubject());
 
 		ui.tableDetailsData.resizeColumnsToContents();
 		ui.tableDetailsData.horizontalHeader().setStretchLastSection(true);
