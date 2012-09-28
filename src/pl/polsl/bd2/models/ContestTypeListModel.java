@@ -74,7 +74,9 @@ public class ContestTypeListModel extends QAbstractListModel {
 	public void makeUpdate() {
 		container.clear();
 		container = typKonkursuService.findAll();
-		reset();	
+		//TODO: Czy to wystarczy?
+		this.layoutChanged.emit();
+		//reset();	
 	}
 
 	private TypKonkursuService typKonkursuService;

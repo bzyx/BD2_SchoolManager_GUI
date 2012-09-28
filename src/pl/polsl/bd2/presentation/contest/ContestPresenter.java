@@ -66,6 +66,7 @@ public class ContestPresenter implements BasePresenter {
 				"editContestParticipant()");
 		view.buttonContestType.clicked.connect(this, "contestTypeDialog()");
 		view.buttonContestResult.clicked.connect(this, "contestResultDialog()");
+		view.buttonRemoveContest.clicked.connect(this, "removeContest()");
 	}
 
 	@SuppressWarnings("unused")
@@ -206,10 +207,26 @@ public class ContestPresenter implements BasePresenter {
 
 	@Override
 	public void makeUpdateOfView() {
-		view.contestTable.setModel(null);
+		view.listContest.setModel(null);
 		contestListModel.makeUpdate();
+		view.listContest.reset();
+		view.listContest.setModel(contestListModel);
+		
+		view.contestTable.setModel(null);
 		view.contestTable.reset();
 		view.contestTable.setModel(new ContestParticipantsTableModel());
 
 	}
+	
+	public void removeContest(){
+		QModelIndex index = view.listContest.currentIndex();
+
+		if (Helpers.indexIsValid(index)) {
+			KonkursService konkursService = (KonkursService) SpringUtil
+					.getBean("konkursService");
+			
+			konkursService.delete((Konkurs) index.data(ItemDataRole.UserRole));
+			makeUpdateOfView();
+			}
+		}
 }

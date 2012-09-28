@@ -42,9 +42,11 @@ public class ContestTypeDialog extends QDialog {
 	public void setTypKonkursu(TypKonkursu typKonkursu){
 		
 		QModelIndex tmpIndex = contestTypeModel.index(0, 0);
+		ui.listKonkursTyp.setCurrentIndex(tmpIndex);
 		
 		for (int i = 0; i < contestTypeModel.rowCount(); i++ ){
-			if ( contestTypeModel.data(tmpIndex).equals(typKonkursu.getNazwa())){
+			TypKonkursu k = (TypKonkursu) contestTypeModel.data(tmpIndex, ItemDataRole.UserRole);
+			if (k.getIdTypKonkursu() == typKonkursu.getIdTypKonkursu()){
 				ui.listKonkursTyp.setCurrentIndex(tmpIndex);
 				break;
 			}
