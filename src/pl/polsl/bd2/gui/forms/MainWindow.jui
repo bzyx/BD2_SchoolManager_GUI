@@ -30,43 +30,42 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
         <string>Podgląd ucznia</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="0" colspan="3">
-         <widget class="QTableView" name="tableDetailsData">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="styleSheet">
-           <string>QTableView{
-	show-decoration-selected: 1;
-}
-QTableView::item {
-	padding-bottom: 0px;
-	padding-top: 0px;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin: 0px;
-}</string>
-          </property>
-          <property name="selectionMode">
-           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>com.trolltech.qt.core.Qt.Orientation.Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Uczeń:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxStudent"/>
+          </item>
+         </layout>
         </item>
-        <item row="1" column="0">
-         <widget class="QTableView" name="tableData">
+        <item>
+         <widget class="QTableView" name="tableGrades">
           <property name="styleSheet">
            <string>QTableView{
 	show-decoration-selected: 1;
@@ -93,143 +92,33 @@ QTableView::item {
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="labelNameStudent">
-            <property name="text">
-             <string>Imię:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelNameEditStudent">
-            <property name="text">
-             <string>xxx</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelSurnameStudent">
-            <property name="text">
-             <string>Nazwisko:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelSurnameEditStudent">
-            <property name="text">
-             <string>xxx</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelClassStudent">
-            <property name="text">
-             <string>Klasa:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelClassEditStudent">
-            <property name="text">
-             <string>xxx</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="2">
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Uczeńt:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBoxStudent"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_17">
-            <property name="text">
-             <string>Przedmiot:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBoxSubject"/>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>com.trolltech.qt.core.Qt.Orientation.Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelProgramInData">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-              <weight>50</weight>
-              <bold>false</bold>
-              <underline>false</underline>
-             </font>
-            </property>
-            <property name="frameShape">
-             <enum>com.trolltech.qt.gui.QFrame.Shape.Box</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>com.trolltech.qt.gui.QFrame.Shadow.Plain</enum>
-            </property>
-            <property name="lineWidth">
-             <number>1</number>
-            </property>
-            <property name="midLineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>Nazwa_Przedmiotu</string>
-            </property>
-            <property name="alignment">
-             <set>com.trolltech.qt.core.Qt.AlignmentFlag.AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonToogleDetailsData">
-            <property name="text">
-             <string>Pokaż szczegółowe informacje</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item>
+         <widget class="QTableView" name="tableAbsence">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string>QTableView{
+	show-decoration-selected: 1;
+}
+QTableView::item {
+	padding-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 0px;
+}</string>
+          </property>
+          <property name="selectionMode">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -423,13 +312,6 @@ QTableView::item {
              <widget class="QPushButton" name="buttonEditConestParticipant">
               <property name="text">
                <string>Edytuj uczestnika</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="buttonRemoveConestParticipant">
-              <property name="text">
-               <string>Usuń uczestnika</string>
               </property>
              </widget>
             </item>
@@ -936,8 +818,7 @@ QTableView::item {
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>comboBoxStudent</tabstop>
-  <tabstop>tableDetailsData</tabstop>
+  <tabstop>tableAbsence</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 
 import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Konkurs;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
@@ -20,6 +21,7 @@ import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.models.WynikKonkursu;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
+import pl.polsl.bd2.messageSystem.service.KonkursService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
@@ -191,11 +193,13 @@ public final class DummyDataLoader {
 		
 		TypKonkursuService  typKonkursuService = (TypKonkursuService)SpringUtil
 				.getBean("typKonkursuService");
-		typKonkursuService.save(new TypKonkursu("Konkurs szkolny"));
+		TypKonkursu olimpiada = new TypKonkursu("Konkurs olimpiada przedmiotowa");
+		TypKonkursu szkolny = new TypKonkursu("Konkurs szkolny");
+		typKonkursuService.save(szkolny);
 		typKonkursuService.save(new TypKonkursu("Konkurs regionalny"));
 		typKonkursuService.save(new TypKonkursu("Konkurs wojewódzki"));
 		typKonkursuService.save(new TypKonkursu("Konkurs ogólnokrajowy"));
-		typKonkursuService.save(new TypKonkursu("Konkurs olimpiada przedmiotowa"));
+		typKonkursuService.save(olimpiada);
 		typKonkursuService.save(new TypKonkursu("Konkurs międzynarodowy"));
 		
 		/*
@@ -204,12 +208,18 @@ public final class DummyDataLoader {
 		
 		WynikKonkursuService wynikKonkursuService = (WynikKonkursuService)SpringUtil
 				.getBean("wynikKonkursuService");
+		wynikKonkursuService.save(new WynikKonkursu("brak", "Konkurs w trakcie - wynik nieznany."));
 		wynikKonkursuService.save(new WynikKonkursu("I miejsce", "Główna nagroda w konkursie, laureat."));
 		wynikKonkursuService.save(new WynikKonkursu("II miejsce", "Druga nagroda"));
 		wynikKonkursuService.save(new WynikKonkursu("III miejsce", "Trzecia nagroda"));
 		wynikKonkursuService.save(new WynikKonkursu("Finalista", "Osoba będąca w finale konkrsu."));
 		wynikKonkursuService.save(new WynikKonkursu("Nagroda pocieszenia", "Specjalna nagroda dla uczestnika."));
 		wynikKonkursuService.save(new WynikKonkursu("Uczestnik", "Osoba biorąca udział w konkursie."));
+		
+		
+		KonkursService konkursService = (KonkursService) SpringUtil.getBean("konkursService");
+		konkursService.save(new Konkurs(szkolny, "Konkurs recytatorski"));
+		konkursService.save(new Konkurs(olimpiada, "Olimpiada Informatyczna"));
 		
 		/*
 		 * Dodamy parę przedmiotow
