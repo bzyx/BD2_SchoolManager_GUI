@@ -8,11 +8,11 @@ import com.trolltech.qt.core.QAbstractListModel;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 
-public class JustificationModel extends QAbstractListModel {
+public class _JustificationModel extends QAbstractListModel {
 	//TODO MJ Hmmmmm mmmmmm mhmmm
 	private List<String> dataContainer;
 	
-	public JustificationModel(){
+	public _JustificationModel(){
 		this.dataContainer = new ArrayList<String>();
 		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\tbo lolek to matolek");
 		//this.dataContainer.add(new Date().toString() + ";\t5 hour;\ti jego pacho�ek te�");

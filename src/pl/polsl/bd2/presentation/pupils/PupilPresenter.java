@@ -136,4 +136,9 @@ public class PupilPresenter implements BasePresenter {
 				this.noteModel.refreshModel();
 		}
 	}
+
+	@Override
+	public void makeUpdateOfView() {
+		this.noteModel.refreshModel();
+	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Uczen;
-import pl.polsl.bd2.messageSystem.service.AbsencjaService;
+import pl.polsl.bd2.messageSystem.models.Uwaga;
+import pl.polsl.bd2.messageSystem.service.UwagaService;
 
 import com.trolltech.qt.QtBlockedSlot;
 import com.trolltech.qt.core.QModelIndex;
@@ -15,23 +15,23 @@ import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
-public class AbsenceTableModel extends QAbstractTableModel {
-
-	private List<Absencja> container;
-
-	public AbsenceTableModel() {
-		container = new ArrayList<Absencja>();
+public class JustificationTableModel extends QAbstractTableModel {
+	
+	private List<Uwaga> container;
+	
+	public JustificationTableModel() {
+		
+		container = new ArrayList<Uwaga>();
 	}
-
-	public void setStudent(Uczen uczen) {
-		AbsencjaService absencjaService = (AbsencjaService) SpringUtil
-				.getBean("absencjaService");
-		List<Absencja> absencja = absencjaService.findAll();
+	
+	public void setStudent(Uczen uczen){
+		UwagaService uwagaService = (UwagaService) SpringUtil.getBean("uwagaService");
+		List<Uwaga> uwagi = uwagaService.findAll();
 		container.clear();
-
-		for (Absencja a : absencja) {
-			if (a.getUczen().getIdUczen() == uczen.getIdUczen())
-				container.add(a);
+		
+		for (Uwaga uwaga: uwagi){
+			if (uwaga.getUczen().getIdUczen() == uczen.getIdUczen())
+				container.add(uwaga);
 		}
 	}
 
@@ -46,13 +46,22 @@ public class AbsenceTableModel extends QAbstractTableModel {
 	public Object data(QModelIndex index, int role) {
 		int row = index.row();
 		int col = index.column();
-		if (role == ItemDataRole.DisplayRole) {
+		
+		if (role == ItemDataRole.DisplayRole){
 			if (col == 0)
-				return container.get(row).isObecnosc() == true ? "Obecny"
-						: "Nieobecny";
+				return container.get(row).getTekstUwagi();
 			if (col == 1)
-				return container.get(row).getData();
+				return String.format("%s %s", container.get(row).getNauczyciel().getOsoba().getImie(), 
+						container.get(row).getNauczyciel().getOsoba().getNazwisko());
 		}
+		
+		if (role == ItemDataRole.SizeHintRole){
+			if (col == 0)
+				return 1;
+			if (col == 1)
+				return 2;
+		}
+		
 		return null;
 	}
 
@@ -61,14 +70,14 @@ public class AbsenceTableModel extends QAbstractTableModel {
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			if (orientation == Qt.Orientation.Horizontal) {
 				if (section == 0)
-					return "Obecność";
+					return "Treść uwagi";
 				if (section == 1)
-					return "Data";
+					return "Nauczyciel wystawiający"; 
 			}
 		}
 		return null;
 	}
-
+	
 	@Override
 	@QtBlockedSlot
 	public int rowCount(QModelIndex arg0) {

@@ -200,4 +200,10 @@ public class MessagePresenter implements BasePresenter {
 		messageModel.refreshModel();
 	}
 
+	@Override
+	public void makeUpdateOfView() {
+		messageModel.refreshModel();
+		
+	}
+
 }

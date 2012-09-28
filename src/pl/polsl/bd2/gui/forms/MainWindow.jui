@@ -65,6 +65,13 @@
          </layout>
         </item>
         <item>
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Oceny:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QTableView" name="tableGrades">
           <property name="styleSheet">
            <string>QTableView{
@@ -89,6 +96,13 @@ QTableView::item {
           </property>
           <property name="selectionBehavior">
            <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Nieobecności:</string>
           </property>
          </widget>
         </item>
@@ -119,6 +133,16 @@ QTableView::item {
            <bool>false</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>Uwagi:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableJustification"/>
         </item>
        </layout>
       </widget>

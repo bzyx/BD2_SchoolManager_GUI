@@ -117,10 +117,7 @@ public class ContestPresenter implements BasePresenter {
 			konkurs.setNazwa(nazwaKonkursu);
 			konkurs.setTypKonkursu(contestTypeDialog.getTypKonkursu());
 
-			view.contestTable.setModel(null);
-			konkursService.edit(konkurs);
-			contestListModel.makeUpdate();
-			view.contestTable.setModel(contestParticipantsTableModel);
+			makeUpdateOfView();
 		}
 	}
 
@@ -182,11 +179,18 @@ public class ContestPresenter implements BasePresenter {
 				uczestnikKonkursuService.edit(uczestnikKonkursu);
 			}
 
-			view.contestTable.setModel(null);
-			contestListModel.makeUpdate();
-			view.contestTable.reset();
-			view.contestTable.setModel(new ContestParticipantsTableModel());
+			
 		}
+		makeUpdateOfView();
 
+	}
+
+	@Override
+	public void makeUpdateOfView() {
+		view.contestTable.setModel(null);
+		contestListModel.makeUpdate();
+		view.contestTable.reset();
+		view.contestTable.setModel(new ContestParticipantsTableModel());
+		
 	}
 }
