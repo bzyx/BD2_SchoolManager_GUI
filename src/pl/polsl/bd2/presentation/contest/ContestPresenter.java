@@ -52,6 +52,8 @@ public class ContestPresenter implements BasePresenter {
 
 		view.contestTable.resizeColumnsToContents();
 		view.contestTable.horizontalHeader().setStretchLastSection(true);
+		
+		view.contestTable.verticalHeader().hide();
 	}
 
 	@Override
@@ -132,6 +134,7 @@ public class ContestPresenter implements BasePresenter {
 	}
 
 	public void addContestParticipant() {
+		//FIXME walidacja jak są puste pola w dialogu
 		KonfiguracjaService konfiguracjaService = (KonfiguracjaService) SpringUtil
 				.getBean("konfiguracjaService");// .getLoggedOsoba();
 
@@ -139,6 +142,8 @@ public class ContestPresenter implements BasePresenter {
 				.getBean("nauczycielService");
 		Nauczyciel nauczyciel = nauczycielService.findById(konfiguracjaService
 				.getLoggedOsoba().getIdOsoba());
+		competitionParticipantDialog.updateDialog();
+		competitionParticipantDialog.setEditMode(false);
 		if (competitionParticipantDialog.exec() == QDialog.DialogCode.Accepted
 				.value()) {
 			uczestnikKonkursuService = (UczestnikKonkursuService) SpringUtil
@@ -158,6 +163,10 @@ public class ContestPresenter implements BasePresenter {
 		QModelIndex index = view.contestTable.currentIndex();
 
 		if (Helpers.indexIsValid(index)) {
+			competitionParticipantDialog.updateDialog();
+			competitionParticipantDialog.setEditMode(true);
+			
+			contestParticipantsTableModel.updateModel();
 			UczestnikKonkursu uczestnikKonkursu = (UczestnikKonkursu) contestParticipantsTableModel
 					.data(index, ItemDataRole.UserRole);
 
@@ -185,9 +194,11 @@ public class ContestPresenter implements BasePresenter {
 
 				uczestnikKonkursuService.edit(uczestnikKonkursu);
 			}
-
+			makeUpdateOfView();
+		} else {
+			QMessageBox.warning(null, "Błąd", "Należy wybrać uczestnika do edycji");
 		}
-		makeUpdateOfView();
+
 
 	}
 	
@@ -215,6 +226,7 @@ public class ContestPresenter implements BasePresenter {
 		view.contestTable.setModel(null);
 		view.contestTable.reset();
 		view.contestTable.setModel(new ContestParticipantsTableModel());
+		view.contestTable.resizeColumnsToContents();
 
 	}
 	
