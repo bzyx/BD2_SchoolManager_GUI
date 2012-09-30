@@ -36,6 +36,8 @@ public class ManagmentPresenter implements BasePresenter {
 		view.tableViewPupils.horizontalHeader().setStretchLastSection(true);
 		view.tableViewPupils.verticalHeader().hide();
 
+		view.groupBoxAddClass.setVisible(false);
+		view.groupBoxAddPupil.setVisible(false);
 		this.reloadComboBoxClassAll();
 	}
 
