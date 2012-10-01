@@ -38,7 +38,7 @@ public class MainWindow extends QMainWindow {
 		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
 		
-		ui.webView.setUrl(new QUrl("classpath:/pl/polsl/bd2/help.html"));
+		
 		
 		initTabs();
 	}
@@ -96,13 +96,12 @@ public class MainWindow extends QMainWindow {
 		this.pupilPresenter.initModel();
 		this.pupilPresenter.connectSlots();
 	}
-	
+
 
 	private void classMenagmentTab() {
 		managmentPresenter = new ManagmentPresenter(ui);
 		this.managmentPresenter.connectSlots();
 	}
-
 
 	private void dataTab() {
 		dataPresenter = new DataPresenter(ui);
