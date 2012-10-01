@@ -5,7 +5,6 @@ import java.util.Date;
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.gui.QDialog;
 
-import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -13,16 +12,13 @@ import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Uwaga;
-import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
-import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.UwagaService;
 import pl.polsl.bd2.models.NoteModel;
 import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.presentation.BasePresenter;
-import pl.polsl.bd2.presentation.data.DataSlots;
 
 public class PupilPresenter implements BasePresenter {
 
