@@ -9,7 +9,9 @@ import pl.polsl.bd2.presentation.login.LoginPresenter;
 import com.trolltech.qt.core.QTranslator;
 import com.trolltech.qt.gui.QApplication;
 
-public final class applicationMain {
+public final class ApplicationMain {
+	
+	public static Osoba loggedOsoba;
 
 	public static void main(String[] args) {
 		SpringUtil.setContext("BeanLocations.xml");
@@ -32,6 +34,7 @@ public final class applicationMain {
 		loggedPerson = loginPresenter.getLoggedOsoba();
 
 		if (loggedPerson != null) {
+			loggedOsoba = loggedPerson;
 			System.out.println("Zalogowany");
 			testMainWindow = new MainWindow();
 			testMainWindow.show();
@@ -41,5 +44,9 @@ public final class applicationMain {
 
 		QApplication.exec();
 
+	}
+	
+	public static Osoba getLoggedPerson() {
+		return loggedOsoba;
 	}
 }

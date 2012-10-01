@@ -2,17 +2,14 @@ package pl.polsl.bd2.presentation.pupils;
 
 import java.util.Date;
 
-
-import com.trolltech.qt.core.QModelIndex;
-import com.trolltech.qt.gui.QDialog;
-
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
+import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Uwaga;
-import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.UwagaService;
@@ -29,7 +26,6 @@ public class PupilPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private PupilModel pupilModel;
 	private NoteModel noteModel;
-	private KonfiguracjaService konfiguracjaService;
 	private NauczycielService nauczycielService;
 	private OcenaService ocenaService;
 	private UwagaService uwagaService;
@@ -37,8 +33,6 @@ public class PupilPresenter implements BasePresenter {
 	public PupilPresenter(Ui_MainWindow view) {
 		this.view = view;
 
-		this.konfiguracjaService = (KonfiguracjaService) SpringUtil
-				.getContext().getBean("konfiguracjaService");
 		this.nauczycielService = (NauczycielService) SpringUtil.getContext()
 				.getBean("nauczycielService");
 		this.ocenaService = (OcenaService) SpringUtil.getContext().getBean(
@@ -81,7 +75,6 @@ public class PupilPresenter implements BasePresenter {
 	@SuppressWarnings("unused")
 	private void changeDetailsUser() {
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
-		// view.tableDetailUsers.reset();
 	}
 
 	@SuppressWarnings("unused")
@@ -116,17 +109,15 @@ public class PupilPresenter implements BasePresenter {
 		final AddNoteForm aNF = new AddNoteForm();
 		final QModelIndex currentIndex = getCurrentIndex();
 		if (!Helpers.indexIsValid(getCurrentIndex())) {
-			QMessageBox
-			.warning(null, "Dodaj notkê", "Nie wybra³eœ ucznia.");
+			QMessageBox.warning(null, "Dodaj notkê", "Nie wybra³eœ ucznia.");
 			return;
 		}
+
 		if (aNF.exec() == QDialog.DialogCode.Accepted.value()) {
-
 			if (Helpers.indexIsValid(currentIndex)) {
-				final Nauczyciel nauczyciel = getLoggedTeacher();
-
 				if (aNF.getNote() != null && !aNF.getNote().equals("")) {
-					Uwaga uwaga = new Uwaga(this.pupilModel.getPupils().get(
+					final Nauczyciel nauczyciel = getLoggedTeacher();
+					final Uwaga uwaga = new Uwaga(this.pupilModel.getPupils().get(
 							currentIndex.row()), nauczyciel, aNF.getNote());
 					uwagaService.save(uwaga);
 					noteModel.addNote(currentIndex.row(), uwaga);
@@ -143,9 +134,11 @@ public class PupilPresenter implements BasePresenter {
 	 * Access here has only Teacher so we can assume logged person is Teacher
 	 */
 	private Nauczyciel getLoggedTeacher() {
-		final int logedPersonId = konfiguracjaService.getLoggedOsoba()
-				.getIdOsoba();
-		return nauczycielService.findByOsobaId(logedPersonId);
+		Osoba loggedPerson = ApplicationMain.getLoggedPerson();
+		System.err.println("loggedPerson: " + loggedPerson);
+		Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
+				.getIdOsoba());
+		return teacher;
 	}
 
 	@Override

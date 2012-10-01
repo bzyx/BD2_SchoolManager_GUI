@@ -1,9 +1,6 @@
 package pl.polsl.bd2.gui;
 
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
-import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
-import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
 import pl.polsl.bd2.presentation.contest.ContestPresenter;
 import pl.polsl.bd2.presentation.data.DataPresenter;
@@ -15,7 +12,6 @@ import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 import com.trolltech.qt.gui.QMainWindow;
 
 public class MainWindow extends QMainWindow {
-	
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
@@ -23,23 +19,11 @@ public class MainWindow extends QMainWindow {
 	private PupilPresenter pupilPresenter;
 	private ManagmentPresenter managmentPresenter;
 	private TeacherPresenter teacherPresenter;
-	
-	private KonfiguracjaService konfiguracjaService;
-	private OsobaService osobaService;
-
-	
-	Ui_MainWindow ui = new Ui_MainWindow();
+	private Ui_MainWindow ui = new Ui_MainWindow();
 
 	public MainWindow() {
 		ui.setupUi(this);
-		
-		konfiguracjaService = (KonfiguracjaService) SpringUtil
-				.getBean("konfiguracjaService");
-		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
-		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
-		
 		initTabs();
-
 	}
 
 	private void initTabs() {
@@ -56,7 +40,7 @@ public class MainWindow extends QMainWindow {
 		teacherPresenter = new TeacherPresenter(ui);
 		teacherPresenter.initModel();
 		teacherPresenter.connectSlots();
-		
+
 	}
 
 	private void absenceTab() {
@@ -95,7 +79,6 @@ public class MainWindow extends QMainWindow {
 		this.pupilPresenter.initModel();
 		this.pupilPresenter.connectSlots();
 	}
-
 
 	private void classMenagmentTab() {
 		managmentPresenter = new ManagmentPresenter(ui);
