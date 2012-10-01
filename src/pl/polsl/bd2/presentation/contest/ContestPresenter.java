@@ -4,6 +4,7 @@ import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QMessageBox;
+import com.trolltech.qt.gui.QSortFilterProxyModel;
 
 import pl.polsl.bd2.gui.DictEditorWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
@@ -37,6 +38,7 @@ public class ContestPresenter implements BasePresenter {
 	private DictEditorWidget dictEditorWidget;
 	private ContestTypeListModel contestTypeListModel;
 	private ContestResultListModel contestResultListModel;
+	private QSortFilterProxyModel contestParticipantsTableModelSorted;
 
 	public ContestPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -46,10 +48,14 @@ public class ContestPresenter implements BasePresenter {
 		dictEditorWidget = new DictEditorWidget();
 		contestTypeListModel = new ContestTypeListModel();
 		contestResultListModel = new ContestResultListModel();
+		
+		contestParticipantsTableModelSorted = new QSortFilterProxyModel();
+		contestParticipantsTableModelSorted.setSourceModel(contestParticipantsTableModel);
 
 		view.listContest.setModel(contestListModel);
-		view.contestTable.setModel(contestParticipantsTableModel);
+		view.contestTable.setModel(contestParticipantsTableModelSorted);
 
+		view.contestTable.setSortingEnabled(true);
 		view.contestTable.resizeColumnsToContents();
 		view.contestTable.horizontalHeader().setStretchLastSection(true);
 
