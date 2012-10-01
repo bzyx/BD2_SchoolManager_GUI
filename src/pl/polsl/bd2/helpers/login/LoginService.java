@@ -1,4 +1,4 @@
-package pl.polsl.bd2.presentation.login;
+package pl.polsl.bd2.helpers.login;
 
 import javax.security.auth.login.LoginException;
 
