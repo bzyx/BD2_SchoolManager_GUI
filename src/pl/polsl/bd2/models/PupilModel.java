@@ -1,7 +1,6 @@
 package pl.polsl.bd2.models;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -11,7 +10,6 @@ import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
-import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 
 import com.trolltech.qt.core.QModelIndex;

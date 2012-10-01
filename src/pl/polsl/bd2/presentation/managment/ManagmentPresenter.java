@@ -2,8 +2,12 @@ package pl.polsl.bd2.presentation.managment;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.QSignalMapper;
+import com.trolltech.qt.core.Qt.ItemDataRole;
+import com.trolltech.qt.gui.QDialog;
+import com.trolltech.qt.gui.QMessageBox;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
+import pl.polsl.bd2.gui.ComboBoxDialog;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -14,6 +18,7 @@ import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
+import pl.polsl.bd2.models.OddzialListModel;
 import pl.polsl.bd2.models.PupilModelForClassMenagment;
 import pl.polsl.bd2.presentation.BasePresenter;
 
@@ -21,6 +26,8 @@ import pl.polsl.bd2.presentation.BasePresenter;
 public class ManagmentPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private PupilModelForClassMenagment pupilModelForClassMenagment;
+	ComboBoxDialog comboBoxDlg;
+	OddzialListModel oddzialListModel;
 
 	public ManagmentPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -41,6 +48,7 @@ public class ManagmentPresenter implements BasePresenter {
 		
 		view.groupBoxAddClass.setVisible(false);
 		view.groupBoxAddPupil.setVisible(false);
+		oddzialListModel = new OddzialListModel();
 	
 	}
 
@@ -56,6 +64,7 @@ public class ManagmentPresenter implements BasePresenter {
 		view.comboBoxClassAll.currentIndexChanged.connect(this,
 				"changeClassAllPupilTable()");
 		view.pushButtonDeletePupil.clicked.connect(this, "deletePupilClass()");
+		view.pushButtonMovePupil.clicked.connect(this, "movePupil()");
 
 		QSignalMapper hideGroupBoxMapper = new QSignalMapper();
 		hideGroupBoxMapper.setMapping(view.pushButtonAddClass, 1);
@@ -73,6 +82,8 @@ public class ManagmentPresenter implements BasePresenter {
 		QModelIndex currentIndex = view.tableViewPupils.currentIndex();
 		if (Helpers.indexIsValid(currentIndex)) {
 			view.tableViewPupils.model().removeRows(currentIndex.row(), 1);
+		} else {
+			QMessageBox.warning(null, "Błąd", "Najpierw zaznacz ucznia do usunięcia.");
 		}
 	}
 	
@@ -104,9 +115,7 @@ public class ManagmentPresenter implements BasePresenter {
 			// this.reloadComboBoxClassAll();
 			view.comboBoxClassAll.addItem(view.lineEditNewClassName.text());
 			view.comboBoxClass.addItem(view.lineEditNewClassName.text());
-			view.lineEditNewClassName.clear();
-			this.pupilModelForClassMenagment.reContainer();
-			view.tableViewPupils.reset();
+			makeUpdateOfView();
 		}
 	}
 
@@ -152,9 +161,7 @@ public class ManagmentPresenter implements BasePresenter {
 
 			uczenService.save(new Uczen(osobaService.findLast(), oddzialService
 					.findAll().get(view.comboBoxClassAll.currentIndex())));
-			this.clearFieldsPupil();
-			this.pupilModelForClassMenagment.reContainer();
-			view.tableViewPupils.reset();
+			makeUpdateOfView();
 		}
 	}
 
@@ -167,10 +174,37 @@ public class ManagmentPresenter implements BasePresenter {
 		view.lineEditNewPupilLogin.clear();
 		view.lineEditNewPupilPassword.clear();
 	}
+	
+	public void movePupil(){
+		
+		QModelIndex currentIndex = view.tableViewPupils.currentIndex();
+		if (Helpers.indexIsValid(currentIndex)) {
+			if (comboBoxDlg == null)
+				comboBoxDlg = new ComboBoxDialog();
+			
+			comboBoxDlg.setModel(oddzialListModel);
+			comboBoxDlg.setWindowTitle("Przenosiny do klasy.");
+			
+				if (comboBoxDlg.exec() == QDialog.DialogCode.Accepted.value()){
+					Uczen u = (Uczen) view.tableViewPupils.model().data(currentIndex, ItemDataRole.UserRole);
+					u.setOddzial((Oddzial) comboBoxDlg.getCurrentItem());
+					
+					view.tableViewPupils.model().setData(currentIndex, u);
+					makeUpdateOfView();
+				}
+		} else {
+			QMessageBox.warning(null, "Błąd", "Najpierw zaznacz ucznia do usunięcia.");
+		}
+		
+		
+	}
 
 	@Override
 	public void makeUpdateOfView() {
-		// TODO Auto-generated method stub
+		view.lineEditNewClassName.clear();
+		this.clearFieldsPupil();
+		this.pupilModelForClassMenagment.reContainer();
+		view.tableViewPupils.reset();
 		
 	}
 }

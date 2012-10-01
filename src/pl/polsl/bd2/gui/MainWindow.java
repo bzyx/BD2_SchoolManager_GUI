@@ -1,17 +1,9 @@
 package pl.polsl.bd2.gui;
 
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
-import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.messageSystem.models.Oddzial;
-import pl.polsl.bd2.messageSystem.models.Osoba;
-import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
-import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
-import pl.polsl.bd2.messageSystem.service.RoleService;
-import pl.polsl.bd2.messageSystem.service.UczenService;
-import pl.polsl.bd2.models.PupilModelForClassMenagment;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
 import pl.polsl.bd2.presentation.contest.ContestPresenter;
 import pl.polsl.bd2.presentation.data.DataPresenter;
@@ -19,11 +11,8 @@ import pl.polsl.bd2.presentation.managment.ManagmentPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
 
-import com.trolltech.qt.core.QModelIndex;
-import com.trolltech.qt.core.QSignalMapper;
 import com.trolltech.qt.core.QUrl;
 import com.trolltech.qt.gui.QMainWindow;
-import com.trolltech.qt.gui.QSortFilterProxyModel;
 
 public class MainWindow extends QMainWindow {
 
@@ -40,7 +29,6 @@ public class MainWindow extends QMainWindow {
 	
 	private KonfiguracjaService konfiguracjaService;
 	private OsobaService osobaService;
-	private PupilModelForClassMenagment pupilModelForClassMenagment;
 	
 	Ui_MainWindow ui = new Ui_MainWindow();
 
