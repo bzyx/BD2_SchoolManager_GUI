@@ -8,11 +8,17 @@ import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.BasePresenter;
 
+import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QMessageBox;
 
 public class LoginPresenter implements BasePresenter {
 	private final LoginForm loginForm = new LoginForm();
 	private Osoba loggedPerson;
+	private final SimpleLoginPasswordLoginService loginService;
+
+	public LoginPresenter() {
+		loginService = SimpleLoginPasswordLoginService.getLoginService();
+	}
 
 	public LoginForm getLoginForm() {
 		return loginForm;
@@ -28,34 +34,34 @@ public class LoginPresenter implements BasePresenter {
 
 	@Override
 	public void connectSlots() {
-		loginForm.getUi().buttonBox.accepted.connect(this, LoginSlots.LOGIN);
-		loginForm.getUi().buttonBox.rejected
-				.connect(this, LoginSlots.CLOSE_APP);
+		
 	}
 
 	@Override
 	public void makeUpdateOfView() {
 	}
 
-	@SuppressWarnings("unused")
-	private void login() {
-		final String login = loginForm.getLogin();
-		final String password = loginForm.getPassword();
+	public void login() {
 
-		if (!login.equals("") && !password.equals("")) {
-			final SimpleLoginPasswordLoginService loginService = SimpleLoginPasswordLoginService
-					.getLoginService();
-			try {
-				// Tutaj przypisuje ale po wyjsciu z tad ma znowu nulla w 'loggedPerson'
-				loggedPerson = loginService.login(login, password);
-				loginForm.close();
-			} catch (LoginException e) {
-				Toast.show("Logowanie", "Nie Znaleziono uøytkownika w bazie");
-			} finally {
-				clearForm();
+		if (loginForm.exec() == QDialog.DialogCode.Accepted.value()) {
+
+			final String login = loginForm.getLogin();
+			final String password = loginForm.getPassword();
+
+			if (!login.equals("") && !password.equals("")) {
+				try {
+					loggedPerson = loginService.login(login, password);
+				} catch (LoginException e) {
+					Toast.show("Logowanie",
+							"Nie znaleziono u≈ºytkownika w bazie");
+				} finally {
+					clearForm();
+				}
+			} else {
+				QMessageBox.warning(null, "Logowanie",
+						"Wype≈Çnij wszystkie dane");
 			}
-		} else {
-			QMessageBox.warning(null, "Logowanie", "Wype≥nij wszystkie dane");
+
 		}
 	}
 
@@ -67,5 +73,9 @@ public class LoginPresenter implements BasePresenter {
 	private void clearForm() {
 		loginForm.getUi().lineEdit.setText("");
 		loginForm.getUi().lineEdit_2.setText("");
+	}
+
+	public Osoba getLoggedOsoba() {
+		return loggedPerson;
 	}
 }

@@ -2,30 +2,16 @@ package pl.polsl.bd2.gui;
 
 import pl.polsl.bd2.gui.forms.Ui_loginForm;
 
-import com.trolltech.qt.gui.QApplication;
-import com.trolltech.qt.gui.QWidget;
+import com.trolltech.qt.gui.QDialog;
 
-public class LoginForm extends QWidget {
+public class LoginForm extends QDialog {
 
 	private final Ui_loginForm ui = new Ui_loginForm();
 
-	public static void main(String[] args) {
-		QApplication.initialize(args);
-
-		LoginForm testloginForm = new LoginForm();
-		testloginForm.show();
-		QApplication.exec();
-	}
-
 	public LoginForm() {
 		ui.setupUi(this);
-	}
-
-	public LoginForm(QWidget parent) {
-		super(parent);
-		ui.setupUi(this);
-		ui.buttonBox.rejected.connect(this, "reject()");
 		ui.buttonBox.accepted.connect(this, "accept()");
+		ui.buttonBox.rejected.connect(this, "reject()");
 	}
 	
 	public Ui_loginForm getUi() {
@@ -33,10 +19,10 @@ public class LoginForm extends QWidget {
 	}
 
 	public String getLogin() {
-		return ui.lineEdit.text();
+		return ui.lineEdit.text().trim();
 	}
 
 	public String getPassword() {
-		return ui.lineEdit_2.text();
+		return ui.lineEdit_2.text().trim();
 	}
 }

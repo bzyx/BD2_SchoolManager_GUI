@@ -12,7 +12,6 @@ import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
 import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
-import com.trolltech.qt.core.QUrl;
 import com.trolltech.qt.gui.QMainWindow;
 
 public class MainWindow extends QMainWindow {
@@ -27,20 +26,20 @@ public class MainWindow extends QMainWindow {
 	
 	private KonfiguracjaService konfiguracjaService;
 	private OsobaService osobaService;
+
 	
 	Ui_MainWindow ui = new Ui_MainWindow();
 
 	public MainWindow() {
 		ui.setupUi(this);
-
+		
 		konfiguracjaService = (KonfiguracjaService) SpringUtil
 				.getBean("konfiguracjaService");
 		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
 		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
 		
-		
-		
 		initTabs();
+
 	}
 
 	private void initTabs() {
