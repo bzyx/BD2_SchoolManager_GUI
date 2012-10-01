@@ -92,12 +92,16 @@ public class PupilPresenter implements BasePresenter {
 				final QModelIndex currentIndex = view.tableUsers.currentIndex();
 				
 				if (Helpers.indexIsValid(currentIndex)) {
-					for(Nauczyciel nauczycielIt: nauczycielService.findAll()){
-						if (nauczycielIt.getOsoba().getIdOsoba() == osoba.getIdOsoba()) {
-							nauczyciel = nauczycielIt;
-							break;
-						}
-					}
+//					for(Nauczyciel nauczycielIt: nauczycielService.findAll()){
+//						if (nauczycielIt.getOsoba().getIdOsoba() == osoba.getIdOsoba()) {
+//							nauczyciel = nauczycielIt;
+//							break;
+//						}
+//					}
+					NauczycielService nauczycielService = (NauczycielService) SpringUtil
+							.getBean("nauczycielService");
+					nauczyciel = nauczycielService.findById(konfiguracjaService
+							.getLoggedOsoba().getIdOsoba());
 					
 					Ocena ocena = new Ocena(this.pupilModel.getPupils().get(currentIndex.row()),
 							this.pupilModel.getPrzedmioty().get(currentIndex.row()),
