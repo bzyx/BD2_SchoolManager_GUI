@@ -32,9 +32,7 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui = new Ui_MainWindow();
 		ui.setupUi(this);
-		LoginPresenter loginPresenter = new LoginPresenter();
-		loginPresenter.connectSlots();
-		loginPresenter.getLoginForm().show();
+		doLoggin();
 
 		// Zalogowany użytkownik
 		konfiguracjaService = (KonfiguracjaService) SpringUtil
@@ -47,6 +45,12 @@ public class MainWindow extends QMainWindow {
 		initTabs();
 
 		ui.tabWidget.currentChanged.connect(this, "makeTabUpdate(int)");
+	}
+
+	private void doLoggin() {
+		LoginPresenter loginPresenter = new LoginPresenter();
+		loginPresenter.connectSlots();
+		loginPresenter.getLoginForm().show();
 	}
 
 	public void makeTabUpdate(int tabNo) {
