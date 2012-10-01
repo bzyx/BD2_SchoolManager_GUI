@@ -86,6 +86,12 @@ public class ContestParticipantsTableModel extends QAbstractTableModel {
 		}
 		return null;
 	}
+	
+	public void updateModel(){
+		container.clear();
+		container = uczestnikKonkursuService.findAll();
+		reset();
+	}
 
 	@Override
 	@QtBlockedSlot

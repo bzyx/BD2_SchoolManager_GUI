@@ -52,6 +52,8 @@ public class ContestPresenter implements BasePresenter {
 
 		view.contestTable.resizeColumnsToContents();
 		view.contestTable.horizontalHeader().setStretchLastSection(true);
+
+		view.contestTable.verticalHeader().hide();
 	}
 
 	@Override
@@ -64,6 +66,8 @@ public class ContestPresenter implements BasePresenter {
 				"addContestParticipant()");
 		view.buttonEditConestParticipant.clicked.connect(this,
 				"editContestParticipant()");
+		view.buttonRemoveContestParticipant.clicked.connect(this,
+				"removeContestParticipant()");
 		view.buttonContestType.clicked.connect(this, "contestTypeDialog()");
 		view.buttonContestResult.clicked.connect(this, "contestResultDialog()");
 		view.buttonRemoveContest.clicked.connect(this, "removeContest()");
@@ -139,6 +143,8 @@ public class ContestPresenter implements BasePresenter {
 				.getBean("nauczycielService");
 		Nauczyciel nauczyciel = nauczycielService.findById(konfiguracjaService
 				.getLoggedOsoba().getIdOsoba());
+		competitionParticipantDialog.updateDialog();
+		competitionParticipantDialog.setEditMode(false);
 		if (competitionParticipantDialog.exec() == QDialog.DialogCode.Accepted
 				.value()) {
 			uczestnikKonkursuService = (UczestnikKonkursuService) SpringUtil
@@ -158,6 +164,10 @@ public class ContestPresenter implements BasePresenter {
 		QModelIndex index = view.contestTable.currentIndex();
 
 		if (Helpers.indexIsValid(index)) {
+			competitionParticipantDialog.updateDialog();
+			competitionParticipantDialog.setEditMode(true);
+
+			contestParticipantsTableModel.updateModel();
 			UczestnikKonkursu uczestnikKonkursu = (UczestnikKonkursu) contestParticipantsTableModel
 					.data(index, ItemDataRole.UserRole);
 
@@ -185,23 +195,25 @@ public class ContestPresenter implements BasePresenter {
 
 				uczestnikKonkursuService.edit(uczestnikKonkursu);
 			}
-
+			makeUpdateOfView();
+		} else {
+			QMessageBox.warning(null, "Błąd",
+					"Należy wybrać uczestnika do edycji");
 		}
-		makeUpdateOfView();
 
 	}
-	
-	public void contestTypeDialog(){
+
+	public void contestTypeDialog() {
 		dictEditorWidget.setWindowTitle("Typy konkursów");
 		dictEditorWidget.setModel(contestTypeListModel);
-		
+
 		dictEditorWidget.show();
 	}
-	
-	public void contestResultDialog(){
+
+	public void contestResultDialog() {
 		dictEditorWidget.setWindowTitle("Wyniki konkursów");
 		dictEditorWidget.setModel(contestResultListModel);
-		
+
 		dictEditorWidget.show();
 	}
 
@@ -211,22 +223,36 @@ public class ContestPresenter implements BasePresenter {
 		contestListModel.makeUpdate();
 		view.listContest.reset();
 		view.listContest.setModel(contestListModel);
-		
+
 		view.contestTable.setModel(null);
 		view.contestTable.reset();
 		view.contestTable.setModel(new ContestParticipantsTableModel());
+		view.contestTable.resizeColumnsToContents();
 
 	}
-	
-	public void removeContest(){
+
+	public void removeContest() {
 		QModelIndex index = view.listContest.currentIndex();
 
 		if (Helpers.indexIsValid(index)) {
 			KonkursService konkursService = (KonkursService) SpringUtil
 					.getBean("konkursService");
-			
+
 			konkursService.delete((Konkurs) index.data(ItemDataRole.UserRole));
 			makeUpdateOfView();
-			}
 		}
+	}
+
+	public void removeContestParticipant() {
+		QModelIndex index = view.contestTable.currentIndex();
+
+		if (Helpers.indexIsValid(index)) {
+			UczestnikKonkursuService uczestnikKonkursuService = (UczestnikKonkursuService) SpringUtil
+					.getBean("uczestnikKonkursuService");
+
+			uczestnikKonkursuService.delete((UczestnikKonkursu) index
+					.data(ItemDataRole.UserRole));
+			makeUpdateOfView();
+		}
+	}
 }

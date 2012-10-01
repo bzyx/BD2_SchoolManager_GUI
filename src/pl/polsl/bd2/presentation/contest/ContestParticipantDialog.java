@@ -19,37 +19,48 @@ public class ContestParticipantDialog extends QDialog {
 	public Uczen getUczen() {
 		return (Uczen) ui.comboStudentList.model().data(
 				ui.comboStudentList.model().index(
-				ui.comboStudentList.currentIndex(), 0), ItemDataRole.UserRole);
+						ui.comboStudentList.currentIndex(), 0),
+				ItemDataRole.UserRole);
 	}
 
 	public void setUczen(Uczen uczen) {
-	QModelIndex tmpIndex = studentListModel.index(0, 0);
-		
-		for (int i = 0; i < studentListModel.rowCount(); i++ ){
-			if ( studentListModel.data(tmpIndex).equals(String.format("%s %s", uczen.getOsoba().getImie(),uczen.getOsoba().getNazwisko()))){
+		QModelIndex tmpIndex = studentListModel.index(0, 0);
+
+		for (int i = 0; i < studentListModel.rowCount(); i++) {
+			Uczen uczenModel = (Uczen) studentListModel.data(tmpIndex, ItemDataRole.UserRole);
+			
+			if (uczenModel.getIdUczen() == uczen.getIdUczen()) {
 				ui.comboStudentList.setCurrentIndex(tmpIndex.row());
 				break;
 			}
-			
+
 			tmpIndex = studentListModel.index(i, 0);
 		}
 	}
 
 	public Konkurs getKonkurs() {
-		return  (Konkurs) ui.comboBoxCompetitionList.model().data(
+		return (Konkurs) ui.comboBoxCompetitionList.model().data(
 				ui.comboBoxCompetitionList.model().index(
-				ui.comboBoxCompetitionList.currentIndex(), 0), ItemDataRole.UserRole);
+						ui.comboBoxCompetitionList.currentIndex(), 0),
+				ItemDataRole.UserRole);
 	}
 
 	public void setKonkurs(Konkurs konkurs) {
-	QModelIndex tmpIndex = contestListModel.index(0, 0);
-		
-		for (int i = 0; i < contestListModel.rowCount(); i++ ){
-			if ( contestListModel.data(tmpIndex).equals(String.format("%s ( %s )", konkurs.getNazwa(), konkurs.getTypKonkursu().getNazwa()))){
+		//FIXME: Backend coś miesza.
+		ui.textAdditionalInfo.append("Ruszam");
+		QModelIndex tmpIndex = contestListModel.index(0, 0);
+		Konkurs konkursModel;
+		ui.textAdditionalInfo.append(konkurs.getNazwa());
+		for (int i = 0; i < contestListModel.rowCount(); i++) {
+			
+			konkursModel = (Konkurs) contestListModel.data(tmpIndex, ItemDataRole.UserRole);
+			ui.textAdditionalInfo.append(konkursModel.getNazwa());
+			
+			if (konkursModel.getIdKonkurs() == konkurs.getIdKonkurs()) {
 				ui.comboBoxCompetitionList.setCurrentIndex(tmpIndex.row());
 				break;
 			}
-			
+
 			tmpIndex = contestListModel.index(i, 0);
 		}
 	}
@@ -57,18 +68,21 @@ public class ContestParticipantDialog extends QDialog {
 	public WynikKonkursu getWynikKonkursu() {
 		return (WynikKonkursu) ui.comboBoxResultList.model().data(
 				ui.comboBoxResultList.model().index(
-				ui.comboBoxResultList.currentIndex(), 0), ItemDataRole.UserRole);
+						ui.comboBoxResultList.currentIndex(), 0),
+				ItemDataRole.UserRole);
 	}
 
 	public void setWynikKonkursu(WynikKonkursu wynikKonkursu) {
+		//FIXME: Backend bardzo tu miesza
 		QModelIndex tmpIndex = contestResultListModel.index(0, 0);
-		
-		for (int i = 0; i < contestResultListModel.rowCount(); i++ ){
-			if ( contestResultListModel.data(tmpIndex).equals(wynikKonkursu.getWynik())){
+
+		for (int i = 0; i < contestResultListModel.rowCount(); i++) {
+			if (contestResultListModel.data(tmpIndex).equals(
+					wynikKonkursu.getWynik())) {
 				ui.comboBoxCompetitionList.setCurrentIndex(tmpIndex.row());
 				break;
 			}
-			
+
 			tmpIndex = contestResultListModel.index(i, 0);
 		}
 	}
@@ -78,7 +92,7 @@ public class ContestParticipantDialog extends QDialog {
 	}
 
 	public void setDodatkoweInformacje(String dodatkoweInformacje) {
-		 ui.textAdditionalInfo.setText(dodatkoweInformacje);
+		ui.textAdditionalInfo.setText(dodatkoweInformacje);
 	}
 
 	private StudentListModel studentListModel;
@@ -90,23 +104,32 @@ public class ContestParticipantDialog extends QDialog {
 		studentListModel = new StudentListModel();
 		contestListModel = new ContestListModel();
 		contestResultListModel = new ContestResultListModel();
-		
-		
+
 		ui.comboStudentList.setModel(studentListModel);
 		ui.comboBoxCompetitionList.setModel(contestListModel);
 		ui.comboBoxResultList.setModel(contestResultListModel);
-		
+
 		ui.buttonBox.accepted.connect(this, "accept()");
 		ui.buttonBox.rejected.connect(this, "reject()");
 	}
 	
-	@Override
-	public int exec() {
+	public void updateDialog(){
 		studentListModel.makeUpdate();
 		contestListModel.makeUpdate();
 		contestResultListModel.makeUpdate();
-		
-		return super.exec();
 	}
 
+	public void setEditMode(Boolean editMode) {
+		if (editMode == false){
+			ui.comboStudentList.setCurrentIndex(0);
+			ui.comboBoxCompetitionList.setCurrentIndex(0);
+			ui.comboBoxResultList.setCurrentIndex(0);
+			ui.comboBoxResultList.setEnabled(false);
+			ui.comboStudentList.setEnabled(true);
+		} else {
+			ui.comboBoxResultList.setEnabled(true);
+			ui.comboStudentList.setEnabled(false);
+		}
+	}
+	
 }

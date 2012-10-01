@@ -48,8 +48,8 @@ public class AbsenceTableModel extends QAbstractTableModel {
 		int col = index.column();
 		if (role == ItemDataRole.DisplayRole) {
 			if (col == 0)
-				return container.get(row).isObecnosc() == true ? "Obecny"
-						: "Nieobecny";
+				//return container.get(row).getObecnosc() == true ? "Obecny"
+					//	: "Nieobecny";
 			if (col == 1)
 				return container.get(row).getData();
 		}

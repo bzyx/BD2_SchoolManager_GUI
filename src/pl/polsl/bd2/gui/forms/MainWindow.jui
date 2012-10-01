@@ -288,7 +288,11 @@ QTableView::item {
            </widget>
           </item>
           <item>
-           <widget class="QListView" name="listContest"/>
+           <widget class="QListView" name="listContest">
+            <property name="editTriggers">
+             <set>com.trolltech.qt.gui.QAbstractItemView.EditTrigger.NoEditTriggers</set>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -414,7 +418,17 @@ QTableView::item {
            </widget>
           </item>
           <item>
-           <widget class="QTableView" name="contestTable"/>
+           <widget class="QTableView" name="contestTable">
+            <property name="editTriggers">
+             <set>com.trolltech.qt.gui.QAbstractItemView.EditTrigger.NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionMode.SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>com.trolltech.qt.gui.QAbstractItemView.SelectionBehavior.SelectRows</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4"/>
