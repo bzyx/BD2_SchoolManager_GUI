@@ -103,12 +103,6 @@ public class MainWindow extends QMainWindow {
 		this.managmentPresenter.connectSlots();
 	}
 
-	private void classMenagmentTab() {
-		managmentPresenter = new ManagmentPresenter(ui);
-		this.managmentPresenter.connectSlots();
-	}
-
-
 	private void dataTab() {
 		dataPresenter = new DataPresenter(ui);
 		dataPresenter.connectSlots();
