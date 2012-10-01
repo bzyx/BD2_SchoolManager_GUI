@@ -35,8 +35,13 @@ public class ManagmentPresenter implements BasePresenter {
 		view.tableViewPupils.resizeColumnsToContents();
 		view.tableViewPupils.horizontalHeader().setStretchLastSection(true);
 		view.tableViewPupils.verticalHeader().hide();
+		
 
 		this.reloadComboBoxClassAll();
+		
+		view.groupBoxAddClass.setVisible(false);
+		view.groupBoxAddPupil.setVisible(false);
+	
 	}
 
 	@Override
@@ -60,7 +65,6 @@ public class ManagmentPresenter implements BasePresenter {
 		view.pushButtonAddPupil.clicked.connect(hideGroupBoxMapper, "map()");
 		hideGroupBoxMapper.mappedInteger.connect(this,
 				"hideGroupBox(int)");
-		
 	}
 	
 	
