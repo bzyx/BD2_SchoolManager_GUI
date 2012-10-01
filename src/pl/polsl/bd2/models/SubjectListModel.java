@@ -26,7 +26,6 @@ public class SubjectListModel extends QAbstractListModel {
 	@QtBlockedSlot
 	public Object data(QModelIndex index, int role) {
 
-		
 		if (role == Qt.ItemDataRole.DisplayRole)
 			return container.get(index.row()).getNazwa();
 		else if (role == Qt.ItemDataRole.UserRole)
