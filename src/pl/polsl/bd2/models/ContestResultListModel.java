@@ -25,8 +25,6 @@ public class ContestResultListModel extends QAbstractListModel {
 	@Override
 	@QtBlockedSlot
 	public Object data(QModelIndex index, int role) {
-
-		
 		if (role == Qt.ItemDataRole.DisplayRole)
 			return container.get(index.row()).getWynik();
 		if (role == Qt.ItemDataRole.ToolTipRole)

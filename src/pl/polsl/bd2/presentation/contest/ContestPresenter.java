@@ -162,6 +162,8 @@ public class ContestPresenter implements BasePresenter {
 
 	public void editContestParticipant() {
 		QModelIndex index = view.contestTable.currentIndex();
+		uczestnikKonkursuService = (UczestnikKonkursuService) SpringUtil
+				.getBean("uczestnikKonkursuService");
 
 		if (Helpers.indexIsValid(index)) {
 			competitionParticipantDialog.updateDialog();
@@ -228,6 +230,7 @@ public class ContestPresenter implements BasePresenter {
 		view.contestTable.reset();
 		view.contestTable.setModel(new ContestParticipantsTableModel());
 		view.contestTable.resizeColumnsToContents();
+		view.contestTable.horizontalHeader().setStretchLastSection(true);
 
 	}
 
