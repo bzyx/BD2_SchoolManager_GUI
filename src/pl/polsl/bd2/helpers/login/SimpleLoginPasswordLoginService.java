@@ -10,8 +10,17 @@ import pl.polsl.bd2.messageSystem.service.OsobaService;
  * Simple login service with plain text login and password authentication
  */
 public class SimpleLoginPasswordLoginService implements LoginService {
+	private Osoba loggedPerson;
 
 	private SimpleLoginPasswordLoginService() {
+	}
+
+	public Osoba getLoggedPerson() {
+		return loggedPerson;
+	}
+
+	public void setLoggedPerson(Osoba loggedPerson) {
+		this.loggedPerson = loggedPerson;
 	}
 
 	@Override
