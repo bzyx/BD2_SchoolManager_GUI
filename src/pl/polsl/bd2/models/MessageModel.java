@@ -30,10 +30,10 @@ public class MessageModel extends QAbstractTableModel {
 	public MessageModel() {
 		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
 		konfiguracjaService = (KonfiguracjaService)SpringUtil.getBean("konfiguracjaService");
-//		final Osoba loggedOsoba = konfiguracjaService.getLoggedOsoba();
+		final Osoba loggedOsoba = konfiguracjaService.getLoggedOsoba();
 
-		final Osoba loggedOsoba = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
-		System.err.println("Logged osoba: "+loggedOsoba.toString());
+//		final Osoba loggedOsoba = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
+//		System.err.println("Logged osoba: "+loggedOsoba.toString());
 		messageContainer = new ArrayList<Komunikat>(loggedOsoba.getOsobaDo());
 	}
 	

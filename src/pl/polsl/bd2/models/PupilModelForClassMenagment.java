@@ -8,11 +8,11 @@ import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.OsobaService;
-import pl.polsl.bd2.messageSystem.service.RoleService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
+import com.trolltech.qt.core.Qt.ItemDataRole;
 import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
@@ -118,6 +118,9 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 				return pupilContainer.get(this.actualClass).get(row).getOsoba().getLogin();
 			//TODO: dodac mail itp.
 		}
+		if (role == ItemDataRole.UserRole){
+			return pupilContainer.get(this.actualClass).get(row);
+		}
 /*
 		if (role == Qt.ItemDataRole.ToolTipRole) {
 			String msgText = PupilContainer.get(row).getTrescKomunikatu().getTekst();
@@ -140,7 +143,11 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 
 	@Override
 	public boolean setData(QModelIndex index, Object value, int role) {
-		if (role == Qt.ItemDataRole.EditRole) {
+		
+		uczenService.edit((Uczen) value);
+		pupilContainer.get(this.actualClass).set(index.row(), (Uczen) value);
+		
+		//if (role == Qt.ItemDataRole.EditRole) {
 			/*if (index.row() >= 0 && index.row() <= pupilContainer.size()) {
 				if (index.column() == PupilFields.UNREAD.getNum()) {
 					PupilContainer.get(index.row())
@@ -150,8 +157,8 @@ public class PupilModelForClassMenagment extends QAbstractTableModel {
 					return true;
 				}
 			}*/
-		}
-		return false;
+		//}
+		return super.setData(index, value, role);
 	}
 
 	@Override

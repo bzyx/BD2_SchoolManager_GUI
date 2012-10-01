@@ -2,6 +2,10 @@ package pl.polsl.bd2.presentation.pupils;
 
 import java.util.Date;
 
+
+import com.trolltech.qt.core.QModelIndex;
+import com.trolltech.qt.gui.QDialog;
+
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;

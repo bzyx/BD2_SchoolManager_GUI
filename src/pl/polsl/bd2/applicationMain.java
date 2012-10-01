@@ -31,10 +31,10 @@ public final class applicationMain {
 		loginPresenter.getLoginForm().show();
 		Osoba loggedPerson = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
 		
-		if (loggedPerson!=null) {
+//		if (loggedPerson!=null) {
 			MainWindow testMainWindow = new MainWindow();
 			testMainWindow.show();
-		}
+//		}
 		
 
 		QApplication.exec();
