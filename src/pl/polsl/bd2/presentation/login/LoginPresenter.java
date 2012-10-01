@@ -3,6 +3,7 @@ package pl.polsl.bd2.presentation.login;
 import javax.security.auth.login.LoginException;
 
 import pl.polsl.bd2.gui.LoginForm;
+import pl.polsl.bd2.helpers.Toast;
 import pl.polsl.bd2.helpers.login.LoginService;
 import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
 import pl.polsl.bd2.messageSystem.models.Osoba;
@@ -28,7 +29,7 @@ public class LoginPresenter implements BasePresenter {
 	}
 
 	@SuppressWarnings("unused")
-	private void doLogin() {
+	private void login() {
 		final String login = loginForm.getLogin();
 		final String password = loginForm.getPassword();
 
@@ -40,7 +41,7 @@ public class LoginPresenter implements BasePresenter {
 
 				System.err.println("Logged person: " + loggedPerson.toString());
 			} catch (LoginException e) {
-				QMessageBox.warning(null, "Logowanie",
+				Toast.show("Logowanie",
 						"Nie Znaleziono u¿ytkownika w bazie");
 				clearForm();
 			}
