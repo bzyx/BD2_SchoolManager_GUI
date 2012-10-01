@@ -15,7 +15,7 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class SubjectTeacherClassConectionTableModel extends QAbstractTableModel {
 	private final String PRZEDMIOT = "Przedmiot";
-	private final String ODDZIAŁ = "Oddział";
+	private final String ODDZIAL = "Oddział‚";
 	private final String NAUCZYCIEL = "Nauczyciel";
 	
 	PrzedmiotService przedmiotService = (PrzedmiotService) SpringUtil.getBean("przedmiotService");
@@ -61,7 +61,7 @@ public class SubjectTeacherClassConectionTableModel extends QAbstractTableModel 
 				if (section == 0)
 					return PRZEDMIOT;
 				if (section == 1)
-					return ODDZIAŁ;
+					return ODDZIAL;
 				if (section == 2)
 					return NAUCZYCIEL;
 			}
