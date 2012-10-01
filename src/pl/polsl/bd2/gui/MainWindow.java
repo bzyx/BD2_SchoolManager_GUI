@@ -15,11 +15,7 @@ import com.trolltech.qt.core.QUrl;
 import com.trolltech.qt.gui.QMainWindow;
 
 public class MainWindow extends QMainWindow {
-
-	//TODO MJ Zakładka z pomocą (QTextEdit chyba ma full HTML ew. przeglądakrkowe okno)
-	//TODO MJ JUstification i absensce
-
-
+	
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
@@ -96,6 +92,7 @@ public class MainWindow extends QMainWindow {
 		managmentPresenter = new ManagmentPresenter(ui);
 		this.managmentPresenter.connectSlots();
 	}
+
 
 	private void dataTab() {
 		dataPresenter = new DataPresenter(ui);

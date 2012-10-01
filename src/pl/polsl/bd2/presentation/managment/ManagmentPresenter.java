@@ -44,6 +44,8 @@ public class ManagmentPresenter implements BasePresenter {
 		view.tableViewPupils.verticalHeader().hide();
 		
 
+		view.groupBoxAddClass.setVisible(false);
+		view.groupBoxAddPupil.setVisible(false);
 		this.reloadComboBoxClassAll();
 		
 		view.groupBoxAddClass.setVisible(false);
@@ -193,7 +195,7 @@ public class ManagmentPresenter implements BasePresenter {
 					makeUpdateOfView();
 				}
 		} else {
-			QMessageBox.warning(null, "Błąd", "Najpierw zaznacz ucznia do usunięcia.");
+			QMessageBox.warning(null, "Błąd", "Najpierw zaznacz ucznia do przeniesienia.");
 		}
 		
 		
