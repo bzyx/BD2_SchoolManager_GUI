@@ -10,6 +10,7 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.managment.ManagmentPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
+import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
 import com.trolltech.qt.core.QUrl;
 import com.trolltech.qt.gui.QMainWindow;
@@ -22,6 +23,7 @@ public class MainWindow extends QMainWindow {
 	private DataPresenter dataPresenter;
 	private PupilPresenter pupilPresenter;
 	private ManagmentPresenter managmentPresenter;
+	private TeacherPresenter teacherPresenter;
 	
 	private KonfiguracjaService konfiguracjaService;
 	private OsobaService osobaService;
@@ -48,6 +50,14 @@ public class MainWindow extends QMainWindow {
 		messagesTab();
 		pupilsTab();
 		contestTab();
+		teacherTab();
+	}
+
+	private void teacherTab() {
+		teacherPresenter = new TeacherPresenter(ui);
+		teacherPresenter.initModel();
+		teacherPresenter.connectSlots();
+		
 	}
 
 	private void absenceTab() {
