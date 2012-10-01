@@ -11,14 +11,15 @@ import pl.polsl.bd2.messageSystem.service.OsobaService;
  */
 public class SimpleLoginPasswordLoginService implements LoginService {
 
+	private SimpleLoginPasswordLoginService() {
+	}
+
 	@Override
 	public Osoba login(String login, String password) throws LoginException {
 		final OsobaService osobaService = (OsobaService) SpringUtil
 				.getBean("osobaService");
 		try {
-			final Osoba resultOsoba = osobaService.findByLoginAndPassword(
-					login, password);
-			return resultOsoba;
+			return osobaService.findByLoginAndPassword(login, password);
 		} catch (IndexOutOfBoundsException e) {
 			throw new LoginException("Nie znalazlem w bazie");
 		}
@@ -26,7 +27,12 @@ public class SimpleLoginPasswordLoginService implements LoginService {
 
 	@Override
 	public void logout() {
+	}
 
+	private static final SimpleLoginPasswordLoginService instance = new SimpleLoginPasswordLoginService();
+
+	public static SimpleLoginPasswordLoginService getLoginService() {
+		return instance;
 	}
 
 }

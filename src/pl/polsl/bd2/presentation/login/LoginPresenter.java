@@ -4,7 +4,6 @@ import javax.security.auth.login.LoginException;
 
 import pl.polsl.bd2.gui.LoginForm;
 import pl.polsl.bd2.helpers.Toast;
-import pl.polsl.bd2.helpers.login.LoginService;
 import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.BasePresenter;
@@ -12,16 +11,26 @@ import pl.polsl.bd2.presentation.BasePresenter;
 import com.trolltech.qt.gui.QMessageBox;
 
 public class LoginPresenter implements BasePresenter {
-	final LoginForm loginForm = new LoginForm();
+	private final LoginForm loginForm = new LoginForm();
+	private Osoba loggedPerson;
 
 	public LoginForm getLoginForm() {
 		return loginForm;
 	}
 
+	public Osoba getLoggedPerson() {
+		return loggedPerson;
+	}
+
+	public void setLoggedPerson(Osoba loggedPerson) {
+		this.loggedPerson = loggedPerson;
+	}
+
 	@Override
 	public void connectSlots() {
 		loginForm.getUi().buttonBox.accepted.connect(this, LoginSlots.LOGIN);
-		loginForm.getUi().buttonBox.rejected.connect(this, LoginSlots.CLOSE_APP);
+		loginForm.getUi().buttonBox.rejected
+				.connect(this, LoginSlots.CLOSE_APP);
 	}
 
 	@Override
@@ -34,15 +43,15 @@ public class LoginPresenter implements BasePresenter {
 		final String password = loginForm.getPassword();
 
 		if (!login.equals("") && !password.equals("")) {
-			final LoginService loginService = new SimpleLoginPasswordLoginService();
+			final SimpleLoginPasswordLoginService loginService = SimpleLoginPasswordLoginService
+					.getLoginService();
 			try {
-				final Osoba loggedPerson = loginService.login(login, password);
+				// Tutaj przypisuje ale po wyjsciu z tad ma znowu nulla w 'loggedPerson'
+				loggedPerson = loginService.login(login, password);
 				loginForm.close();
-
-				System.err.println("Logged person: " + loggedPerson.toString());
 			} catch (LoginException e) {
-				Toast.show("Logowanie",
-						"Nie Znaleziono u¿ytkownika w bazie");
+				Toast.show("Logowanie", "Nie Znaleziono u¿ytkownika w bazie");
+			} finally {
 				clearForm();
 			}
 		} else {

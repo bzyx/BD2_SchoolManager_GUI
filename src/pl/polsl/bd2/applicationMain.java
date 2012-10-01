@@ -3,6 +3,10 @@ package pl.polsl.bd2;
 import pl.polsl.bd2.gui.MainWindow;
 import pl.polsl.bd2.helpers.DummyDataLoader;
 import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.helpers.login.LoginService;
+import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
+import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.presentation.login.LoginPresenter;
 
 import com.trolltech.qt.core.QTranslator;
 import com.trolltech.qt.gui.QApplication;
@@ -21,13 +25,19 @@ public final class applicationMain {
 		appTranslator.load("classpath:/pl/polsl/bd2/out.qm",".");
 		QApplication.installTranslator(appTranslator);
 		
-
 		
-		MainWindow testMainWindow = new MainWindow();
-		testMainWindow.show();
+		LoginPresenter loginPresenter = new LoginPresenter();
+		loginPresenter.connectSlots();
+		loginPresenter.getLoginForm().show();
+		Osoba loggedPerson = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
+		
+		if (loggedPerson!=null) {
+			MainWindow testMainWindow = new MainWindow();
+			testMainWindow.show();
+		}
+		
 
 		QApplication.exec();
 
 	}
-
 }

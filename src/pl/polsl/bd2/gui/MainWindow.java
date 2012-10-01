@@ -1,13 +1,9 @@
 package pl.polsl.bd2.gui;
 
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
-import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
-import pl.polsl.bd2.messageSystem.service.OsobaService;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
 import pl.polsl.bd2.presentation.contest.ContestPresenter;
 import pl.polsl.bd2.presentation.data.DataPresenter;
-import pl.polsl.bd2.presentation.login.LoginPresenter;
 import pl.polsl.bd2.presentation.managment.ManagmentPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
@@ -24,33 +20,17 @@ public class MainWindow extends QMainWindow {
 	private PupilPresenter pupilPresenter;
 	private ManagmentPresenter managmentPresenter;
 
-	private KonfiguracjaService konfiguracjaService;
-	private OsobaService osobaService;
-
 	private Ui_MainWindow ui;
 
 	public MainWindow() {
 		ui = new Ui_MainWindow();
 		ui.setupUi(this);
-		doLoggin();
-
-		// Zalogowany użytkownik
-		konfiguracjaService = (KonfiguracjaService) SpringUtil
-				.getBean("konfiguracjaService");
-		osobaService = (OsobaService) SpringUtil.getBean("osobaService");
-		konfiguracjaService.setLoggedOsoba(osobaService.findAll().get(4));
 
 		// Ustaw Pomoc
 		ui.webView.setUrl(new QUrl("classpath:/pl/polsl/bd2/help.html"));
 		initTabs();
 
 		ui.tabWidget.currentChanged.connect(this, "makeTabUpdate(int)");
-	}
-
-	private void doLoggin() {
-		LoginPresenter loginPresenter = new LoginPresenter();
-		loginPresenter.connectSlots();
-		loginPresenter.getLoginForm().show();
 	}
 
 	public void makeTabUpdate(int tabNo) {
