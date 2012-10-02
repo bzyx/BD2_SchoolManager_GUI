@@ -123,18 +123,7 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 4:
 				tabIdsToRemove.clear();
-<<<<<<< HEAD
-=======
-				tabIdsToRemove.add(0);
-				tabIdsToRemove.add(2);
-				tabIdsToRemove.add(3);
->>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 				tabIdsToRemove.add(4);
-<<<<<<< HEAD
-				tabIdsToRemove.add(5);
-				tabIdsToRemove.add(6);
-=======
->>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 				removeTabsWithIDs(tabIdsToRemove);
 				break;
 			default:
