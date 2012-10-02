@@ -32,6 +32,36 @@ public class MainWindow extends QMainWindow {
 	public MainWindow() {
 		ui.setupUi(this);
 		initTabs();
+		ui.tabWidget.currentChanged.connect(this, "tabChanged(Integer)");
+	}
+	
+	@SuppressWarnings("unused")
+	private void tabChanged(Integer i){
+		switch(i){
+			case 1:
+				dataPresenter.makeUpdateOfView();
+				break;
+			case 2:
+				messagePresenter.makeUpdateOfView();
+				break;
+			case 3:
+				contestPresenter.makeUpdateOfView();
+				break;
+			case 4:
+				absencePresenter.makeUpdateOfView();
+				break;
+			case 5:
+				pupilPresenter.makeUpdateOfView();
+				break;
+			case 6:
+				managmentPresenter.makeUpdateOfView();
+				break;
+			case 7:
+				teacherPresenter.makeUpdateOfView();
+				break;
+			default:
+				break;
+		}
 	}
 
 	
