@@ -29,9 +29,9 @@ public class ReportsPresenter implements BasePresenter {
 	}
 	
 	public void initModel() {
-		view.comboReportClass.setModel(new OddzialListModel());
-		view.comboReportStudent.setModel(new StudentListModel());
-		view.comboReportTeacher.setModel(new TeacherListModel());
+//		view.comboReportClass.setModel(new OddzialListModel());
+	//	view.comboReportStudent.setModel(new StudentListModel());
+	//	view.comboReportTeacher.setModel(new TeacherListModel());
 	}
 
 	public void generateReport(){

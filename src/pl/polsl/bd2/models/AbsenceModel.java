@@ -55,12 +55,13 @@ public class AbsenceModel extends QAbstractTableModel{
 			switch (index.column()) {
 			case 0:
 				return dataContainer.get(index.row()).getData();
-			case 1:
-				return dataContainer.get(index.row()).getObecnosc();
-			//case 2:
-			//	return dataContainer.get(index.row()).getHowMuchAbsence();
-			//case 3:
-			//	return dataContainer.get(index.row()).getHowMuchUnexcusedAbsence();
+			case 1:{
+				if(!dataContainer.get(index.row()).getObecnosc()){
+					if(dataContainer.get(index.row()).getUsprawiedliwiona())
+						return "nieobecny (uspr)" ;
+					else return "nieobecny";
+				}else return "obecny";
+			}
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");

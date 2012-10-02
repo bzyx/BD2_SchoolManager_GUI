@@ -1,7 +1,5 @@
 package pl.polsl.bd2.presentation.absence;
 
-import com.trolltech.qt.core.QModelIndex;
-
 import pl.polsl.bd2.gui.MainWindow;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.models.AbsenceModel;
@@ -32,20 +30,7 @@ public class AbsencePresenter implements BasePresenter {
     public AbsenceModel getAbsenceModel() { 
         return absenceModel; 
     } 
- /*   @SuppressWarnings("unused") 
-    private void addJustification() { 
-        if (absenceModel.getActuallAbsenceMock(getCurrentIndex()) 
-                .getHowMuchAbsence() != 0) { 
-            JustificationForm justification = new JustificationForm(window, 
-                    absenceModel.getActuallAbsenceMock(getCurrentIndex()), 
-                    justificationModel); 
-            justification.exec(); 
-            view.listJustifications_3.reset(); 
-        } 
-    }*/ 
-    private QModelIndex getCurrentIndex() { 
-        return view.tableAbsences.currentIndex(); 
-    }
+
 	@Override
 	public void makeUpdateOfView() {
 		view.tableAbsences.setModel(null);

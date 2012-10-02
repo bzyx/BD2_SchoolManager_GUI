@@ -77,7 +77,12 @@ public class DataPresenter implements BasePresenter {
 		view.tableJustification.reset();
 		view.tableJustification.setModel(justificationModel);
 		view.tableJustification.verticalHeader().setResizeMode(QHeaderView.ResizeMode.ResizeToContents);
+		justificationModel.layoutChanged.emit();
 		
+	}
+
+	public JustificationTableModel getJustificationModel() {
+		return justificationModel;
 	}
 	
 }

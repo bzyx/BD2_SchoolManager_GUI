@@ -62,6 +62,7 @@ public class PupilPresenter implements BasePresenter {
 		view.pushButtonAddNote.clicked.connect(this, PupilSlots.ADD_NOTE);
 		view.pushButtonPresent.clicked.connect(this, PupilSlots.ADD_PRESENT);
 		view.pushButtonAbsent.clicked.connect(this, PupilSlots.ADD_ABSENT);
+		view.pushButtonJustify.clicked.connect(this, PupilSlots.ADD_JUSTIFY);
 		view.tableUsers.selectionModel().currentRowChanged.connect(this,
 				PupilSlots.CHANGE_DETAILS_USER);
 	}
@@ -93,13 +94,24 @@ public class PupilPresenter implements BasePresenter {
 		this.przedmiotRefresh();
 		view.tableUsers.reset();
 	}
+	
 	private void przedmiotRefresh(){
 		view.comboBoxSubject.clear();
 		for(Przedmiot przedmiot: this.pupilModel.getPrzedmioty()){
 			view.comboBoxSubject.addItem(przedmiot.getTypPrzedmiotu().getNazwa());
 		}	
 	}
-
+	
+	@SuppressWarnings("unused")
+	private void addJustify(){
+		Absencja absencja = this.absenceModel.getDataContainer().get(view.tableAbsence_2.currentIndex().row());
+		if(!absencja.getUsprawiedliwiona()){
+			absencja.setUsprawiedliwiona(true);
+			this.absencjaService.edit(absencja);
+			this.initAbsence(this.absenceModel);
+		}
+	}
+	
 	@SuppressWarnings("unused")
 	private void changeDetailsUser() {
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
@@ -160,6 +172,7 @@ public class PupilPresenter implements BasePresenter {
 				}
 			}
 			this.noteModel.refreshModel();
+			
 		}
 	}
 	
@@ -193,9 +206,9 @@ public class PupilPresenter implements BasePresenter {
 	
 	public void initAbsence(AbsenceModel absence){
 		try{
-		this.absenceModel.initData(new ArrayList<Absencja> (this.pupilModel.getUczenFromOddzial().get(
-				view.comboBoxClass.currentIndex()).get(
-						view.tableUsers.currentIndex().row()).getUczen2Absencja()));
+			this.absenceModel.initData(new ArrayList<Absencja> (this.pupilModel.getUczenFromOddzial().get(
+					view.comboBoxClass.currentIndex()).get(
+							view.tableUsers.currentIndex().row()).getUczen2Absencja()));
 		}catch(NullPointerException e){}
 	}
 
@@ -205,9 +218,14 @@ public class PupilPresenter implements BasePresenter {
 	private Nauczyciel getLoggedTeacher() {
 		Osoba loggedPerson = ApplicationMain.getLoggedPerson();
 		System.err.println("loggedPerson: " + loggedPerson);
-		Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
-				.getIdOsoba());
-		return teacher;
+		try{
+			Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
+					.getIdOsoba());
+			return teacher;
+		}catch(IndexOutOfBoundsException e){
+			return null;
+		}
+		
 	}
 
 	@Override

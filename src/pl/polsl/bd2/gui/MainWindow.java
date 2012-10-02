@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pl.polsl.bd2.ApplicationMain;
-import pl.polsl.bd2.gui.forms.OsobaAdderWidget;
+import pl.polsl.bd2.gui.forms.Ui_OsobaAdderWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
@@ -84,7 +84,7 @@ public class MainWindow extends QMainWindow {
 		reportsTab();
 		
 		QVBoxLayout vBoxLayout = new QVBoxLayout();
-		vBoxLayout.addWidget(new OsobaAdderWidget());
+	//	vBoxLayout.addWidget(new Ui_OsobaAdderWidget());
 		ui.groupBoxAddPupil.setLayout(vBoxLayout);
 		
 		final Osoba loggedPerson = ApplicationMain.getLoggedPerson();
@@ -104,8 +104,8 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 2:
 				tabIdsToRemove.clear();
-				tabIdsToRemove.add(3);
-				tabIdsToRemove.add(4);
+				//tabIdsToRemove.add(3);
+				//tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
 				tabIdsToRemove.add(7);
