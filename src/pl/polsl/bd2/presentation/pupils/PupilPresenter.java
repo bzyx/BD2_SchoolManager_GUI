@@ -2,9 +2,7 @@ package pl.polsl.bd2.presentation.pupils;
 
 import java.util.Date;
 
-import com.trolltech.qt.core.QModelIndex;
-import com.trolltech.qt.gui.QDialog;
-
+//import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -21,6 +19,10 @@ import pl.polsl.bd2.models.NoteModel;
 import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.presentation.BasePresenter;
 
+import com.trolltech.qt.core.QModelIndex;
+import com.trolltech.qt.gui.QDialog;
+import com.trolltech.qt.gui.QMessageBox;
+
 public class PupilPresenter implements BasePresenter {
 
 	private Ui_MainWindow view;
@@ -34,20 +36,18 @@ public class PupilPresenter implements BasePresenter {
 
 	public PupilPresenter(Ui_MainWindow view) {
 		this.view = view;
-		
-		this.konfiguracjaService = (KonfiguracjaService) SpringUtil.getContext().getBean(
-				"konfiguracjaService");
-		this.nauczycielService = (NauczycielService) SpringUtil.getContext().getBean(
-				"nauczycielService");
+
+		this.nauczycielService = (NauczycielService) SpringUtil.getContext()
+				.getBean("nauczycielService");
 		this.ocenaService = (OcenaService) SpringUtil.getContext().getBean(
 				"ocenaService");
 		this.uwagaService = (UwagaService) SpringUtil.getContext().getBean(
 				"uwagaService");
-		
+
 	}
 
 	@Override
-	public void connectSlots() {		
+	public void connectSlots() {
 		view.comboBoxClass.currentIndexChanged.connect(this,
 				PupilSlots.CHANGE_CLASS);
 		view.pushButtonAddRate.clicked.connect(this, PupilSlots.ADD_RATE);
@@ -55,7 +55,7 @@ public class PupilPresenter implements BasePresenter {
 		view.tableUsers.selectionModel().currentRowChanged.connect(this,
 				PupilSlots.CHANGE_DETAILS_USER);
 	}
-	
+
 	public void initModel() {
 		this.pupilModel = new PupilModel();
 		view.tableUsers.setModel(this.pupilModel);
@@ -76,22 +76,22 @@ public class PupilPresenter implements BasePresenter {
 		this.pupilModel.initAbsence(this.absenceModel);
 		
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void changeClass() {
 		this.pupilModel.changeClass(view.comboBoxClass.currentIndex());
 		view.tableUsers.reset();
 	}
+
 	@SuppressWarnings("unused")
-	private void changeDetailsUser(){
+	private void changeDetailsUser() {
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
 		this.pupilModel.initAbsence(this.absenceModel);
 		//view.tableDetailUsers.reset();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void addRate() {
-		final Osoba osoba = this.konfiguracjaService.getLoggedOsoba();
 		final AddRateForm aRF = new AddRateForm();
 		Nauczyciel nauczyciel = new Nauczyciel();
 		if (aRF.exec() == QDialog.DialogCode.Accepted.value()){
@@ -116,31 +116,47 @@ public class PupilPresenter implements BasePresenter {
 				view.tableUsers.selectRow(currentIndex.row());
 		}
 	}
-	
-	@SuppressWarnings("unused")
-	private void addNote() {
-		final Osoba osoba = this.konfiguracjaService.getLoggedOsoba();
-		final AddNoteForm aNF = new AddNoteForm();
-		Nauczyciel nauczyciel = new Nauczyciel();
-		if (aNF.exec() == QDialog.DialogCode.Accepted.value()){
-				final QModelIndex currentIndex = view.tableUsers.currentIndex();
-				
-				if (Helpers.indexIsValid(currentIndex)) {
-					for(Nauczyciel nauczycielIt: nauczycielService.findAll()){
-						if (nauczycielIt.getOsoba().getIdOsoba() == osoba.getIdOsoba()) {
-							nauczyciel = nauczycielIt;
-							break;
-						}
-					}
-					
-					//this.pupilModel.addRate(ocena, currentIndex.row());
-					Uwaga uwaga = new Uwaga(this.pupilModel.getPupils().get(currentIndex.row()), nauczyciel, aNF.getNote());
-					this.noteModel.addNote(currentIndex.row(), uwaga);
-					this.uwagaService.save(uwaga);
-				}
-				this.noteModel.refreshModel();
-		}
+
+	private QModelIndex getCurrentIndex() {
+		return view.tableUsers.currentIndex();
 	}
+
+	/*@SuppressWarnings("unused")
+	private void addNote() {
+		final AddNoteForm aNF = new AddNoteForm();
+		final QModelIndex currentIndex = getCurrentIndex();
+		if (!Helpers.indexIsValid(getCurrentIndex())) {
+			QMessageBox.warning(null, "Dodaj notk�", "Nie wybra�e� ucznia.");
+			return;
+		}
+
+		if (aNF.exec() == QDialog.DialogCode.Accepted.value()) {
+			if (Helpers.indexIsValid(currentIndex)) {
+				if (aNF.getNote() != null && !aNF.getNote().equals("")) {
+					final Nauczyciel nauczyciel = getLoggedTeacher();
+					final Uwaga uwaga = new Uwaga(this.pupilModel.getPupils().get(
+							currentIndex.row()), nauczyciel, aNF.getNote());
+					uwagaService.save(uwaga);
+					noteModel.addNote(currentIndex.row(), uwaga);
+				} else {
+					QMessageBox.warning(null, "Dodaj notk�",
+							"Nie wpisa�e� tre�ci.");
+				}
+			}
+			this.noteModel.refreshModel();
+		}
+	}*/
+
+	/**
+	 * Access here has only Teacher so we can assume logged person is Teacher
+	 
+	private Nauczyciel getLoggedTeacher() {
+		Osoba loggedPerson = ApplicationMain.getLoggedPerson();
+		System.err.println("loggedPerson: " + loggedPerson);
+		Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
+				.getIdOsoba());
+		return teacher;
+	}*/
 
 	@Override
 	public void makeUpdateOfView() {

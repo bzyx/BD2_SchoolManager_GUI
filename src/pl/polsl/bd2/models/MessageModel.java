@@ -8,6 +8,7 @@ import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
+import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 
@@ -28,7 +29,11 @@ public class MessageModel extends QAbstractTableModel {
 	public MessageModel() {
 		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
 		konfiguracjaService = (KonfiguracjaService)SpringUtil.getBean("konfiguracjaService");
-		messageContainer = new ArrayList<Komunikat>(konfiguracjaService.getLoggedOsoba().getOsobaDo());
+		final Osoba loggedOsoba = konfiguracjaService.getLoggedOsoba();
+
+//		final Osoba loggedOsoba = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
+//		System.err.println("Logged osoba: "+loggedOsoba.toString());
+		messageContainer = new ArrayList<Komunikat>(loggedOsoba.getOsobaDo());
 	}
 	
 //	public enum MessageRoles {
