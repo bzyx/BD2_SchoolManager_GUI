@@ -49,6 +49,7 @@ public class TeacherPresenter implements BasePresenter {
 		view.buttonManageTeachers.clicked.connect(this, "manageTeachers()");
 		view.buttonManageSubjects.clicked.connect(this, "manageSubjects()");
 		view.buttonMakeConnection.clicked.connect(this, "makeConnection()");
+		view.buttonRemoveConnection.clicked.connect(this, "removeConnection()");
 	}
 
 	@Override
@@ -83,6 +84,11 @@ public class TeacherPresenter implements BasePresenter {
 		makeUpdateOfView();
 		}
 		
+	}
+	
+	public void removeConnection(){
+		subjectTeacherClassConectionTableModel.removeRow(view.tableExistingConnectons.currentIndex().row());
+		makeUpdateOfView();
 	}
 	
 

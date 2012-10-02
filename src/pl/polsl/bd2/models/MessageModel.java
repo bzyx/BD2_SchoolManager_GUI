@@ -7,7 +7,6 @@ import java.util.List;
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.helpers.SpringUtil;
-import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;

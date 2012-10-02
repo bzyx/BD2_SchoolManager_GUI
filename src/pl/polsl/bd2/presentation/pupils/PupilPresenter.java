@@ -82,7 +82,7 @@ public class PupilPresenter implements BasePresenter {
 		final AddRateForm aRF = new AddRateForm();
 		final QModelIndex currentIndex = getCurrentIndex();
 		if (!Helpers.indexIsValid(getCurrentIndex())) {
-			QMessageBox.warning(null, "Dodaj ocenê", "Nie wybra³eœ ucznia.");
+			QMessageBox.warning(null, "Dodaj ocenï¿½", "Nie wybraï¿½eï¿½ ucznia.");
 			return;
 		}
 
@@ -122,8 +122,8 @@ public class PupilPresenter implements BasePresenter {
 					uwagaService.save(uwaga);
 					noteModel.addNote(currentIndex.row(), uwaga);
 				} else {
-					QMessageBox.warning(null, "Dodaj notkê",
-							"Nie wpisa³eœ treœci.");
+					QMessageBox.warning(null, "Dodaj notkï¿½",
+							"Nie wpisaï¿½eï¿½ treï¿½ci.");
 				}
 			}
 			this.noteModel.refreshModel();

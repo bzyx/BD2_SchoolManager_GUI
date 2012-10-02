@@ -80,5 +80,13 @@ public class SubjectTeacherClassConectionTableModel extends QAbstractTableModel 
 	public int rowCount(QModelIndex arg0) {
 		return container.size();
 	}
+	
+	@Override
+	@QtBlockedSlot
+	public boolean removeRows(int arg0, int arg1, QModelIndex arg2) {
+		przedmiotService.delete(container.get(arg0));
+		container.remove(arg0);
+		return super.removeRows(arg0, arg1, arg2);
+	}
 
 }
