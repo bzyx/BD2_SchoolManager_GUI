@@ -1,5 +1,6 @@
 Generated JUIC files/
 .classpath
+*.classpath
 
 *.class
 
