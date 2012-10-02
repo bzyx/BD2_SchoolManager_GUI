@@ -14,6 +14,7 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.managment.ManagmentPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
+import pl.polsl.bd2.presentation.reports.ReportsPresenter;
 import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
 import com.trolltech.qt.gui.QMainWindow;
@@ -31,6 +32,7 @@ public class MainWindow extends QMainWindow {
 	private PupilPresenter pupilPresenter;
 	private ManagmentPresenter managmentPresenter;
 	private TeacherPresenter teacherPresenter;
+	private ReportsPresenter reportsPresenter;
 	private Ui_MainWindow ui = new Ui_MainWindow();
 
 	public MainWindow() {
@@ -63,6 +65,8 @@ public class MainWindow extends QMainWindow {
 			case 7:
 				teacherPresenter.makeUpdateOfView();
 				break;
+			case 8:
+				reportsPresenter.makeUpdateOfView();
 			default:
 				break;
 		}
@@ -77,6 +81,7 @@ public class MainWindow extends QMainWindow {
 		pupilsTab();
 		contestTab();
 		teacherTab();
+		reportsTab();
 		
 		QVBoxLayout vBoxLayout = new QVBoxLayout();
 		vBoxLayout.addWidget(new OsobaAdderWidget());
@@ -128,6 +133,12 @@ public class MainWindow extends QMainWindow {
 		}
 	}
 
+
+	private void reportsTab() {
+		reportsPresenter = new ReportsPresenter(ui);
+		reportsPresenter.initModel();
+		reportsPresenter.connectSlots();
+	}
 
 	private void removeTabsWithIDs(ArrayList<Integer> tabIdsToRemove) {
 		for (Integer id : tabIdsToRemove) {
