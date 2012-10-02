@@ -1,6 +1,12 @@
 package pl.polsl.bd2.gui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
+import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
 import pl.polsl.bd2.presentation.contest.ContestPresenter;
 import pl.polsl.bd2.presentation.data.DataPresenter;
@@ -12,6 +18,8 @@ import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 import com.trolltech.qt.gui.QMainWindow;
 
 public class MainWindow extends QMainWindow {
+	private static Map<Integer, String> currentTabs = new HashMap<Integer, String>();
+
 	private MessagePresenter messagePresenter;
 	private ContestPresenter contestPresenter;
 	private AbsencePresenter absencePresenter;
@@ -26,6 +34,7 @@ public class MainWindow extends QMainWindow {
 		initTabs();
 	}
 
+	
 	private void initTabs() {
 		dataTab();
 		classMenagmentTab();
@@ -34,6 +43,56 @@ public class MainWindow extends QMainWindow {
 		pupilsTab();
 		contestTab();
 		teacherTab();
+		
+		final Osoba loggedPerson = ApplicationMain.getLoggedPerson();
+		System.err.println("Osoba zalogowana: " + loggedPerson);
+		if (loggedPerson!= null) {
+			ArrayList<Integer> tabIdsToRemove = new ArrayList<Integer>();
+			// TODO: Set propper values here
+			switch (loggedPerson.getRole().getIdRole()) {
+			case 1:
+				tabIdsToRemove.clear();
+				tabIdsToRemove.add(2);
+				tabIdsToRemove.add(3);
+				tabIdsToRemove.add(4);
+				tabIdsToRemove.add(5);
+				tabIdsToRemove.add(6);
+				removeTabsWithIDs(tabIdsToRemove);
+				break;
+			case 2:
+				tabIdsToRemove.clear();
+				tabIdsToRemove.add(4);
+				tabIdsToRemove.add(5);
+				tabIdsToRemove.add(6);
+				removeTabsWithIDs(tabIdsToRemove);
+			case 3:
+				tabIdsToRemove.clear();
+				tabIdsToRemove.add(2);
+				tabIdsToRemove.add(3);
+				tabIdsToRemove.add(4);
+				tabIdsToRemove.add(5);
+				tabIdsToRemove.add(6);
+				tabIdsToRemove.add(7);
+				removeTabsWithIDs(tabIdsToRemove);
+				break;
+			case 4:
+				tabIdsToRemove.clear();
+				tabIdsToRemove.add(4);
+				tabIdsToRemove.add(5);
+				tabIdsToRemove.add(6);
+				removeTabsWithIDs(tabIdsToRemove);
+				
+			default:
+				break;
+			}
+		}
+	}
+
+
+	private void removeTabsWithIDs(ArrayList<Integer> tabIdsToRemove) {
+		for (Integer id : tabIdsToRemove) {
+			ui.tabWidget.removeTab(id.intValue());
+		}
 	}
 
 	private void teacherTab() {
