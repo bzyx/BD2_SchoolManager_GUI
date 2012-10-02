@@ -11,7 +11,7 @@ public class JustificationForm extends QDialog {
 	//TODO MJ Hmmm nie wiem co to robi ani gdzie jest to użyte
     Ui_JustificationDialog ui = new Ui_JustificationDialog();
     _JustificationModel model;
-    AbsenceModel.Absence.AbsenceMock absence;
+    //AbsenceModel.Absence.AbsenceMock absence;
 
     public static void main(String[] args) {
         QApplication.initialize(args);
@@ -22,13 +22,13 @@ public class JustificationForm extends QDialog {
         QApplication.exec();
     }
 
-    public JustificationForm(MainWindow parrent, AbsenceModel.Absence.AbsenceMock absence, _JustificationModel model) {
+    public JustificationForm(MainWindow parrent, /*AbsenceModel.Absence.AbsenceMock absence,*/ _JustificationModel model) {
         ui.setupUi(this);
         this.model = model;
-        this.absence = absence;
+        //this.absence = absence;
         //ui.labelDateJustification.setText(absence.getDate().toString());
-        ui.spinBoxHowMuchLection.setMaximum(absence.getHowMuchAbsence());
-        ui.spinBoxHowMuchLection.setValue(absence.getHowMuchAbsence());
+        //ui.spinBoxHowMuchLection.setMaximum(absence.getHowMuchAbsence());
+        //ui.spinBoxHowMuchLection.setValue(absence.getHowMuchAbsence());
         ui.buttonBoxJustification.accepted.connect(this, "addJustification()");
         ui.buttonBoxJustification.rejected.connect(this, "close()");
     }
@@ -40,9 +40,9 @@ public class JustificationForm extends QDialog {
     
     @SuppressWarnings("unused")
 	private void addJustification(){
-    	model.addJustification(absence.getDate(), 
-    			ui.spinBoxHowMuchLection.value(), 
-    			ui.plainTextEditJustification.toPlainText());
+    	//model.addJustification(absence.getDate(), 
+    	//		ui.spinBoxHowMuchLection.value(), 
+    	//		ui.plainTextEditJustification.toPlainText());
     	this.close();
     	
     }

@@ -1,7 +1,6 @@
 package pl.polsl.bd2.models;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import pl.polsl.bd2.messageSystem.models.Absencja;
