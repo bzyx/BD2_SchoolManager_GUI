@@ -61,6 +61,7 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 2:
 				tabIdsToRemove.clear();
+				tabIdsToRemove.add(3);
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
@@ -77,13 +78,9 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 4:
 				tabIdsToRemove.clear();
-				tabIdsToRemove.add(1);
-				tabIdsToRemove.add(2);
-				tabIdsToRemove.add(3);
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
-				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
 				
 			default:

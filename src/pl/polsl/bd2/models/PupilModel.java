@@ -3,15 +3,20 @@ package pl.polsl.bd2.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.helpers.SpringUtil;
 import pl.polsl.bd2.messageSystem.models.Absencja;
+import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
+import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Uczen;
 import pl.polsl.bd2.messageSystem.service.AbsencjaService;
+import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
+import pl.polsl.bd2.messageSystem.service.PrzedmiotService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
 
 import com.trolltech.qt.core.QModelIndex;
@@ -23,23 +28,28 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class PupilModel extends QAbstractTableModel {
 	private final String[] COLUMNS = { tr("Name"), tr("Vorname"),
-			tr("Avg.    "), tr("Marks") };
+			tr("Avg.       "), tr("Marks") };
 	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
 	private List<List<Przedmiot>> przedmiotWithOddzial = new ArrayList<List<Przedmiot>>();
 	private List<List<Uczen>> uczenFromOddzial = new ArrayList<List<Uczen>>();
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
+	PrzedmiotService przedmiotService = (PrzedmiotService) SpringUtil.getBean("przedmiotService");
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
 	AbsencjaService absencjaService = (AbsencjaService) SpringUtil.getBean("absencjaService");
+	NauczycielService nauczycielService = (NauczycielService) SpringUtil.getBean("nauczycielService");
+	Nauczyciel teacher;
 	int currentClass = 0;
+	int changeSubject = 0;
 	int row=0;
 
-	public PupilModel() {
+	public PupilModel(Nauczyciel teacher) {
+		this.teacher = teacher;
 		int lOddzial = 0;
 		for (Oddzial oddzial: this.oddzialService.findAll()){
 			this.dataContainer2.add(new ArrayList<List<List<Ocena>>>());
 			int lPrzedmiot = 0;
-			List<Przedmiot> przedmioty = new ArrayList<Przedmiot>(oddzial.getOddzial2przedmiot());
+			List<Przedmiot> przedmioty = new ArrayList<Przedmiot>(this.przedmiotService.findByClassTeacher(oddzial, this.teacher));
 			this.przedmiotWithOddzial.add(przedmioty);
 			this.uczenFromOddzial.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
 			for(Przedmiot przedmiot: przedmioty){
@@ -68,6 +78,11 @@ public class PupilModel extends QAbstractTableModel {
 		this.currentClass = newClass;
 		this.layoutChanged.emit();
 	}
+	
+	public void changeSubject(int changeSubject){
+		this.changeSubject = changeSubject;
+		this.layoutChanged.emit();
+	}
 
 	public void refreshModel(){
 		this.reset();
@@ -90,19 +105,19 @@ public class PupilModel extends QAbstractTableModel {
 			case 1:
 				return this.uczenFromOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
 			case 2:{
-				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
+				if(this.dataContainer2.get(this.currentClass).get(this.changeSubject).get(index.row()).size() == 0) return "-";
 				float avg = 0;
 				float waga =0;
-				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
+				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(this.changeSubject).get(index.row())){
 					avg += ocena.getOcena()*ocena.getWaga();
 					waga += ocena.getWaga();
 				}
 				return avg/waga;
 			}
 			case 3:{
-				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
+				if(this.dataContainer2.get(this.currentClass).get(this.changeSubject).get(index.row()).size() == 0) return "-";
 				String oceny = new String();
-				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
+				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(this.changeSubject).get(index.row())){
 					oceny += String.format("%d ( %.1f ), ", ocena.getOcena(), ocena.getWaga());
 				}
 				return oceny;
@@ -122,7 +137,7 @@ public class PupilModel extends QAbstractTableModel {
 	public int rowCount(QModelIndex arg0) {
 		// TODO Auto-generated method stub
 		try{
-			return dataContainer2.get(this.currentClass).get(0).size();
+			return dataContainer2.get(this.currentClass).get(this.changeSubject).size();
 		}catch(IndexOutOfBoundsException e){
 			return 0;
 		}
@@ -150,7 +165,7 @@ public class PupilModel extends QAbstractTableModel {
 	}
 	
 	public void addRate(Ocena ocena, int row){
-		this.dataContainer2.get(this.currentClass).get(0).get(row).add(ocena);
+		this.dataContainer2.get(this.currentClass).get(this.changeSubject).get(row).add(ocena);
 		this.refreshModel();
 	}
 

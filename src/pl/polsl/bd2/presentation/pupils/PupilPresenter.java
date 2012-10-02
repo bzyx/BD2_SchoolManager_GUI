@@ -12,11 +12,13 @@ import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Osoba;
+import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Uwaga;
 import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.UwagaService;
+import pl.polsl.bd2.messageSystem.service.AbsencjaService;
 import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.NoteModel;
 import pl.polsl.bd2.models.PupilModel;
@@ -36,6 +38,7 @@ public class PupilPresenter implements BasePresenter {
 	private NauczycielService nauczycielService;
 	private OcenaService ocenaService;
 	private UwagaService uwagaService;
+	private AbsencjaService absencjaService;
 
 	public PupilPresenter(Ui_MainWindow view) {
 		this.view = view;
@@ -46,6 +49,8 @@ public class PupilPresenter implements BasePresenter {
 				"ocenaService");
 		this.uwagaService = (UwagaService) SpringUtil.getContext().getBean(
 				"uwagaService");
+		this.absencjaService = (AbsencjaService) SpringUtil.getContext().getBean(
+				"absencjaService");
 
 	}
 
@@ -55,12 +60,14 @@ public class PupilPresenter implements BasePresenter {
 				PupilSlots.CHANGE_CLASS);
 		view.pushButtonAddRate.clicked.connect(this, PupilSlots.ADD_RATE);
 		view.pushButtonAddNote.clicked.connect(this, PupilSlots.ADD_NOTE);
+		view.pushButtonPresent.clicked.connect(this, PupilSlots.ADD_PRESENT);
+		view.pushButtonAbsent.clicked.connect(this, PupilSlots.ADD_ABSENT);
 		view.tableUsers.selectionModel().currentRowChanged.connect(this,
 				PupilSlots.CHANGE_DETAILS_USER);
 	}
 
 	public void initModel() {
-		this.pupilModel = new PupilModel();
+		this.pupilModel = new PupilModel(this.getLoggedTeacher());
 		view.tableUsers.setModel(this.pupilModel);
 		view.tableUsers.resizeColumnsToContents();
 		view.tableUsers.horizontalHeader().setStretchLastSection(true);
@@ -76,14 +83,21 @@ public class PupilPresenter implements BasePresenter {
 		view.tableAbsence_2.resizeColumnsToContents();
 		view.tableAbsence_2.horizontalHeader().setStretchLastSection(true);
 		view.tableAbsence_2.verticalHeader().hide();
-		this.initAbsence(this.absenceModel);
-		
+		this.initAbsence(this.absenceModel);	
+		this.przedmiotRefresh();
 	}
 
 	@SuppressWarnings("unused")
 	private void changeClass() {
 		this.pupilModel.changeClass(view.comboBoxClass.currentIndex());
+		this.przedmiotRefresh();
 		view.tableUsers.reset();
+	}
+	private void przedmiotRefresh(){
+		view.comboBoxSubject.clear();
+		for(Przedmiot przedmiot: this.pupilModel.getPrzedmioty()){
+			view.comboBoxSubject.addItem(przedmiot.getTypPrzedmiotu().getNazwa());
+		}	
 	}
 
 	@SuppressWarnings("unused")
@@ -101,10 +115,7 @@ public class PupilPresenter implements BasePresenter {
 				final QModelIndex currentIndex = view.tableUsers.currentIndex();
 				
 				if (Helpers.indexIsValid(currentIndex)) {
-					NauczycielService nauczycielService = (NauczycielService) SpringUtil
-							.getBean("nauczycielService");
-					nauczyciel = nauczycielService.findById(konfiguracjaService
-							.getLoggedOsoba().getIdOsoba());
+					nauczyciel = getLoggedTeacher();
 					
 					Ocena ocena = new Ocena(this.pupilModel.getPupils().get(currentIndex.row()),
 							this.pupilModel.getPrzedmioty().get(currentIndex.row()),
@@ -116,7 +127,9 @@ public class PupilPresenter implements BasePresenter {
 					this.ocenaService.save(ocena);
 				}
 				this.pupilModel.refreshModel();
-				view.tableUsers.selectRow(currentIndex.row());
+				try{
+					view.tableUsers.selectRow(currentIndex.row());
+				}catch(NullPointerException e){}
 		}
 	}
 
@@ -148,6 +161,34 @@ public class PupilPresenter implements BasePresenter {
 			}
 			this.noteModel.refreshModel();
 		}
+	}
+	
+	@SuppressWarnings("unused")
+	private void addPresent(){
+		view.tableUsers.selectRow(view.tableUsers.currentIndex().row() + 1);
+		Absencja absencja = new Absencja(
+				this.pupilModel.getUczenFromOddzial().get(
+						view.comboBoxClass.currentIndex()).get(view.tableUsers.currentIndex().row()),
+						this.pupilModel.getPrzedmioty().get(view.comboBoxSubject.currentIndex()), 
+						true, new Date()
+				);
+		absencjaService.save(absencja);
+		this.absenceModel.addAbsence(absencja);
+		this.absenceModel.refreshModel();
+	}
+	
+	@SuppressWarnings("unused")
+	private void addAbsent(){
+		view.tableUsers.selectRow(view.tableUsers.currentIndex().row() + 1);
+		Absencja absencja = new Absencja(
+				this.pupilModel.getUczenFromOddzial().get(
+						view.comboBoxClass.currentIndex()).get(view.tableUsers.currentIndex().row()),
+						this.pupilModel.getPrzedmioty().get(view.comboBoxSubject.currentIndex()), 
+						false, new Date()
+				);
+		absencjaService.save(absencja);
+		this.absenceModel.addAbsence(absencja);
+		this.absenceModel.refreshModel();
 	}
 	
 	public void initAbsence(AbsenceModel absence){
