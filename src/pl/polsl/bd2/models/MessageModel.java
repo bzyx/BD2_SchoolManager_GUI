@@ -4,9 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.helpers.login.SimpleLoginPasswordLoginService;
 import pl.polsl.bd2.messageSystem.models.Komunikat;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.messageSystem.service.KomunikatService;
@@ -29,10 +31,13 @@ public class MessageModel extends QAbstractTableModel {
 	public MessageModel() {
 		komunikatService = (KomunikatService)SpringUtil.getBean("komunikatService");
 		konfiguracjaService = (KonfiguracjaService)SpringUtil.getBean("konfiguracjaService");
-		final Osoba loggedOsoba = konfiguracjaService.getLoggedOsoba();
+//		final Osoba loggedOsoba = konfiguracjaService.getLoggedOsoba();
 
-//		final Osoba loggedOsoba = SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
-//		System.err.println("Logged osoba: "+loggedOsoba.toString());
+		final Osoba loggedOsoba = ApplicationMain.getLoggedPerson();//SimpleLoginPasswordLoginService.getLoginService().getLoggedPerson();
+		if (loggedOsoba != null)
+			System.out.println("Logged osoba: "+loggedOsoba.toString());
+		else
+			System.out.println("Null");
 		messageContainer = new ArrayList<Komunikat>(loggedOsoba.getOsobaDo());
 	}
 	
@@ -141,7 +146,7 @@ public class MessageModel extends QAbstractTableModel {
 	
 	public void refreshModel(){
 		messageContainer.clear();
-		messageContainer =  new ArrayList<Komunikat>(konfiguracjaService.getLoggedOsoba().getOsobaDo());
+		messageContainer =  new ArrayList<Komunikat>(ApplicationMain.getLoggedPerson().getOsobaDo());
 	}
 
 	List<Komunikat> messageContainer;

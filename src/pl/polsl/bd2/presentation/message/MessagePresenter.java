@@ -2,6 +2,7 @@ package pl.polsl.bd2.presentation.message;
 
 import java.util.Date;
 
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
@@ -35,7 +36,8 @@ public class MessagePresenter implements BasePresenter {
 	private TrescKomunikatuService trescKomunikatuService;
 	private KonfiguracjaService konfiguracjaService;
 	private MessageModel messageModel;
-
+	private QSortFilterProxyModel messageModelSortable;
+	
 	public MessagePresenter(Ui_MainWindow view) {
 		this.view = view;
 
@@ -49,8 +51,6 @@ public class MessagePresenter implements BasePresenter {
 
 	@Override
 	public void connectSlots() {
-		view.tableMessages.selectionModel().selectionChanged.connect(this,
-				MessageSlots.MSG_CHANGED);
 		view.buttonMarkAsRead.clicked.connect(this, MessageSlots.SET_READED);
 		view.buttonDeleteMessage.clicked.connect(this, MessageSlots.DELETE_MSG);
 		view.buttonReplayMessage.clicked.connect(this, MessageSlots.REPLAY_MSG);
@@ -59,10 +59,8 @@ public class MessagePresenter implements BasePresenter {
 
 	public void initModel() {
 		messageModel = new MessageModel();
-		QSortFilterProxyModel messageModelSortable = new QSortFilterProxyModel();
-		messageModelSortable.setSourceModel(messageModel);
-
-		view.tableMessages.setModel(messageModelSortable);
+		messageModelSortable = new QSortFilterProxyModel();
+		makeUpdateOfView();
 	}
 
 	@SuppressWarnings("unused")
@@ -74,6 +72,7 @@ public class MessagePresenter implements BasePresenter {
 			final QModelIndex tmpIndex = currentIndex.child(row,
 					MessageFields.UNREAD.getNum());
 			view.tableMessages.model().setData(tmpIndex, false);
+			makeUpdateOfView();
 		}
 	}
 
@@ -83,19 +82,19 @@ public class MessagePresenter implements BasePresenter {
 
 		if (Helpers.indexIsValid(currentIndex)) {
 			view.tableMessages.model().removeRows(currentIndex.row(), 1);
+			makeUpdateOfView();
 		}
 	}
 
 	@SuppressWarnings("unused")
 	private void createNewMessage() {
-		final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		final Osoba osoba = ApplicationMain.getLoggedPerson();
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
 			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
 			if (cF.exec() == QDialog.DialogCode.Accepted.value()){
 				saveMessage(osoba, cF);
-				messageModel.refreshModel();
-				//view.tableMessages.reset();
+				makeUpdateOfView();
 			}
 		
 		}
@@ -124,11 +123,10 @@ public class MessagePresenter implements BasePresenter {
 
 			// Need to cross the values because this is a response to sender
 			ContactForm cF = new ContactForm(to, from, title);
-			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+			final Osoba osoba = ApplicationMain.getLoggedPerson();
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
-				messageModel.refreshModel();
-				//view.tableMessages.reset();
+				makeUpdateOfView();
 		}
 	}
 
@@ -149,6 +147,7 @@ public class MessagePresenter implements BasePresenter {
 		final Komunikat komunikat = new Komunikat(osoba, cF.getOsobaDo(),
 				trescKomunikatu, getCurrentDate(), null);
 		komunikatService.save(komunikat);
+		makeUpdateOfView();
 		
 	}
 
@@ -178,7 +177,7 @@ public class MessagePresenter implements BasePresenter {
 					MessageFields.FROM.getNum());
 			view.lineEditFromMessage
 					.setText((String) getModel().data(tmpIndex));
-
+			
 			tmpIndex = currentIndex.child(currentIndex.row(),
 					MessageFields.TITLE.getNum());
 			view.lineEditTopicMessage.setText((String) getModel()
@@ -196,14 +195,22 @@ public class MessagePresenter implements BasePresenter {
 			view.buttonDeleteMessage.setEnabled(false);
 			view.buttonMarkAsRead.setEnabled(false);
 		}
-		
-		messageModel.refreshModel();
 	}
 
 	@Override
 	public void makeUpdateOfView() {
+		view.tableMessages.setModel(null);
 		messageModel.refreshModel();
+		messageModelSortable.setSourceModel(messageModel);
+		view.tableMessages.setModel(messageModelSortable);
 		
+		view.tableMessages.setSortingEnabled(true);
+		view.tableMessages.resizeColumnsToContents();
+		view.tableMessages.horizontalHeader().setStretchLastSection(true);
+		view.tableMessages.verticalHeader().hide();
+		
+		view.tableMessages.selectionModel().selectionChanged.connect(this,
+				MessageSlots.MSG_CHANGED);
 	}
 
 }

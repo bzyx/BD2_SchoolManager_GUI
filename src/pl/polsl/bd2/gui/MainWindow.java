@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pl.polsl.bd2.ApplicationMain;
+import pl.polsl.bd2.gui.forms.OsobaAdderWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
@@ -13,9 +14,13 @@ import pl.polsl.bd2.presentation.data.DataPresenter;
 import pl.polsl.bd2.presentation.managment.ManagmentPresenter;
 import pl.polsl.bd2.presentation.message.MessagePresenter;
 import pl.polsl.bd2.presentation.pupils.PupilPresenter;
+import pl.polsl.bd2.presentation.reports.ReportsPresenter;
 import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
 import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QTabWidget;
+import com.trolltech.qt.gui.QTableWidget;
+import com.trolltech.qt.gui.QVBoxLayout;
 
 public class MainWindow extends QMainWindow {
 	private static Map<Integer, String> currentTabs = new HashMap<Integer, String>();
@@ -27,11 +32,44 @@ public class MainWindow extends QMainWindow {
 	private PupilPresenter pupilPresenter;
 	private ManagmentPresenter managmentPresenter;
 	private TeacherPresenter teacherPresenter;
+	private ReportsPresenter reportsPresenter;
 	private Ui_MainWindow ui = new Ui_MainWindow();
 
 	public MainWindow() {
 		ui.setupUi(this);
 		initTabs();
+		ui.tabWidget.currentChanged.connect(this, "tabChanged(Integer)");
+	}
+	
+	@SuppressWarnings("unused")
+	private void tabChanged(Integer i){
+		switch(i){
+			case 1:
+				dataPresenter.makeUpdateOfView();
+				break;
+			case 2:
+				messagePresenter.makeUpdateOfView();
+				break;
+			case 3:
+				contestPresenter.makeUpdateOfView();
+				break;
+			case 4:
+				absencePresenter.makeUpdateOfView();
+				break;
+			case 5:
+				pupilPresenter.makeUpdateOfView();
+				break;
+			case 6:
+				managmentPresenter.makeUpdateOfView();
+				break;
+			case 7:
+				teacherPresenter.makeUpdateOfView();
+				break;
+			case 8:
+				reportsPresenter.makeUpdateOfView();
+			default:
+				break;
+		}
 	}
 
 	
@@ -43,12 +81,16 @@ public class MainWindow extends QMainWindow {
 		pupilsTab();
 		contestTab();
 		teacherTab();
+		reportsTab();
+		
+		QVBoxLayout vBoxLayout = new QVBoxLayout();
+		vBoxLayout.addWidget(new OsobaAdderWidget());
+		ui.groupBoxAddPupil.setLayout(vBoxLayout);
 		
 		final Osoba loggedPerson = ApplicationMain.getLoggedPerson();
 		System.err.println("Osoba zalogowana: " + loggedPerson);
 		if (loggedPerson!= null) {
 			ArrayList<Integer> tabIdsToRemove = new ArrayList<Integer>();
-			// TODO: Set propper values here
 			switch (loggedPerson.getRole().getIdRole()) {
 			case 1:
 				tabIdsToRemove.clear();
@@ -57,6 +99,7 @@ public class MainWindow extends QMainWindow {
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
+				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
 				break;
 			case 2:
@@ -65,7 +108,9 @@ public class MainWindow extends QMainWindow {
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
+				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
+				break;
 			case 3:
 				tabIdsToRemove.clear();
 				tabIdsToRemove.add(2);
@@ -78,11 +123,20 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 4:
 				tabIdsToRemove.clear();
+<<<<<<< HEAD
+=======
+				tabIdsToRemove.add(0);
+				tabIdsToRemove.add(2);
+				tabIdsToRemove.add(3);
+>>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 				tabIdsToRemove.add(4);
+<<<<<<< HEAD
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
+=======
+>>>>>>> branch 'master' of https://github.com/bzyx/BD2_SchoolManager_GUI.git
 				removeTabsWithIDs(tabIdsToRemove);
-				
+				break;
 			default:
 				break;
 			}
@@ -90,9 +144,15 @@ public class MainWindow extends QMainWindow {
 	}
 
 
+	private void reportsTab() {
+		reportsPresenter = new ReportsPresenter(ui);
+		reportsPresenter.initModel();
+		reportsPresenter.connectSlots();
+	}
+
 	private void removeTabsWithIDs(ArrayList<Integer> tabIdsToRemove) {
 		for (Integer id : tabIdsToRemove) {
-			ui.tabWidget.removeTab(id.intValue());
+			ui.tabWidget.setTabEnabled(id, false);
 		}
 	}
 
@@ -120,10 +180,6 @@ public class MainWindow extends QMainWindow {
 		messagePresenter.connectSlots();
 
 		// Init Message view
-		ui.tableMessages.setSortingEnabled(true);
-		ui.tableMessages.resizeColumnsToContents();
-		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
-		ui.tableMessages.verticalHeader().hide();
 		ui.buttonReplayMessage.setEnabled(false);
 		ui.buttonDeleteMessage.setEnabled(false);
 		ui.buttonMarkAsRead.setEnabled(false);
