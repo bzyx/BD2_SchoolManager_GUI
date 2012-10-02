@@ -17,6 +17,8 @@ import pl.polsl.bd2.presentation.pupils.PupilPresenter;
 import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
 import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QTabWidget;
+import com.trolltech.qt.gui.QTableWidget;
 import com.trolltech.qt.gui.QVBoxLayout;
 
 public class MainWindow extends QMainWindow {
@@ -84,7 +86,6 @@ public class MainWindow extends QMainWindow {
 		System.err.println("Osoba zalogowana: " + loggedPerson);
 		if (loggedPerson!= null) {
 			ArrayList<Integer> tabIdsToRemove = new ArrayList<Integer>();
-			// TODO: Set propper values here
 			switch (loggedPerson.getRole().getIdRole()) {
 			case 1:
 				tabIdsToRemove.clear();
@@ -93,14 +94,16 @@ public class MainWindow extends QMainWindow {
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
+				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
 				break;
 			case 2:
 				tabIdsToRemove.clear();
-				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);
+				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
+				break;
 			case 3:
 				tabIdsToRemove.clear();
 				tabIdsToRemove.add(2);
@@ -113,15 +116,12 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 4:
 				tabIdsToRemove.clear();
-				//tabIdsToRemove.add(1);
-				//tabIdsToRemove.add(2);
-				//tabIdsToRemove.add(3);
+				tabIdsToRemove.add(0);
+				tabIdsToRemove.add(2);
+				tabIdsToRemove.add(3);
 				tabIdsToRemove.add(4);
-				tabIdsToRemove.add(5);
-				tabIdsToRemove.add(6);
-				tabIdsToRemove.add(7);
 				removeTabsWithIDs(tabIdsToRemove);
-				
+				break;
 			default:
 				break;
 			}
@@ -131,7 +131,7 @@ public class MainWindow extends QMainWindow {
 
 	private void removeTabsWithIDs(ArrayList<Integer> tabIdsToRemove) {
 		for (Integer id : tabIdsToRemove) {
-			ui.tabWidget.removeTab(id.intValue());
+			ui.tabWidget.setTabEnabled(id, false);
 		}
 	}
 
