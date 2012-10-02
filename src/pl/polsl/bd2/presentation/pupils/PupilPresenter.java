@@ -2,7 +2,7 @@ package pl.polsl.bd2.presentation.pupils;
 
 import java.util.Date;
 
-//import pl.polsl.bd2.ApplicationMain;
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
@@ -121,7 +121,7 @@ public class PupilPresenter implements BasePresenter {
 		return view.tableUsers.currentIndex();
 	}
 
-	/*@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private void addNote() {
 		final AddNoteForm aNF = new AddNoteForm();
 		final QModelIndex currentIndex = getCurrentIndex();
@@ -145,18 +145,18 @@ public class PupilPresenter implements BasePresenter {
 			}
 			this.noteModel.refreshModel();
 		}
-	}*/
+	}
 
 	/**
 	 * Access here has only Teacher so we can assume logged person is Teacher
-	 
+	*/ 
 	private Nauczyciel getLoggedTeacher() {
 		Osoba loggedPerson = ApplicationMain.getLoggedPerson();
 		System.err.println("loggedPerson: " + loggedPerson);
 		Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
 				.getIdOsoba());
 		return teacher;
-	}*/
+	}
 
 	@Override
 	public void makeUpdateOfView() {
