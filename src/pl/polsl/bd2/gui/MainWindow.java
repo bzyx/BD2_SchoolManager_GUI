@@ -119,10 +119,6 @@ public class MainWindow extends QMainWindow {
 		messagePresenter.connectSlots();
 
 		// Init Message view
-		ui.tableMessages.setSortingEnabled(true);
-		ui.tableMessages.resizeColumnsToContents();
-		ui.tableMessages.horizontalHeader().setStretchLastSection(true);
-		ui.tableMessages.verticalHeader().hide();
 		ui.buttonReplayMessage.setEnabled(false);
 		ui.buttonDeleteMessage.setEnabled(false);
 		ui.buttonMarkAsRead.setEnabled(false);
