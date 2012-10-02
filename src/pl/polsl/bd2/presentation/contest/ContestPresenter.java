@@ -6,6 +6,7 @@ import com.trolltech.qt.gui.QDialog;
 import com.trolltech.qt.gui.QMessageBox;
 import com.trolltech.qt.gui.QSortFilterProxyModel;
 
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.DictEditorWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
@@ -147,8 +148,7 @@ public class ContestPresenter implements BasePresenter {
 
 		NauczycielService nauczycielService = (NauczycielService) SpringUtil
 				.getBean("nauczycielService");
-		Nauczyciel nauczyciel = nauczycielService.findById(konfiguracjaService
-				.getLoggedOsoba().getIdOsoba());
+		Nauczyciel nauczyciel = nauczycielService.findById(ApplicationMain.getLoggedPerson().getIdOsoba());
 		competitionParticipantDialog.updateDialog();
 		competitionParticipantDialog.setEditMode(false);
 		if (competitionParticipantDialog.exec() == QDialog.DialogCode.Accepted

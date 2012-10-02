@@ -2,6 +2,7 @@ package pl.polsl.bd2.presentation.message;
 
 import java.util.Date;
 
+import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.enums.MessageFields;
 import pl.polsl.bd2.enums.MessageRoles;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
@@ -87,7 +88,7 @@ public class MessagePresenter implements BasePresenter {
 
 	@SuppressWarnings("unused")
 	private void createNewMessage() {
-		final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+		final Osoba osoba = ApplicationMain.getLoggedPerson();
 		if (osoba != null) {
 			final String name = getPersonsName(osoba);
 			final ContactForm cF = new ContactForm(name, CHOOSE_PERSON);
@@ -122,7 +123,7 @@ public class MessagePresenter implements BasePresenter {
 
 			// Need to cross the values because this is a response to sender
 			ContactForm cF = new ContactForm(to, from, title);
-			final Osoba osoba = konfiguracjaService.getLoggedOsoba();
+			final Osoba osoba = ApplicationMain.getLoggedPerson();
 			if (cF.exec() == QDialog.DialogCode.Accepted.value())
 				saveMessage(osoba, cF);
 				makeUpdateOfView();

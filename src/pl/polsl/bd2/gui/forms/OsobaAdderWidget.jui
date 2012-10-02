@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0" language="jambi">
+ <class>OsobaAdderWidget</class>
+ <widget class="QWidget" name="OsobaAdderWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>305</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Name: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilName"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Vorname: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilVorname"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>Streat: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilStreet"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_13">
+     <property name="text">
+      <string>City: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilCity"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_14">
+     <property name="text">
+      <string>Mail: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilMail"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_15">
+     <property name="text">
+      <string>Login: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilLogin"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_16">
+     <property name="text">
+      <string>Password: </string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="lineEditNewPupilPassword"/>
+   </item>
+   <item row="7" column="1">
+    <widget class="QDialogButtonBox" name="buttonBoxAddPupil">
+     <property name="standardButtons">
+      <set>com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Cancel|com.trolltech.qt.gui.QDialogButtonBox.StandardButton.Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

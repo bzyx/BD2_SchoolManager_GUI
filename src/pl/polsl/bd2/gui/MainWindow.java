@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pl.polsl.bd2.ApplicationMain;
+import pl.polsl.bd2.gui.forms.OsobaAdderWidget;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.messageSystem.models.Osoba;
 import pl.polsl.bd2.presentation.absence.AbsencePresenter;
@@ -16,6 +17,7 @@ import pl.polsl.bd2.presentation.pupils.PupilPresenter;
 import pl.polsl.bd2.presentation.teacher.TeacherPresenter;
 
 import com.trolltech.qt.gui.QMainWindow;
+import com.trolltech.qt.gui.QVBoxLayout;
 
 public class MainWindow extends QMainWindow {
 	private static Map<Integer, String> currentTabs = new HashMap<Integer, String>();
@@ -74,6 +76,10 @@ public class MainWindow extends QMainWindow {
 		contestTab();
 		teacherTab();
 		
+		QVBoxLayout vBoxLayout = new QVBoxLayout();
+		vBoxLayout.addWidget(new OsobaAdderWidget());
+		ui.groupBoxAddPupil.setLayout(vBoxLayout);
+		
 		final Osoba loggedPerson = ApplicationMain.getLoggedPerson();
 		System.err.println("Osoba zalogowana: " + loggedPerson);
 		if (loggedPerson!= null) {
@@ -107,9 +113,9 @@ public class MainWindow extends QMainWindow {
 				break;
 			case 4:
 				tabIdsToRemove.clear();
-				tabIdsToRemove.add(1);
-				tabIdsToRemove.add(2);
-				tabIdsToRemove.add(3);
+				//tabIdsToRemove.add(1);
+				//tabIdsToRemove.add(2);
+				//tabIdsToRemove.add(3);
 				tabIdsToRemove.add(4);
 				tabIdsToRemove.add(5);
 				tabIdsToRemove.add(6);

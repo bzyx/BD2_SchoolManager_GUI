@@ -103,8 +103,7 @@ public class PupilPresenter implements BasePresenter {
 				if (Helpers.indexIsValid(currentIndex)) {
 					NauczycielService nauczycielService = (NauczycielService) SpringUtil
 							.getBean("nauczycielService");
-					nauczyciel = nauczycielService.findById(konfiguracjaService
-							.getLoggedOsoba().getIdOsoba());
+					nauczyciel = nauczycielService.findById(ApplicationMain.getLoggedPerson().getIdOsoba());
 					
 					Ocena ocena = new Ocena(this.pupilModel.getPupils().get(currentIndex.row()),
 							this.pupilModel.getPrzedmioty().get(currentIndex.row()),
