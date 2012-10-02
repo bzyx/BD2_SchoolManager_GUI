@@ -23,14 +23,16 @@ public class AbsencePresenter implements BasePresenter {
     public void connectSlots() { 
         view.tableAbsences.doubleClicked.connect(this, AbsenceSlots.ADD_JUSTIFICATION); 
     } 
+    
     public void initModel() { 
         view.tableAbsences.setModel(absenceModel); 
-        view.listJustifications.setModel(justificationModel); 
+        view.listJustifications_3.setModel(justificationModel); 
     } 
+    
     public AbsenceModel getAbsenceModel() { 
         return absenceModel; 
     } 
-    @SuppressWarnings("unused") 
+ /*   @SuppressWarnings("unused") 
     private void addJustification() { 
         if (absenceModel.getActuallAbsenceMock(getCurrentIndex()) 
                 .getHowMuchAbsence() != 0) { 
@@ -38,9 +40,9 @@ public class AbsencePresenter implements BasePresenter {
                     absenceModel.getActuallAbsenceMock(getCurrentIndex()), 
                     justificationModel); 
             justification.exec(); 
-            view.listJustifications.reset(); 
+            view.listJustifications_3.reset(); 
         } 
-    } 
+    }*/ 
     private QModelIndex getCurrentIndex() { 
         return view.tableAbsences.currentIndex(); 
     }
@@ -50,9 +52,9 @@ public class AbsencePresenter implements BasePresenter {
 		view.tableAbsences.reset();
 		view.tableAbsences.setModel(absenceModel);
 		
-		view.listJustifications.setModel(null); 
-		view.listJustifications.reset();
-        view.listJustifications.setModel(justificationModel); 
+		view.listJustifications_3.setModel(null); 
+		view.listJustifications_3.reset();
+        view.listJustifications_3.setModel(justificationModel); 
 		
 	} 
 }

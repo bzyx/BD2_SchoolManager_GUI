@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Oddzial;
 import pl.polsl.bd2.messageSystem.models.Przedmiot;
 import pl.polsl.bd2.messageSystem.models.Uczen;
+import pl.polsl.bd2.messageSystem.service.AbsencjaService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.OddzialService;
 import pl.polsl.bd2.messageSystem.service.UczenService;
@@ -21,13 +23,14 @@ import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class PupilModel extends QAbstractTableModel {
 	private final String[] COLUMNS = { tr("Name"), tr("Vorname"),
-			tr("Marks"), tr("Avg.") };
+			tr("Avg.    "), tr("Marks") };
 	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
 	private List<List<Przedmiot>> przedmiotWithOddzial = new ArrayList<List<Przedmiot>>();
 	private List<List<Uczen>> uczenWithOddzial = new ArrayList<List<Uczen>>();
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
+	AbsencjaService absencjaService = (AbsencjaService) SpringUtil.getBean("absencjaService");
 	int currentClass = 0;
 	int row=0;
 
@@ -57,8 +60,12 @@ public class PupilModel extends QAbstractTableModel {
 		
 	}
 	
-	public void initDetail(NoteModel detail){
+	public void initNote(NoteModel detail){
 		detail.initData(this.uczenWithOddzial.get(0));
+	}
+	
+	public void initAbsence(AbsenceModel absence){	
+		absence.initData(new ArrayList<Absencja>(uczenWithOddzial.get(0).get(this.row).getUczen2Absencja()));
 	}
 	
 	public void changeClass(int newClass){
@@ -88,14 +95,6 @@ public class PupilModel extends QAbstractTableModel {
 				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
 			case 2:{
 				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
-				String oceny = new String();
-				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
-					oceny += String.format("%d ( %.1f ), ", ocena.getOcena(), ocena.getWaga());
-				}
-				return oceny;
-			}
-			case 3:{
-				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
 				float avg = 0;
 				float waga =0;
 				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
@@ -103,6 +102,14 @@ public class PupilModel extends QAbstractTableModel {
 					waga += ocena.getWaga();
 				}
 				return avg/waga;
+			}
+			case 3:{
+				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
+				String oceny = new String();
+				for(Ocena ocena: this.dataContainer2.get(this.currentClass).get(0).get(index.row())){
+					oceny += String.format("%d ( %.1f ), ", ocena.getOcena(), ocena.getWaga());
+				}
+				return oceny;
 			}
 			default:
 				throw new IndexOutOfBoundsException(

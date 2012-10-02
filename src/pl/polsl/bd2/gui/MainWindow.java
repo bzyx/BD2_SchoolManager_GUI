@@ -46,7 +46,7 @@ public class MainWindow extends QMainWindow {
 	private void initTabs() {
 		dataTab();
 		classMenagmentTab();
-		absenceTab();
+		//absenceTab();
 		messagesTab();
 		pupilsTab();
 		contestTab();

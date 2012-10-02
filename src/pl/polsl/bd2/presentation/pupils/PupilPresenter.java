@@ -16,6 +16,7 @@ import pl.polsl.bd2.messageSystem.service.KonfiguracjaService;
 import pl.polsl.bd2.messageSystem.service.NauczycielService;
 import pl.polsl.bd2.messageSystem.service.OcenaService;
 import pl.polsl.bd2.messageSystem.service.UwagaService;
+import pl.polsl.bd2.models.AbsenceModel;
 import pl.polsl.bd2.models.NoteModel;
 import pl.polsl.bd2.models.PupilModel;
 import pl.polsl.bd2.presentation.BasePresenter;
@@ -25,6 +26,7 @@ public class PupilPresenter implements BasePresenter {
 	private Ui_MainWindow view;
 	private PupilModel pupilModel;
 	private NoteModel noteModel;
+	private AbsenceModel absenceModel;
 	private KonfiguracjaService konfiguracjaService;
 	private NauczycielService nauczycielService;
 	private OcenaService ocenaService;
@@ -65,7 +67,14 @@ public class PupilPresenter implements BasePresenter {
 		view.tableDetailUsers.resizeColumnsToContents();
 		view.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
 		view.tableDetailUsers.verticalHeader().hide();
-		this.pupilModel.initDetail(this.noteModel);
+		this.pupilModel.initNote(this.noteModel);
+		this.absenceModel = new AbsenceModel();
+		view.tableAbsence_2.setModel(this.absenceModel);
+		view.tableAbsence_2.resizeColumnsToContents();
+		view.tableAbsence_2.horizontalHeader().setStretchLastSection(true);
+		view.tableAbsence_2.verticalHeader().hide();
+		this.pupilModel.initAbsence(this.absenceModel);
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -76,6 +85,7 @@ public class PupilPresenter implements BasePresenter {
 	@SuppressWarnings("unused")
 	private void changeDetailsUser(){
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
+		this.pupilModel.initAbsence(this.absenceModel);
 		//view.tableDetailUsers.reset();
 	}
 	
@@ -88,12 +98,6 @@ public class PupilPresenter implements BasePresenter {
 				final QModelIndex currentIndex = view.tableUsers.currentIndex();
 				
 				if (Helpers.indexIsValid(currentIndex)) {
-//					for(Nauczyciel nauczycielIt: nauczycielService.findAll()){
-//						if (nauczycielIt.getOsoba().getIdOsoba() == osoba.getIdOsoba()) {
-//							nauczyciel = nauczycielIt;
-//							break;
-//						}
-//					}
 					NauczycielService nauczycielService = (NauczycielService) SpringUtil
 							.getBean("nauczycielService");
 					nauczyciel = nauczycielService.findById(konfiguracjaService
@@ -109,6 +113,7 @@ public class PupilPresenter implements BasePresenter {
 					this.ocenaService.save(ocena);
 				}
 				this.pupilModel.refreshModel();
+				view.tableUsers.selectRow(currentIndex.row());
 		}
 	}
 	

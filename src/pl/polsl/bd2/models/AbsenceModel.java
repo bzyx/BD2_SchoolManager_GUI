@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pl.polsl.bd2.messageSystem.models.Absencja;
+import pl.polsl.bd2.messageSystem.models.Uczen;
+
 import com.trolltech.qt.core.QModelIndex;
 import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.core.Qt.ItemFlag;
@@ -12,10 +15,28 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class AbsenceModel extends QAbstractTableModel{
-	private final String[] COLUMNS = {tr("Date"), tr("hour"), tr("absence"), tr("unexcused hours")};
-	private List<Absence.AbsenceMock> dataContainer;
+	private final String[] COLUMNS = {tr("Date"), tr("absence")};//, tr("unexcused hours")};
+	//private List<Absence.AbsenceMock> dataContainer;
+	private List<Absencja> dataContainer = new ArrayList<Absencja>();
+	
 	public AbsenceModel(){
-		this.dataContainer = new Absence().getAbsenceConteiner();
+		super();
+	}
+	
+	public AbsenceModel(Uczen uczen){
+		super();
+		this.dataContainer = new ArrayList<Absencja>(uczen.getUczen2Absencja());
+	}
+	
+	public void initData(List<Absencja> absencje){
+		dataContainer.clear();
+		this.dataContainer = absencje;
+		this.refreshModel();
+	}
+	
+	public void refreshModel(){
+		this.reset();
+		this.layoutChanged.emit();
 	}
 
 	@Override
@@ -34,13 +55,13 @@ public class AbsenceModel extends QAbstractTableModel{
 		if (role == Qt.ItemDataRole.DisplayRole) {
 			switch (index.column()) {
 			case 0:
-				return dataContainer.get(index.row()).getDate();
+				return dataContainer.get(index.row()).getData();
 			case 1:
-				return dataContainer.get(index.row()).getHowMuchLection();
-			case 2:
-				return dataContainer.get(index.row()).getHowMuchAbsence();
-			case 3:
-				return dataContainer.get(index.row()).getHowMuchUnexcusedAbsence();
+				return dataContainer.get(index.row()).getObecnosc();
+			//case 2:
+			//	return dataContainer.get(index.row()).getHowMuchAbsence();
+			//case 3:
+			//	return dataContainer.get(index.row()).getHowMuchUnexcusedAbsence();
 			default:
 				throw new IndexOutOfBoundsException(
 						"Column must be between 0 and 6.");
@@ -71,48 +92,13 @@ public class AbsenceModel extends QAbstractTableModel{
 		itemFlags.set(ItemFlag.ItemIsEnabled, ItemFlag.ItemIsSelectable);
 		return itemFlags;
 	}
-	
-	public class Absence{
-		final public List<AbsenceMock> absenceConteiner;
-		{
-			absenceConteiner = new ArrayList<AbsenceMock>();
-			absenceConteiner.add(new AbsenceMock(new Date(), 5, 4, 1));
-			absenceConteiner.add(new AbsenceMock(new Date(), 6, 6, 0));
-		}
-		public class AbsenceMock{
-			Date date;
-			int howMuchLection;
-			int howMuchAbsence;
-			int howMuchUnexcusedAbsence;
-			public AbsenceMock(Date date, int howMuchLection,
-					int howMuchAbsence, int howMuchUsprawiedliowioneAbsence) {
-				super();
-				this.date = date;
-				this.howMuchLection = howMuchLection;
-				this.howMuchAbsence = howMuchAbsence;
-				this.howMuchUnexcusedAbsence = howMuchUsprawiedliowioneAbsence;
-			}
-			public Date getDate() {
-				return date;
-			}
-			public int getHowMuchLection() {
-				return howMuchLection;
-			}
-			public int getHowMuchAbsence() {
-				return howMuchAbsence;
-			}
-			public int getHowMuchUnexcusedAbsence() {
-				return howMuchUnexcusedAbsence;
-			}
-			
-		}
-		public List<AbsenceMock> getAbsenceConteiner() {
-			return absenceConteiner;
-		}
-		
+
+	public List<Absencja> getDataContainer() {
+		return dataContainer;
+	}
+
+	public void setDataContainer(List<Absencja> dataContainer) {
+		this.dataContainer = dataContainer;
 	}
 	
-	public Absence.AbsenceMock getActuallAbsenceMock(QModelIndex index){	
-		return dataContainer.get(index.row());
-	}
 }
