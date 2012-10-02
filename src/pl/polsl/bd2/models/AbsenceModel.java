@@ -14,7 +14,7 @@ import com.trolltech.qt.core.Qt.Orientation;
 import com.trolltech.qt.gui.QAbstractTableModel;
 
 public class AbsenceModel extends QAbstractTableModel{
-	private final String[] COLUMNS = {tr("Date"), tr("absence")};//, tr("unexcused hours")};
+	private final String[] COLUMNS = {tr("Date                "), tr("absence")};//, tr("unexcused hours")};
 	//private List<Absence.AbsenceMock> dataContainer;
 	private List<Absencja> dataContainer = new ArrayList<Absencja>();
 	
