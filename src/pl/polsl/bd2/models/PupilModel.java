@@ -26,7 +26,7 @@ public class PupilModel extends QAbstractTableModel {
 			tr("Avg.    "), tr("Marks") };
 	private List<List<List<List<Ocena>>>> dataContainer2 = new ArrayList<List<List<List<Ocena>>>>();
 	private List<List<Przedmiot>> przedmiotWithOddzial = new ArrayList<List<Przedmiot>>();
-	private List<List<Uczen>> uczenWithOddzial = new ArrayList<List<Uczen>>();
+	private List<List<Uczen>> uczenFromOddzial = new ArrayList<List<Uczen>>();
 	UczenService uczenService = (UczenService) SpringUtil.getBean("uczenService");
 	OddzialService oddzialService = (OddzialService) SpringUtil.getBean("oddzialService");
 	OcenaService ocenaService = (OcenaService) SpringUtil.getBean("ocenaService");
@@ -41,7 +41,7 @@ public class PupilModel extends QAbstractTableModel {
 			int lPrzedmiot = 0;
 			List<Przedmiot> przedmioty = new ArrayList<Przedmiot>(oddzial.getOddzial2przedmiot());
 			this.przedmiotWithOddzial.add(przedmioty);
-			this.uczenWithOddzial.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
+			this.uczenFromOddzial.add(new ArrayList<Uczen>(oddzial.getOddzial2uczen()));
 			for(Przedmiot przedmiot: przedmioty){
 				this.dataContainer2.get(lOddzial).add(new ArrayList<List<Ocena>>());
 				for(Uczen uczen: oddzial.getOddzial2uczen()){
@@ -61,11 +61,7 @@ public class PupilModel extends QAbstractTableModel {
 	}
 	
 	public void initNote(NoteModel detail){
-		detail.initData(this.uczenWithOddzial.get(0));
-	}
-	
-	public void initAbsence(AbsenceModel absence){	
-		absence.initData(new ArrayList<Absencja>(uczenWithOddzial.get(0).get(this.row).getUczen2Absencja()));
+		detail.initData(this.uczenFromOddzial.get(0));
 	}
 	
 	public void changeClass(int newClass){
@@ -90,9 +86,9 @@ public class PupilModel extends QAbstractTableModel {
 			try{
 			switch (index.column()) {
 			case 0:
-				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getImie();
+				return this.uczenFromOddzial.get(this.currentClass).get(index.row()).getOsoba().getImie();
 			case 1:
-				return this.uczenWithOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
+				return this.uczenFromOddzial.get(this.currentClass).get(index.row()).getOsoba().getNazwisko();
 			case 2:{
 				if(this.dataContainer2.get(this.currentClass).get(0).get(index.row()).size() == 0) return "-";
 				float avg = 0;
@@ -167,12 +163,21 @@ public class PupilModel extends QAbstractTableModel {
 	}
 	
 	public List<Uczen> getPupils(){
-		return uczenWithOddzial.get(this.currentClass);
+		return uczenFromOddzial.get(this.currentClass);
 	}
 	
 	public List<Przedmiot> getPrzedmioty(){
 		return przedmiotWithOddzial.get(this.currentClass);
 	}
+
+	public List<List<Uczen>> getUczenFromOddzial() {
+		return uczenFromOddzial;
+	}
+
+	public void setUczenFromOddzial(List<List<Uczen>> uczenWithOddzial) {
+		this.uczenFromOddzial = uczenWithOddzial;
+	}
+	
 	
 
 }

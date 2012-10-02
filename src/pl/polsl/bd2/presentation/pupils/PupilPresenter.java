@@ -1,11 +1,14 @@
 package pl.polsl.bd2.presentation.pupils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import pl.polsl.bd2.ApplicationMain;
 import pl.polsl.bd2.gui.forms.Ui_MainWindow;
 import pl.polsl.bd2.helpers.Helpers;
 import pl.polsl.bd2.helpers.SpringUtil;
+import pl.polsl.bd2.messageSystem.models.Absencja;
 import pl.polsl.bd2.messageSystem.models.Nauczyciel;
 import pl.polsl.bd2.messageSystem.models.Ocena;
 import pl.polsl.bd2.messageSystem.models.Osoba;
@@ -73,7 +76,7 @@ public class PupilPresenter implements BasePresenter {
 		view.tableAbsence_2.resizeColumnsToContents();
 		view.tableAbsence_2.horizontalHeader().setStretchLastSection(true);
 		view.tableAbsence_2.verticalHeader().hide();
-		this.pupilModel.initAbsence(this.absenceModel);
+		this.initAbsence(this.absenceModel);
 		
 	}
 
@@ -86,7 +89,7 @@ public class PupilPresenter implements BasePresenter {
 	@SuppressWarnings("unused")
 	private void changeDetailsUser() {
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
-		this.pupilModel.initAbsence(this.absenceModel);
+		this.initAbsence(this.absenceModel);
 		//view.tableDetailUsers.reset();
 	}
 
@@ -145,6 +148,14 @@ public class PupilPresenter implements BasePresenter {
 			}
 			this.noteModel.refreshModel();
 		}
+	}
+	
+	public void initAbsence(AbsenceModel absence){
+		try{
+		this.absenceModel.initData(new ArrayList<Absencja> (this.pupilModel.getUczenFromOddzial().get(
+				view.comboBoxClass.currentIndex()).get(
+						view.tableUsers.currentIndex().row()).getUczen2Absencja()));
+		}catch(NullPointerException e){}
 	}
 
 	/**
