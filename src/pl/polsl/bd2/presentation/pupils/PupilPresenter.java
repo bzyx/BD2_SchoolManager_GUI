@@ -49,8 +49,8 @@ public class PupilPresenter implements BasePresenter {
 				"ocenaService");
 		this.uwagaService = (UwagaService) SpringUtil.getContext().getBean(
 				"uwagaService");
-		this.absencjaService = (AbsencjaService) SpringUtil.getContext().getBean(
-				"absencjaService");
+		this.absencjaService = (AbsencjaService) SpringUtil.getContext()
+				.getBean("absencjaService");
 
 	}
 
@@ -78,13 +78,13 @@ public class PupilPresenter implements BasePresenter {
 		view.tableDetailUsers.resizeColumnsToContents();
 		view.tableDetailUsers.horizontalHeader().setStretchLastSection(true);
 		view.tableDetailUsers.verticalHeader().hide();
-		this.pupilModel.initNote(this.noteModel);
+		this.initNote(this.noteModel);
 		this.absenceModel = new AbsenceModel();
 		view.tableAbsence_2.setModel(this.absenceModel);
 		view.tableAbsence_2.resizeColumnsToContents();
 		view.tableAbsence_2.horizontalHeader().setStretchLastSection(true);
 		view.tableAbsence_2.verticalHeader().hide();
-		this.initAbsence(this.absenceModel);	
+		this.initAbsence(this.absenceModel);
 		this.przedmiotRefresh();
 	}
 
@@ -92,56 +92,64 @@ public class PupilPresenter implements BasePresenter {
 	private void changeClass() {
 		this.pupilModel.changeClass(view.comboBoxClass.currentIndex());
 		this.przedmiotRefresh();
+		this.initNote(this.noteModel);
 		view.tableUsers.reset();
 	}
-	
-	private void przedmiotRefresh(){
+
+	private void przedmiotRefresh() {
 		view.comboBoxSubject.clear();
-		for(Przedmiot przedmiot: this.pupilModel.getPrzedmioty()){
-			view.comboBoxSubject.addItem(przedmiot.getTypPrzedmiotu().getNazwa());
-		}	
-	}
-	
-	@SuppressWarnings("unused")
-	private void addJustify(){
-		Absencja absencja = this.absenceModel.getDataContainer().get(view.tableAbsence_2.currentIndex().row());
-		if(!absencja.getUsprawiedliwiona()){
-			absencja.setUsprawiedliwiona(true);
-			this.absencjaService.edit(absencja);
-			this.initAbsence(this.absenceModel);
+		for (Przedmiot przedmiot : this.pupilModel.getPrzedmioty()) {
+			view.comboBoxSubject.addItem(przedmiot.getTypPrzedmiotu()
+					.getNazwa());
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
+	private void addJustify() {
+		Absencja absencja = this.absenceModel.getDataContainer().get(
+				view.tableAbsence_2.currentIndex().row());
+		if (!absencja.getUsprawiedliwiona()) {
+			absencja.setUsprawiedliwiona(true);
+			this.absencjaService.edit(absencja);
+			this.absenceModel.refreshModel();
+			//this.initAbsence(this.absenceModel);
+		}
+	}
+
 	@SuppressWarnings("unused")
 	private void changeDetailsUser() {
 		this.noteModel.changePupil(view.tableUsers.currentIndex().row());
 		this.initAbsence(this.absenceModel);
-		//view.tableDetailUsers.reset();
+		// view.tableDetailUsers.reset();
 	}
 
 	@SuppressWarnings("unused")
 	private void addRate() {
 		final AddRateForm aRF = new AddRateForm();
 		Nauczyciel nauczyciel = new Nauczyciel();
-		if (aRF.exec() == QDialog.DialogCode.Accepted.value()){
-				final QModelIndex currentIndex = view.tableUsers.currentIndex();
-				
-				if (Helpers.indexIsValid(currentIndex)) {
-					nauczyciel = getLoggedTeacher();
-					
-					Ocena ocena = new Ocena(this.pupilModel.getPupils().get(currentIndex.row()),
-							this.pupilModel.getPrzedmioty().get(currentIndex.row()),
-							nauczyciel, aRF.getOcena(), aRF.getWaga(), new Date() );
-					this.pupilModel.addRate(ocena, currentIndex.row());
-					System.out.println(Integer.toString(this.pupilModel.getPupils().get(currentIndex.row()).getIdUczen())
-							+ Integer.toString(this.pupilModel.getPrzedmioty().get(currentIndex.row()).getIdPrzedmiot())
-							+ Integer.toString(nauczyciel.getIdNauczyciel()));
-					this.ocenaService.save(ocena);
-				}
-				this.pupilModel.refreshModel();
-				try{
-					view.tableUsers.selectRow(currentIndex.row());
-				}catch(NullPointerException e){}
+		if (aRF.exec() == QDialog.DialogCode.Accepted.value()) {
+			final QModelIndex currentIndex = view.tableUsers.currentIndex();
+
+			if (Helpers.indexIsValid(currentIndex)) {
+				nauczyciel = getLoggedTeacher();
+
+				Ocena ocena = new Ocena(this.pupilModel.getPupils().get(
+						currentIndex.row()), this.pupilModel.getPrzedmioty()
+						.get(currentIndex.row()), nauczyciel, aRF.getOcena(),
+						aRF.getWaga(), new Date());
+				this.pupilModel.addRate(ocena, currentIndex.row());
+				System.out.println(Integer.toString(this.pupilModel.getPupils()
+						.get(currentIndex.row()).getIdUczen())
+						+ Integer.toString(this.pupilModel.getPrzedmioty()
+								.get(currentIndex.row()).getIdPrzedmiot())
+						+ Integer.toString(nauczyciel.getIdNauczyciel()));
+				this.ocenaService.save(ocena);
+			}
+			this.pupilModel.refreshModel();
+			try {
+				view.tableUsers.selectRow(currentIndex.row());
+			} catch (NullPointerException e) {
+			}
 		}
 	}
 
@@ -162,8 +170,8 @@ public class PupilPresenter implements BasePresenter {
 			if (Helpers.indexIsValid(currentIndex)) {
 				if (aNF.getNote() != null && !aNF.getNote().equals("")) {
 					final Nauczyciel nauczyciel = getLoggedTeacher();
-					final Uwaga uwaga = new Uwaga(this.pupilModel.getPupils().get(
-							currentIndex.row()), nauczyciel, aNF.getNote());
+					final Uwaga uwaga = new Uwaga(this.pupilModel.getPupils()
+							.get(currentIndex.row()), nauczyciel, aNF.getNote());
 					uwagaService.save(uwaga);
 					noteModel.addNote(currentIndex.row(), uwaga);
 				} else {
@@ -172,60 +180,66 @@ public class PupilPresenter implements BasePresenter {
 				}
 			}
 			this.noteModel.refreshModel();
-			
+
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void addPresent(){
+	private void addPresent() {
 		view.tableUsers.selectRow(view.tableUsers.currentIndex().row() + 1);
-		Absencja absencja = new Absencja(
-				this.pupilModel.getUczenFromOddzial().get(
-						view.comboBoxClass.currentIndex()).get(view.tableUsers.currentIndex().row()),
-						this.pupilModel.getPrzedmioty().get(view.comboBoxSubject.currentIndex()), 
-						true, new Date()
-				);
+		Absencja absencja = new Absencja(this.pupilModel.getUczenFromOddzial()
+				.get(view.comboBoxClass.currentIndex())
+				.get(view.tableUsers.currentIndex().row()), this.pupilModel
+				.getPrzedmioty().get(view.comboBoxSubject.currentIndex()),
+				true, new Date());
 		absencjaService.save(absencja);
 		this.absenceModel.addAbsence(absencja);
 		this.absenceModel.refreshModel();
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void addAbsent(){
+	private void addAbsent() {
 		view.tableUsers.selectRow(view.tableUsers.currentIndex().row() + 1);
-		Absencja absencja = new Absencja(
-				this.pupilModel.getUczenFromOddzial().get(
-						view.comboBoxClass.currentIndex()).get(view.tableUsers.currentIndex().row()),
-						this.pupilModel.getPrzedmioty().get(view.comboBoxSubject.currentIndex()), 
-						false, new Date()
-				);
+		Absencja absencja = new Absencja(this.pupilModel.getUczenFromOddzial()
+				.get(view.comboBoxClass.currentIndex())
+				.get(view.tableUsers.currentIndex().row()), this.pupilModel
+				.getPrzedmioty().get(view.comboBoxSubject.currentIndex()),
+				false, new Date());
 		absencjaService.save(absencja);
 		this.absenceModel.addAbsence(absencja);
 		this.absenceModel.refreshModel();
 	}
-	
-	public void initAbsence(AbsenceModel absence){
-		try{
-			this.absenceModel.initData(new ArrayList<Absencja> (this.pupilModel.getUczenFromOddzial().get(
-					view.comboBoxClass.currentIndex()).get(
-							view.tableUsers.currentIndex().row()).getUczen2Absencja()));
-		}catch(NullPointerException e){}
+
+	public void initAbsence(AbsenceModel absence) {
+		try {
+			this.absenceModel.initData(new ArrayList<Absencja>(this.pupilModel
+					.getUczenFromOddzial()
+					.get(view.comboBoxClass.currentIndex())
+					.get(view.tableUsers.currentIndex().row())
+					.getUczen2Absencja()));
+		} catch (NullPointerException e) {
+		}
+	}
+
+	public void initNote(NoteModel detail) {
+		detail.initData(this.pupilModel.getUczenFromOddzial().get(
+				view.comboBoxClass.currentIndex()));
 	}
 
 	/**
 	 * Access here has only Teacher so we can assume logged person is Teacher
-	*/ 
+	 */
 	private Nauczyciel getLoggedTeacher() {
 		Osoba loggedPerson = ApplicationMain.getLoggedPerson();
 		System.err.println("loggedPerson: " + loggedPerson);
-		try{
+		try {
 			Nauczyciel teacher = nauczycielService.findByOsobaId(loggedPerson
 					.getIdOsoba());
 			return teacher;
-		}catch(IndexOutOfBoundsException e){
+		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-		
+
 	}
 
 	@Override

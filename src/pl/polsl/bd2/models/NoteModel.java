@@ -27,6 +27,7 @@ public class NoteModel extends QAbstractTableModel {
 	int row=0;
 
 	public void initData(List<Uczen> listaUczniow){
+		this.dataContainer.clear();
 		for(Uczen uczen: listaUczniow){
 			this.dataContainer.add(new ArrayList<Uwaga>(uczen.getUczen2Uwaga()));
 		}

@@ -70,10 +70,6 @@ public class PupilModel extends QAbstractTableModel {
 		
 	}
 	
-	public void initNote(NoteModel detail){
-		detail.initData(this.uczenFromOddzial.get(0));
-	}
-	
 	public void changeClass(int newClass){
 		this.currentClass = newClass;
 		this.layoutChanged.emit();
