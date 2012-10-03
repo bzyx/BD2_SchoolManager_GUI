@@ -39,7 +39,7 @@ public class AbsencePresenter implements BasePresenter {
 		
 		view.listJustifications_3.setModel(null); 
 		view.listJustifications_3.reset();
-        view.listJustifications_3.setModel(justificationModel); 
+        view.listJustifications_3.setModel(justificationModel);
 		
 	} 
 }
